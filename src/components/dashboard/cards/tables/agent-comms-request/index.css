@@ -1,0 +1,167 @@
+.comreq-table-container {
+  background-color: #272f39;
+  border-radius: 0.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.comreq-table {
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  color: whitesmoke;
+}
+
+.comreq-table td,
+.comreq-table th {
+  padding: 0.4rem;
+}
+
+.comreq-line {
+  border-bottom: 1px solid white;
+}
+
+.comreq-table thead tr {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.comreq-table thead tr th {
+  text-align: center;
+}
+
+.comreq-table tbody tr:nth-child(even) {
+  background-color: #2b394a;
+  font-size: 0.9rem;
+}
+
+.comreq-table tbody tr:nth-child(odd) {
+  background-color: #273445;
+  font-size: 0.9rem;
+}
+
+.comreq-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: transparent;
+  color: white;
+}
+
+.comreq-table tbody tr td {
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.comreq-ref {
+  width: fit-content;
+  background-color: #006659;
+  padding: 0.05rem 1rem;
+  margin: auto;
+  border-radius: 0.25rem;
+}
+
+.comreq-status-Pending {
+  background-color: #d8bc20;
+  color: #262d2d;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  border-radius: 0.75rem;
+  margin: auto;
+}
+.comreq-status-Approved {
+  background-color: #5fd95c;
+  color: #262d2d;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  border-radius: 0.75rem;
+  margin: auto;
+}
+
+.comreq-status-Rejected {
+  background-color: #ff5a49;
+  color: #262d2d;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  border-radius: 0.75rem;
+  margin: auto;
+}
+/* 
+.comreq-status-approved {
+  background-color: #5fd95c;
+  color: #262d2d;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  border-radius: 0.75rem;
+  margin: auto;
+}
+
+.comreq-status-deny {
+  background-color: #d8bc20;
+  color: #262d2d;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  border-radius: 0.75rem;
+  margin: auto;
+}  */
+
+.comreq-status-icon {
+  background-color: whitesmoke;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+}
+
+.comreq-details {
+  font-weight: normal;
+  font-size: 0.7rem;
+}
+
+.comreq-date {
+  background-color: #25262a;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  margin: auto;
+  border-radius: 0.25rem;
+  color: #d9d9d9;
+}
+
+.comreq-process {
+  width: fit-content;
+  border: 1px solid #05e8e2;
+  padding: 0.1rem 1rem;
+  margin: auto;
+  color: #06e6cf;
+  border-radius: 0.25rem;
+}
+
+.comreq-table-pager,
+.comreq-table-page {
+  background-color: #3d4e65;
+  color: #f9b948;
+  padding: 0.25rem 1.5rem;
+  margin: 0 0.5rem;
+  font-weight: bold;
+  border-radius: 0.5rem;
+}
+
+.comreq-table-page {
+  background-color: #58677c;
+}
+
+.comreq-approve,
+.comreq-deny {
+  padding: 0.1rem 1rem !important;
+  color: #262d2d !important;
+  font-weight: bolder !important;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.507) !important;
+}
+
+.comreq-approve {
+  background-color: #3dff39 !important;
+  border: 0.05rem solid #07890a !important;
+}
+
+.comreq-deny {
+  background-color: #ff5a49 !important;
+  border: 0.05rem solid #ff3531 !important;
+}

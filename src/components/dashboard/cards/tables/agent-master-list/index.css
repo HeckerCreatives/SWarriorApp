@@ -1,0 +1,140 @@
+.aml-table-container {
+  background-color: #272f39;
+  border-radius: 0.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.aml-table {
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  color: whitesmoke;
+}
+
+.aml-table td,
+.aml-table th {
+  padding: 0.4rem;
+}
+
+.aml-line {
+  border-bottom: 1px solid white;
+}
+
+.aml-table thead tr {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.aml-table thead tr th {
+  text-align: center;
+}
+
+.aml-table tbody tr:nth-child(even) {
+  background-color: #2b394a;
+  font-size: 0.9rem;
+}
+
+.aml-table tbody tr:nth-child(odd) {
+  background-color: #273445;
+  font-size: 0.9rem;
+}
+
+.aml-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: transparent;
+  color: white;
+}
+
+.aml-table tbody tr td {
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.aml-btn {
+  padding: 0.1rem 1rem !important;
+  margin: 0 0.25rem !important;
+}
+
+.aml-btn-1 {
+  background-color: #1370aa !important;
+}
+
+.aml-btn-2 {
+  background-color: #aba505 !important;
+}
+
+.aml-sid {
+  background-color: #297f7e;
+  padding: 0.1rem 0.5rem;
+  width: fit-content;
+  margin: auto;
+  border-radius: 0.25rem;
+}
+
+.aml-status-active {
+  background-color: #479f27;
+  padding: 0.1rem 0.5rem !important;
+  width: fit-content;
+  margin: auto;
+  border-radius: 0.25rem;
+}
+
+.aml-status-blocked {
+  background-color: #545353;
+  padding: 0.1rem 0.5rem !important;
+  width: fit-content;
+  margin: auto;
+  border-radius: 0.25rem;
+}
+
+.aml-verification-verified {
+  background-color: #0e37af;
+  padding: 0.1rem 0.5rem !important;
+  width: fit-content;
+  margin: auto;
+  border-radius: 0.25rem;
+}
+
+.aml-verification-unverified {
+  background-color: #803724;
+  padding: 0.1rem 0.5rem !important;
+  width: fit-content;
+  margin: auto;
+  border-radius: 0.25rem;
+}
+
+.aml-date {
+  background-color: #656565;
+  padding: 0.1rem 0.5rem !important;
+  width: fit-content;
+  margin: auto;
+  border-radius: 0.25rem;
+}
+
+.aml-search {
+  background-color: transparent !important;
+  font-size: 0.95rem !important;
+  padding-left: 2.5rem !important;
+  color: white !important;
+}
+
+.aml-search::placeholder {
+  color: whitesmoke !important;
+}
+
+.aml-view-btn,
+.aml-refresh-btn {
+  font-size: 1rem !important;
+  padding: 0.2rem 2rem !important;
+  background-color: #3d4e65 !important;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.61) !important;
+}
+
+.aml-search-icon {
+  color: whitesmoke;
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+}

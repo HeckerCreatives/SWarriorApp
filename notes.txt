@@ -1,0 +1,14 @@
+http://localhost:3000/dashboard/superadmin/home
+http://localhost:3000/dashboard/accountant/home
+http://localhost:3000/dashboard/financer/home
+http://localhost:3000/dashboard/master/home
+http://localhost:3000/dashboard/gold/home
+http://localhost:3000/dashboard/sub/home
+
+http://localhost:3000/dashboard/moderator/live-arenas
+http://localhost:3000/dashboard/csr/inbox/cashout-request
+
+http://localhost:3000/
+http://localhost:3000/login
+http://localhost:3000/registration
+http://localhost:3000/arena

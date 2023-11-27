@@ -1,0 +1,17 @@
+.custom-landing-navbar {
+  background-color: #000000;
+}
+
+.custom-link {
+  color: #f6b749 !important;
+  padding: 0.35rem 0.75rem !important;
+  font-size: 0.95rem !important;
+}
+
+.custom-link-btn {
+  background-color: #f6b749 !important;
+  color: #000000 !important;
+  padding: 0.35rem 3rem !important;
+  font-size: 0.95rem !important;
+  border-radius: 0.25rem !important;
+}

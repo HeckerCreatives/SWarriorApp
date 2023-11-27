@@ -1,0 +1,142 @@
+.lo-panel {
+  background-color: #232931;
+  border-radius: 0.5rem;
+}
+
+.lo-draw-earnings {
+  color: whitesmoke;
+}
+
+.lo-timer-panel {
+  color: whitesmoke;
+}
+
+.lo-timer {
+  margin: 1rem 0.5rem;
+  padding: 0 1rem;
+  border-right: 1px solid gray;
+}
+
+.lo-timer-secs {
+  border-right: 0;
+}
+
+.lo-timer h6 {
+  font-size: 1.25rem !important;
+}
+
+.lo-timer span {
+  font-size: 0.8rem;
+}
+
+.lo-timer-btn {
+  font-size: 1.15rem !important;
+  background-color: #f6b749 !important;
+  color: black !important;
+  font-weight: bold !important;
+}
+
+.lo-result-container {
+  border: 1px solid lightgray;
+  border-radius: 0.5rem;
+}
+
+.lo-result-score {
+  color: #cacaca !important;
+  border-bottom: 5px solid transparent;
+  font-size: 3.5rem !important;
+}
+
+.lo-result-score-label {
+  color: #232323;
+  font-size: 1.15rem;
+  font-weight: 500;
+  padding-top: 0.5rem;
+}
+
+.lo-result-win {
+  color: #333333 !important;
+  border-bottom: 5px solid #ffb400;
+}
+
+.lo-result-date {
+  color: #9c9c9c;
+  font-size: 0.95rem;
+}
+
+.lo-btn-readmore {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  background-color: #e8a400 !important;
+  color: #2b2727 !important;
+}
+
+.lo-report-vid-container {
+  border-radius: 0.5rem;
+}
+
+.overview-card {
+  border: 1px solid lightgray;
+}
+
+.overview-card-img {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+}
+
+.overview-card-img img {
+  width: 100%;
+  height: auto;
+}
+
+.overview-card-sub {
+  font-size: 0.95rem;
+  font-weight: normal;
+  color: #9c9c9c;
+}
+
+.overview-card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.overview-card-date {
+  font-size: 0.95rem;
+  color: black;
+}
+
+@media only screen and (max-width: 991px) {
+  .lo-draw-earnings {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+}
+
+@media only screen and (max-width: 540px) {
+  .lo-timer-panel {
+    justify-content: center;
+  }
+
+  .lo-timer-btn {
+    font-size: 0.8rem !important;
+  }
+
+  .lo-timer h6 {
+    font-size: 1rem !important;
+  }
+
+  .lo-timer span {
+    font-size: 0.7rem;
+  }
+
+  .lo-timer {
+    margin: 1rem 0.25rem;
+    padding: 0 0.6rem;
+    border-right: 1px solid gray;
+  }
+
+  .lo-timer-secs {
+    border-right: 0;
+  }
+}

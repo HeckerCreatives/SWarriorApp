@@ -1,0 +1,82 @@
+.custom-login-bg {
+  background-image: url(../../../assets/images/login/bg.png);
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  height: fit-content;
+}
+
+.custom-login-panel-container {
+  height: 60vh;
+  position: relative;
+  background-color: #232b34;
+  border-radius: 1rem;
+}
+
+.custom-login-panel {
+  background-color: #f6b749;
+  border: 0.4rem solid #fdd692;
+  border-radius: 1rem;
+  box-shadow: 10px 10px 10px 0px rgba(0, 0, 0, 0.342);
+  position: absolute;
+  top: 27%;
+  left: -19%;
+  width: 45vw !important;
+}
+
+.custom-login-form {
+  background-color: #3d4e65;
+  border-radius: 0.5rem;
+  box-shadow: inset 2px 2px 10px black;
+}
+
+.custom-login-input {
+  background-color: #272f39 !important;
+  border: 1px solid whitesmoke !important;
+  color: white !important;
+  font-size: 1.25rem !important;
+}
+
+.custom-login-btn {
+  background-color: #232b34 !important;
+  font-size: 1.3rem !important;
+  box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.247) !important;
+  padding-left: 4rem !important;
+  padding-right: 4rem !important;
+  color: #32ff39 !important;
+}
+
+.custom-login-label {
+  font-size: 1.75rem;
+}
+
+@media only screen and (max-width: 1399px) {
+  .custom-login-panel {
+    width: 63vw !important;
+    left: -14.5%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .custom-login-panel {
+    width: 90vw !important;
+    left: -17%;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .custom-login-panel {
+    width: 95vw !important;
+    left: -7%;
+    top: 30%;
+  }
+
+  .custom-login-input {
+    font-size: 1rem !important;
+  }
+
+  .custom-login-label {
+    font-size: 1rem;
+  }
+}

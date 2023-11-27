@@ -1,0 +1,68 @@
+.aep-wrapper {
+  background-color: #272f39;
+  border-radius: 0.5rem;
+}
+
+.aep-container {
+  background-color: #2b394a;
+  border-radius: 0.5rem;
+}
+
+.aep-header {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: whitesmoke;
+}
+
+.aep-input {
+  background-color: transparent !important;
+  font-size: 0.9rem !important;
+  font-weight: bold !important;
+  padding-right: 2rem !important;
+  color: whitesmoke !important;
+  outline: none !important;
+}
+
+.aep-input-text {
+  background-color: transparent !important;
+  font-size: 0.9rem !important;
+  font-weight: bold !important;
+  color: whitesmoke !important;
+  outline: none !important;
+}
+
+.aep-input::placeholder {
+  color: rgb(201, 196, 196) !important;
+}
+
+.aep-input-icon {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.6rem;
+  color: rgb(201, 196, 196) !important;
+}
+
+.aep-form-panel-container {
+  border-bottom: 1px solid gray;
+  padding: 0.5rem 1rem;
+}
+
+.aep-form-panel-container-last {
+  padding: 0.5rem 1rem;
+}
+
+.aep-form-panel-container,
+.aep-form-panel-container-last {
+  font-size: 0.9rem !important;
+}
+
+.aep-form-panel-title {
+  font-size: 0.9rem;
+  color: whitesmoke;
+  padding-bottom: 1rem;
+}
+
+.aep-form-panel-note {
+  color: whitesmoke;
+  font-size: 0.8rem;
+}

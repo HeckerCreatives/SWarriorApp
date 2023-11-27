@@ -1,0 +1,104 @@
+.cua-wrapper {
+  background-color: #272f38;
+  border-radius: 0.5rem;
+}
+
+.cua-container {
+  background-color: #2b394a;
+  border-radius: 0.5rem;
+}
+
+.cua-header {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: whitesmoke;
+  line-height: 1.2rem;
+  border-bottom: 1px solid lightgray;
+}
+
+.cua-header .sub-title {
+  color: gray;
+  font-weight: normal;
+  font-size: 0.8rem;
+}
+
+.cua-input-select {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  background-color: transparent !important;
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+  color: whitesmoke !important;
+}
+
+.cua-input-select option {
+  background-color: #2b394a;
+}
+
+.cua-badge {
+  position: absolute;
+  font-size: 0.6rem;
+  top: -45%;
+  left: 0;
+  color: rgb(168, 165, 165);
+}
+
+.cua-input-text {
+  background-color: transparent !important;
+  color: whitesmoke !important;
+  font-size: 0.9rem !important;
+}
+
+.cua-input-text-2 {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  background-color: transparent !important;
+  color: whitesmoke !important;
+  font-size: 0.9rem !important;
+}
+
+.cua-input-text-2::placeholder,
+.cua-input-text::placeholder {
+  color: rgba(172, 168, 168, 0.74) !important;
+}
+
+.cua-input-text-username {
+  padding-left: 2rem !important;
+}
+
+.cua-username-icon {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.7rem;
+  color: rgba(172, 168, 168, 0.74) !important;
+}
+
+.cua-input-select-2 {
+  background-color: transparent !important;
+  color: whitesmoke !important;
+  font-size: 0.8rem !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3e%3cpath fill=%27none%27 stroke=%27%23dad8d8%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%272%27 d=%27M2 5l6 6 6-6%27/%3e%3c/svg%3e") !important;
+}
+
+.cua-input-select-2 option {
+  background-color: #2b394a;
+}
+
+.cua-input-check {
+  background-color: transparent !important;
+  border: 1px solid whitesmoke !important;
+}
+
+.cua-input-check:focus {
+  outline: none;
+}
+
+.cua-input-check:checked {
+  outline: none;
+  border: 1px solid whitesmoke !important;
+}
+
+.cua-input-check-label {
+  color: whitesmoke !important;
+  font-size: 0.9rem !important;
+}

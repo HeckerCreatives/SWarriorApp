@@ -1,0 +1,68 @@
+.atp-wrapper {
+  background-color: #272f39;
+  border-radius: 0.5rem;
+}
+
+.atp-container {
+  background-color: #2b394a;
+  border-radius: 0.5rem;
+}
+
+.atp-header {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #f5f5f5;
+}
+
+.atp-body {
+  color: #f5f5f5;
+}
+
+.atp-panel {
+  background-color: #264ed0;
+  width: 12.5rem;
+  height: 7rem;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 0.5rem;
+}
+
+.atp-footer {
+  border-top: 1px solid #808080;
+}
+
+.atp-button {
+  font-size: 1rem !important;
+  color: #fff !important;
+  background-color: #536886 !important;
+  border: 0;
+  box-shadow: 2px 2px 10px black !important;
+  text-shadow: 1px 1px 5px black !important;
+}
+
+.atp-footer-select {
+  background-color: transparent !important;
+  font-size: 0.8rem !important;
+  color: #f5f5f5 !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3e%3cpath fill=%27none%27 stroke=%27%23dad8d8%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%272%27 d=%27M2 5l6 6 6-6%27/%3e%3c/svg%3e") !important;
+}
+.atp-footer-input {
+  background-color: transparent !important;
+  padding: 0.375rem !important;
+  font-size: 0.8rem !important;
+  color: #f5f5f5 !important;
+}
+
+.atp-footer-select option {
+  background-color: #191f26 !important;
+  font-size: 0.8rem !important;
+  color: #f5f5f5 !important;
+  border-radius: 10px;
+}
+
+.textConfirmation{
+ color: gray;
+}

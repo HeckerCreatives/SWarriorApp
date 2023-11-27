@@ -1,0 +1,17 @@
+.status-medium-header {
+  background-color: #fbfbfb;
+  font-size: 1rem;
+  font-weight: bold;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  color: #1c232e;
+}
+
+.status-medium-body {
+  color: white;
+  font-size: 1.25rem;
+  background-color: #2f3947;
+  position: relative;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}

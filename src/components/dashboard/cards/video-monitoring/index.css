@@ -1,0 +1,41 @@
+.vm-header-container {
+  position: relative;
+  z-index: 2;
+}
+
+.vm-header {
+  background-color: #f6b749;
+  font-size: 0.8rem;
+  color: #2d281f;
+  font-weight: bold;
+  border-top-right-radius: 0.75rem;
+  border-top-left-radius: 0.75rem;
+}
+
+.vm-sub-header {
+  background-color: #272f39;
+  font-size: 0.8rem;
+  color: #f1f2f3;
+  font-weight: bold;
+  border-bottom-right-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+}
+
+.vm-preview-container {
+  background-color: #313c4a;
+  transform: translateY(-0.5rem);
+  border-bottom-right-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+}
+
+.vm-preview {
+  width: auto;
+  height: 18vw;
+  padding: 0 !important;
+  background-color: black;
+}
+
+.vm-preview iframe {
+  width: 100% !important;
+  height: 100% !important;
+}

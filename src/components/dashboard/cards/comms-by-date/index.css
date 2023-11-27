@@ -1,0 +1,25 @@
+.cbd-header {
+  background-color: #f6b749;
+  font-size: 1rem;
+  font-weight: bold;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  color: #1c232e;
+}
+
+.cbd-body {
+  color: white;
+  font-size: 2rem;
+  background-color: #272f39;
+  position: relative;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.cbd-header small {
+  font-size: 0.8rem !important;
+  font-weight: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

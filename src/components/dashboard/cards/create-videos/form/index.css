@@ -1,0 +1,24 @@
+.cvform-container {
+  background-color: #272f39;
+  border-radius: 0.5rem;
+}
+
+.cvform-input {
+  background-color: transparent !important;
+  font-size: 0.9rem !important;
+  resize: none !important;
+  color: white !important;
+}
+
+.cvform-input::placeholder {
+  color: whitesmoke !important;
+}
+
+.cvform-submit-btn {
+  width: 100% !important;
+  background: linear-gradient(to right, #1162d2, #013784) !important;
+  border: 0.1rem solid rgba(245, 245, 245, 0.651) !important;
+  font-size: 1.1rem !important;
+  font-weight: bold !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.589) !important;
+}

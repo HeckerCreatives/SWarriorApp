@@ -1,0 +1,9 @@
+.body-bg {
+  background-color: #000000;
+}
+
+.body-btn {
+  color: black !important;
+  font-size: 1rem !important;
+  font-weight: 500;
+}

@@ -1,0 +1,17 @@
+.landing-header-bg {
+  background-image: url(../../../assets/images/landing/header/bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.lh-btn {
+  font-size: 1.5rem !important;
+  background-color: #f6b749 !important;
+  color: black !important;
+  font-weight: bold !important;
+}
+
+.lh-container {
+  width: fit-content;
+}

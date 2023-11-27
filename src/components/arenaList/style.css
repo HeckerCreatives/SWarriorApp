@@ -1,0 +1,17 @@
+.arena-list-item-container {
+  background-color: #37474f !important;
+  color: #fff !important;
+}
+
+.arena-column {
+  margin-right: 30px;
+}
+
+/* media */
+
+@media only screen and (max-width: 1200px) {
+  .arena-column {
+    margin-right: 0px;
+    margin-bottom: 30px;
+  }
+}

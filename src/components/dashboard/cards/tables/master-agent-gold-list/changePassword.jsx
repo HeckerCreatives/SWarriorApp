@@ -1,0 +1,172 @@
+import React from "react";
+import { useState } from "react";
+import { putRequest } from "../../../../../configs/axiosClient";
+import {
+  MDBBtn,
+  MDBIcon,
+  MDBModal,
+  MDBContainer,
+  MDBModalBody,
+  MDBModalContent,
+  MDBModalDialog,
+  MDBTypography,
+  MDBInput,
+  MDBSpinner,
+} from "mdb-react-ui-kit";
+import toast, { Toaster } from "react-hot-toast";
+import { errToast } from "../../../../../utility/toaster";
+import useAuthStore from "../../../../../stores/authStore";
+import { useEffect } from "react";
+import Swal from "sweetalert2";
+
+const AgentChangePassword = ({ agentId, agentUname }) => {
+  const [centredModal, setCentredModal] = useState(false);
+  const [confirmationModal, setConfirmationModal] = useState(false);
+
+  const toggleShow = e => setCentredModal(!centredModal);
+
+  const change = useAuthStore(state => state.agentChangePassword);
+  const reset = useAuthStore(state => state.resetSuccess);
+  const loading = useAuthStore(state => state.loading.agentPassword);
+  const success = useAuthStore(state => state.success.agentPassword);
+
+  useEffect(() => {
+    if (success) {
+      document.getElementById("passwordForm").reset();
+      setCentredModal(false);
+      reset();
+    }
+  }, [success]);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    const { password1, password2 } = e.target;
+
+    if (password1.value === "") {
+      errToast("Password is required");
+      return;
+    }
+
+    if (password1.value.length < 6) {
+      errToast("Password must be atleast 6 characters");
+      return;
+    }
+
+    if (password1.value !== password2.value) {
+      errToast("Password must match the Confirm password");
+      return;
+    }
+
+    Swal.fire({
+      title: `Are you sure you want to change the password of ${agentUname}?`,
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`,
+    }).then(result => {
+      if (result.isConfirmed) {
+        const passwordData = {
+          agentId: agentId,
+          agent: agentUname,
+          password: password1.value,
+          confirm: password2.value,
+        };
+        change(passwordData);
+      }
+    });
+  };
+
+  return (
+    <div>
+      <Toaster />
+      <MDBBtn className="ms-0 afl-btn afl-btn-1" onClick={toggleShow}>
+        <i className="fas fa-user-cog me-2"></i> Change Agent Password
+      </MDBBtn>
+
+      <MDBModal tabIndex="-1" show={centredModal} setShow={setCentredModal}>
+        <MDBModalDialog centered size="lg">
+          <MDBModalContent className="coreq-modal-body py-2">
+            <MDBTypography
+              tag="h4"
+              className="text-center  pt-4 coreq-modal-title mb-0"
+            >
+              <MDBIcon fas icon="cogs" className="pe-3" />
+              Change Agent Password <br /> for
+            </MDBTypography>
+            <MDBBtn
+              color="tranparent"
+              onClick={toggleShow}
+              className="coreq-modal-close-btn shadow-0"
+            >
+              <MDBIcon fas icon="times" size="2x" />
+            </MDBBtn>
+
+            <MDBModalBody>
+              <MDBContainer fluid className="p-0 ">
+                <MDBContainer fluid className="px-0 py-3 aep-body">
+                  <form
+                    onSubmit={handleSubmit}
+                    id="passwordForm"
+                    autoComplete="off"
+                  >
+                    <h2 className="mb-3 text-warning">{agentUname}</h2>
+                    <div className="aep-form-panel-container">
+                      <div className="aep-form-panel-title">
+                        Enter new password for this Agent...
+                      </div>
+                      <div className="px-3 mb-4">
+                        <MDBInput
+                          label={
+                            <span className="text-white">
+                              Enter New Password
+                            </span>
+                          }
+                          className="aep-input"
+                          id="password1"
+                          name="password1"
+                          type="password"
+                        />
+                      </div>
+                      <div className="px-3 mb-4">
+                        <MDBInput
+                          label={
+                            <span className="text-white">
+                              Confirm New Password
+                            </span>
+                          }
+                          className="aep-input"
+                          id="password2"
+                          name="password2"
+                          type="password"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="d-flex align-items-center justify-content-between px-3 mt-3">
+                      <MDBBtn
+                        disabled={loading}
+                        color="warning"
+                        className="fw-bold w-100"
+                      >
+                        {loading ? (
+                          <MDBSpinner size="sm" />
+                        ) : (
+                          <>
+                            <MDBIcon far icon="save" />
+                            &nbsp;&nbsp;Change Password
+                          </>
+                        )}
+                      </MDBBtn>
+                    </div>
+                  </form>
+                </MDBContainer>
+              </MDBContainer>
+            </MDBModalBody>
+          </MDBModalContent>
+        </MDBModalDialog>
+      </MDBModal>
+    </div>
+  );
+};
+
+export default AgentChangePassword;

@@ -1,0 +1,52 @@
+.variance-wrapper {
+  background-color: #272f39;
+  border-radius: 0.5rem;
+}
+
+.variance-container {
+  background-color: #2b394a;
+  border-radius: 0.5rem;
+}
+
+.variance-header {
+  color: whitesmoke;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border-bottom: 1px solid rgba(126, 126, 126, 0.678);
+}
+
+.variance-body {
+}
+
+.variance-calculated {
+  background-color: #387cec;
+  display: grid;
+  place-items: center;
+  color: whitesmoke;
+  border-radius: 0.5rem;
+}
+
+.variance-items {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 0.5rem 0;
+}
+
+.variance-items-final {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.5rem 0;
+}
+
+.variance-text {
+  font-size: 0.85rem;
+  font-weight: bold;
+  padding: 0.5rem 0;
+  color: whitesmoke;
+}

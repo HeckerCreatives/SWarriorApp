@@ -1,0 +1,136 @@
+.tlt-table-container {
+  background-color: #272f39;
+  border-radius: 0.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.tlt-table {
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  color: whitesmoke;
+}
+
+.tlt-table td,
+.tlt-table th {
+  padding: 0.4rem;
+}
+
+.tlt-line {
+  border-bottom: 1px solid white;
+}
+
+.tlt-table thead tr {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.tlt-table thead tr th {
+  text-align: center;
+}
+
+.tlt-table tbody tr:nth-child(even) {
+  background-color: #2b394a;
+  font-size: 0.9rem;
+}
+
+.tlt-table tbody tr:nth-child(odd) {
+  background-color: #273445;
+  font-size: 0.9rem;
+}
+
+.tlt-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: transparent;
+  color: white;
+}
+
+.tlt-table tbody tr td {
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.tlt-pid {
+  width: fit-content;
+  background-color: #006659;
+  padding: 0.05rem 1rem;
+  margin: auto;
+  border-radius: 0.25rem;
+}
+
+.tlt-new {
+  background-color: #5bbfbb;
+  color: #262d2d;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  border-radius: 0.75rem;
+  margin: auto;
+}
+
+.tlt-new-icon {
+  background-color: whitesmoke;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+}
+
+.tlt-view {
+  background-color: #96a4fb;
+  color: #262d2d;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  border-radius: 0.75rem;
+  margin: auto;
+}
+
+.tlt-date {
+  background-color: #25262a;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  margin: auto;
+  border-radius: 0.25rem;
+  color: #d9d9d9;
+}
+
+.tlt-process {
+  width: fit-content;
+  border: 1px solid #05e8e2;
+  padding: 0.1rem 1rem;
+  margin: auto;
+  color: #06e6cf;
+  border-radius: 0.25rem;
+}
+
+.tlt-action-withdraw {
+  background-color: #229d9c;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  margin: auto;
+  border-radius: 0.5rem;
+}
+
+.tlt-action-receive {
+  background-color: #ea6947;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  margin: auto;
+  border-radius: 0.5rem;
+}
+
+.tlt-action-send {
+  background-color: #858585;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  margin: auto;
+  border-radius: 0.5rem;
+}
+
+.tlt-date {
+  background-color: #656565;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  margin: auto;
+  border-radius: 0.5rem;
+}

@@ -1,0 +1,32 @@
+.arg-header {
+  background-color: #f6b749;
+  color: whitesmoke;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+.arg-header div {
+  background-color: #d8a141;
+  border-radius: 0.5rem;
+  color: whitesmoke;
+}
+
+.arg-body {
+  background-color: #2f3947;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.arg-body-title {
+  font-size: 0.9rem;
+  color: whitesmoke;
+  font-weight: bold;
+}
+
+.arg-body-link {
+  font-size: 0.95rem;
+  color: whitesmoke;
+  background-color: #232931;
+  text-align: center;
+  border-radius: 0.25rem;
+}

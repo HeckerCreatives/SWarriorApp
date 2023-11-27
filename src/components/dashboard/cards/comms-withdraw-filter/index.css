@@ -1,0 +1,45 @@
+.cwlf-header {
+  background-color: #f6b749;
+  border-top-right-radius: 0.5rem;
+  border-top-left-radius: 0.5rem;
+}
+
+.cwlf-body {
+  background-color: #272f39;
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+.cwlf-title {
+  line-height: 1rem;
+  font-weight: bold;
+  color: #15171a;
+}
+
+.cwlf-filter {
+  line-height: 1.5rem;
+  font-weight: bold;
+  color: #15171a;
+}
+
+.cwlf-title .title {
+  font-size: 1rem;
+}
+
+.cwlf-title .sub {
+  font-size: 0.8rem;
+}
+
+.cwlf-filter-btn {
+  font-size: 1rem !important;
+  padding: 0.25rem 2rem !important;
+  background-color: #3d4e65 !important;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.61) !important;
+}
+
+.cwlf-export-btn {
+  font-size: 1rem !important;
+  padding: 0.25rem 2rem !important;
+  background-color: #3d4e65 !important;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.61) !important;
+}

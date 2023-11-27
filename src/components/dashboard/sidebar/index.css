@@ -1,0 +1,129 @@
+.sidebar-wrapper {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-right: 2px solid #58677a;
+  transition: width 250ms ease-out;
+  background-color: #151515;
+  z-index: 10;
+}
+
+.sidebar-toggle {
+  background-color: #404040;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  position: absolute;
+  right: -1rem;
+  top: 2rem;
+  color: #e5aa45 !important;
+  border: 2px solid #58677a;
+  cursor: pointer;
+  transition: transform 250ms ease-out;
+}
+
+.sidebar-toggle-rotate {
+  transform: rotate(180deg);
+}
+
+.sidebar-logo-container {
+  height: 6.5rem;
+}
+
+.sidebar-header {
+  background-color: #131313;
+}
+
+.sidebar-body {
+  background-color: #151515;
+  min-height: fit-content;
+  border-top: 1px solid #2e2e2e;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.sidebar-icon-container {
+  min-width: 4.5rem;
+  display: grid;
+  place-items: center;
+}
+
+.sidebar-arena-btn {
+  width: 90% !important;
+  background-image: url(../../../assets/images/sidebar/btn.png);
+  background-position: center center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  color: #e5aa45 !important;
+  font-size: 0.9rem !important;
+}
+
+.sidebar-link-header {
+  color: #f8b94a;
+  cursor: pointer;
+  border-right: 0.35rem solid transparent;
+  white-space: nowrap;
+}
+
+.sidebar-active-link {
+  background-image: linear-gradient(to right, transparent, #e5aa4527);
+  border-right: 0.35rem solid #e5aa45;
+  color: #2856eb !important;
+}
+
+.sidebar-active-link-2 {
+  color: #2856eb !important;
+}
+
+.sidebar-link-header:hover {
+  background-image: linear-gradient(to right, transparent, #e5aa4527);
+  color: #2856eb !important;
+}
+
+.sidebar-link-header-title {
+  font-size: 0.95rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+}
+
+.sidebar-sublink-header-title {
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+}
+
+.sidebar-sub-link {
+  height: 0 !important;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: height 150ms ease-in-out !important;
+}
+
+.sidebar-sub-link-active {
+  height: fit-content !important;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  background-image: url(../../../assets/images/sidebar/logout.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #151515;
+}
+
+.sidebar-logout-btn {
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+.custom-backdrop {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.616);
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+}

@@ -1,0 +1,91 @@
+.tpf-wrapper {
+  background-color: #272f39;
+  border-radius: 0.5rem;
+}
+
+.tpf-container {
+  background-color: #2b394a;
+  border-radius: 0.5rem;
+}
+
+.tpf-header-noline {
+  color: whitesmoke;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border-bottom: 1px solid transparent;
+}
+
+.tpf-header-line {
+  color: whitesmoke;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border-bottom: 1px solid lightgray;
+}
+
+.tpf-body {
+}
+
+.tpf-input-select {
+  background-color: transparent !important;
+  color: whitesmoke !important;
+  font-size: 0.9rem !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3e%3cpath fill=%27none%27 stroke=%27%23dad8d8%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%272%27 d=%27M2 5l6 6 6-6%27/%3e%3c/svg%3e") !important;
+}
+
+.tpf-input-select option {
+  background-color: #2b394a !important;
+}
+
+.tpf-table-container {
+  background-color: #272f39;
+  border-radius: 0.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.tpf-table {
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  color: whitesmoke;
+}
+
+.tpf-table td,
+.tpf-table th {
+  padding: 0.4rem;
+}
+
+.tpf-line {
+  border-bottom: 1px solid white;
+}
+
+.tpf-table thead tr {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.tpf-table thead tr th {
+  text-align: center;
+}
+
+.tpf-table tbody tr:nth-child(even) {
+  background-color: #2b394a;
+  font-size: 0.9rem;
+}
+
+.tpf-table tbody tr:nth-child(odd) {
+  background-color: #273445;
+  font-size: 0.9rem;
+}
+
+.tpf-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: transparent;
+  color: white;
+}
+
+.tpf-table tbody tr td {
+  font-weight: bold;
+  font-size: 0.8rem;
+}

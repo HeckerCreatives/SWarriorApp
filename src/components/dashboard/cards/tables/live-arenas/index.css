@@ -1,0 +1,76 @@
+.live-arena-table-container {
+  border-radius: 0.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.live-arena-table-wrapper-bg {
+  background-color: #2b394a;
+  border-radius: 0.5rem;
+}
+
+.live-arena-table {
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  color: whitesmoke;
+}
+
+.live-arena-table td,
+.live-arena-table th {
+  padding: 0.4rem;
+}
+
+.live-arena-line {
+  border-bottom: 1px solid white;
+}
+
+.live-arena-table thead tr {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.live-arena-table thead tr th {
+  text-align: center;
+}
+
+.live-arena-table tbody tr:nth-child(even) {
+  background-color: #2b394a;
+  font-size: 0.9rem;
+}
+
+.live-arena-table tbody tr:nth-child(odd) {
+  background-color: #273445;
+  font-size: 0.9rem;
+}
+
+.live-arena-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: transparent;
+  color: white;
+}
+
+.live-arena-table tbody tr td {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.live-arena-table tbody tr:hover {
+  background-color: rgba(128, 128, 128, 0.212);
+}
+
+.live-arena-table-wrapper {
+  background-color: #272f39;
+  border-radius: 0.5rem;
+}
+
+.live-arena-controls {
+  padding: 0.25rem 1.5rem !important;
+  font-size: 0.9rem !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.514) !important;
+}
+
+.la-icon-btn {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.514) !important;
+}

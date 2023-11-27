@@ -1,0 +1,445 @@
+.custom-modal-body {
+  padding: 20px;
+}
+
+.custom-modal-body h3 {
+  margin-top: 0;
+}
+
+.custom-modal-body p {
+  margin-bottom: 0;
+}
+
+.custom-modal-body .d-flex {
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.custom-modal-body .btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.custom-modal-body .btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.custom-modal-body .btn {
+  color: #fff;
+}
+
+.logout-confimation-modal .modal-content {
+  background-color: #131313;
+  color: #fff;
+}
+
+.logout-confimation-modal .modal-header {
+  background-color: #131313;
+  border-bottom: 1px solid #fff;
+  color: #fff;
+}
+
+.logout-confimation-modal .btn-secondary {
+  background-color: #fff;
+  color: #131313;
+}
+
+.logout-confimation-modal .btn-danger {
+  background-color: #ff0000;
+  color: #fff;
+}
+
+.betting-history-main-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.betting-colors-container {
+  display: flex;
+  align-items: center;
+}
+.betting-columns {
+  width: 50px !important;
+  height: 50px !important;
+  border: 1px solid #606060;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.betting-history-icon {
+  width: 30px !important;
+  height: 30px !important;
+  color: #fff;
+  font-weight: bolder;
+  display: flex;
+  font-size: 15px;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.arena-topnav-bg {
+  background-image: url(../../assets/images/topbar/bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  min-height: 5rem;
+}
+
+.arena-tab-container {
+  background-image: url(../../assets/images/topbar/tab.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #e5aa45 !important;
+  text-align: right;
+  height: 3rem;
+  width: 20vw;
+}
+
+.arena-title-container {
+  background-color: rgba(0, 0, 0, 0.301);
+  font-weight: bold;
+  color: rgb(209, 209, 209);
+  padding: 0.4rem 0 !important;
+}
+
+.arena-header-logo img {
+  width: 5rem;
+  height: auto;
+}
+
+.arena-header-logo {
+  margin-top: 0.9rem;
+  margin-left: 0.8rem;
+}
+
+.arena-status-header {
+  background-color: #f6b749;
+  color: #151e2a;
+  font-weight: bolder;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+.arena-status-body {
+  background-color: #2f3947;
+  color: #69fff0;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.arena-bet-body {
+  background-color: #202833;
+  color: whitesmoke;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.arena-bet {
+  color: whitesmoke;
+  border-radius: 0.25rem;
+}
+
+.arena-bet-meron {
+  background-color: #df4d4d;
+}
+
+.arena-bet-wala {
+  background-color: #3f51db;
+}
+
+.arena-bet-value-meron {
+  background-color: #842020;
+  text-align: center;
+  border-radius: 0.25rem;
+}
+
+.arena-bet-value-wala {
+  background-color: #1f2b8e;
+  text-align: center;
+  border-radius: 0.25rem;
+}
+
+.arena-vid-wrapper {
+  background-color: #2f3947;
+  border-radius: 0.5rem;
+}
+
+.arena-vid-container {
+  background-color: #141421;
+}
+
+.arena-dummy-vid {
+  height: 33.25rem;
+  width: 100%;
+  background-color: black;
+}
+
+.arena-dummy-vid iframe {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.arena-betting-wrapper {
+  transform: translateY(-1rem);
+}
+
+.arena-panel-container {
+  background-color: #2f3947;
+  border-radius: 0.5rem;
+}
+
+.bet-clock-img {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 3.5rem;
+}
+
+.sppayout-container {
+  background-color: #272f39;
+  border-radius: 0.5rem;
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.575);
+}
+
+.sppayout-label {
+  font-size: 0.8rem;
+  font-weight: bold;
+  background-color: #424e60;
+  color: whitesmoke;
+  border-radius: 0.25rem;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: -0.9rem;
+  left: 0.75rem;
+}
+
+.sppayout-btn {
+  color: whitesmoke;
+  border-radius: 0.5rem;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.575);
+}
+
+.sppayout-btn-inactive {
+  transform: scale(0.8);
+  transition: transform 0.3s ease-in-out;
+}
+
+.sppayout-btn-wala {
+  background-color: #3f51db;
+}
+
+.sppayout-btn-meron {
+  background-color: #df4d4d;
+}
+
+.sppayout-bets {
+}
+
+.sppayout-bets-wala {
+  background-color: #1f2b8e;
+}
+
+.sppayout-bets-meron {
+  background-color: #842020;
+}
+
+.spbets-input-text {
+  background-color: transparent !important;
+  font-size: 1.5rem !important;
+  font-weight: bold !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  text-align: center !important;
+  color: whitesmoke !important;
+}
+
+.spbets-btn-clear {
+  position: absolute;
+  top: -0.4rem;
+  right: -0.6rem;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.582);
+}
+
+.spbets-btn-bet {
+  font-size: 1.75rem;
+  padding: 0.1rem 0.8rem !important;
+  background-color: #4d617e !important;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.514) !important;
+}
+
+.spbets-btn-container {
+  background-color: #4d617e;
+  color: whitesmoke;
+  border-radius: 0.5rem;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.514) !important;
+}
+
+.spbets-btn-draw {
+  background-color: #4ddf81;
+  width: 10rem !important;
+  height: 2.5rem !important;
+  display: grid;
+  place-items: center;
+  border-radius: 0.5rem;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.24) !important;
+}
+
+.spbets-btn-meron {
+  background-color: #df4d4d;
+  width: 7rem;
+  height: 6.5rem;
+  display: grid;
+  place-items: center;
+  border-radius: 0.5rem;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.24) !important;
+}
+
+.spbets-btn-wala {
+  background-color: #3f51db;
+  width: 7rem;
+  height: 6.5rem;
+  display: grid;
+  place-items: center;
+  border-radius: 0.5rem;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.24) !important;
+}
+
+.spbets-btn-draw {
+  background-color: #4ddf81;
+  width: 7rem;
+  height: 6.5rem;
+  display: grid;
+  place-items: center;
+  border-radius: 0.5rem;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.24) !important;
+}
+
+.aba-withdraw-btn {
+  position: absolute;
+  top: -0.9rem;
+  right: -1rem;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.493);
+}
+
+.sppayout-btn-content {
+  border: 1px solid #f2f2f2;
+  border-top: 0;
+}
+
+@media (max-width: 767px) {
+  .desktop-view-betting {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-view-betting {
+    display: none !important;
+  }
+ 
+  .notificationModalTitle{
+    padding-inline-start: 280px;
+      }
+}
+
+/* media */
+
+@media only screen and (max-width: 1200px) {
+  .arena-header-logo {
+    width: 3rem;
+  }
+
+  .spbets-btn-draw {
+    height: 20px !important;
+    width: 115px !important;
+  }
+  .spbets-btn-draw h4 {
+    font-size: 12px;
+  }
+
+  .spbets-btn-wala {
+    height: 20px !important;
+    width: 115px !important;
+  }
+  .spbets-btn-meron {
+    height: 20px !important;
+    width: 115px !important;
+  }
+  .spbets-btn-meron h4 {
+    font-size: 12px;
+  }
+
+  .spbets-btn-wala h4 {
+    font-size: 12px;
+  }
+  .sppayout-container {
+    padding: 0 !important;
+  }
+  .spbets-btn-bet {
+    font-size: 12px !important;
+  }
+
+  .sppayout-btn {
+    border-bottom-right-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+  }
+  .sppayout-btn h4 {
+    font-size: 15px;
+  }
+  .sppayout-container {
+    font-size: 12px;
+  }
+  .arena-bet {
+    font-size: 10px;
+  }
+  .arena-status-header {
+    font-size: 12px;
+  }
+  .betting-history-main-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .betting-colors-container {
+    display: inline-block;
+    padding: 5px;
+  }
+  .arena-tab-container {
+    width: 30vw;
+  }
+
+  .arena-dummy-vid {
+    height: 250px !important;
+  }
+
+  .arena-vid-wrapper {
+    padding: 0 !important;
+    margin: 20px;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .arena-tab-container {
+    width: 40vw;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .arena-tab-container {
+    width: 60vw;
+  }
+ 
+ 
+}
+
+@media only screen and (max-width: 1199px) {
+  .arena-status-body h3 {
+    font-size: 10px !important;
+  }
+
+  .arena-status-body {
+    font-size: 10px !important;
+  }
+}

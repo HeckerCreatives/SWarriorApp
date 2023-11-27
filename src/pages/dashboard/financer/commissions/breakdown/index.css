@@ -1,0 +1,90 @@
+.bfc-header {
+  background-color: #f6b749;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  color: #1a1a1b;
+}
+
+.bfc-header-title {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.bfc-header-subtitle {
+  font-size: 0.7rem;
+}
+
+.bfc-body {
+  background-color: #272f39;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.bfcb-filter-header {
+  background-color: #fbfbfb;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+.bfcb-input-select {
+  font-size: 1rem !important;
+  padding: 0.5rem 0.5rem !important;
+  background-color: transparent !important;
+  border: none !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3e%3cpath fill=%27none%27 stroke=%27%23dad8d8%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%272%27 d=%27M2 5l6 6 6-6%27/%3e%3c/svg%3e") !important;
+  color: whitesmoke !important;
+  outline: none !important;
+}
+
+.bfcb-filter-body {
+  background-color: #2f3947;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.bfcb-filter-month {
+  background-color: #3d4e65;
+  border-radius: 0.5rem;
+}
+
+.bfcb-filter-month-title {
+  font-size: 0.8rem;
+  color: whitesmoke;
+}
+
+.bfcb-input-text {
+  background-color: transparent !important;
+  color: whitesmoke !important;
+  font-size: 0.9rem !important;
+  color-scheme: dark !important;
+  outline: none !important;
+}
+
+.bec-container {
+  background-color: #272f39;
+  border-radius: 0.5rem;
+}
+
+.bec-value-container {
+  background-color: #526682;
+  border-radius: 0.5rem;
+}
+
+.cbd2-header {
+  background-color: #f6b749;
+  color: #19191b;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.cbd2-body {
+  background-color: #272f39;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  color: gray;
+  font-size: 0.9rem;
+}

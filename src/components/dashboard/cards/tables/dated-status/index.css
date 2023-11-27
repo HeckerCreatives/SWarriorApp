@@ -1,0 +1,46 @@
+.dated-status-table-container {
+  background-color: #272f39;
+  border-radius: 0.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.dated-status-table {
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  color: whitesmoke;
+}
+
+.dated-status-table td,
+.dated-status-table th {
+  padding: 8px;
+}
+
+.dated-status-line {
+  border-bottom: 1px solid white;
+}
+
+.dated-status-table thead tr {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.dated-status-table tbody tr:nth-child(even) {
+  background-color: #2b394a;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.dated-status-table tbody tr:nth-child(odd) {
+  background-color: #273445;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.dated-status-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: transparent;
+  color: white;
+}

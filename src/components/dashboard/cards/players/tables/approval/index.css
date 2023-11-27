@@ -1,0 +1,147 @@
+.pat3-table-container {
+  background-color: #272f39;
+  border-radius: 0.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.pat3-table {
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  color: whitesmoke;
+}
+
+.pat3-table td,
+.pat3-table th {
+  padding: 0.4rem;
+}
+
+.pat3-line {
+  border-bottom: 1px solid white;
+}
+
+.pat3-table thead tr {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.pat3-table thead tr th {
+  text-align: center;
+}
+
+.pat3-table tbody tr:nth-child(even) {
+  background-color: #2b394a;
+  font-size: 0.9rem;
+}
+
+.pat3-table tbody tr:nth-child(odd) {
+  background-color: #273445;
+  font-size: 0.9rem;
+}
+
+.pat3-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: transparent;
+  color: white;
+}
+
+.pat3-table tbody tr td {
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.pat3-date {
+  background-color: #656565;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  margin: auto;
+  border-radius: 0.5rem;
+}
+
+.pat3-type {
+  background-color: #229d9c;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.pat3r-btn {
+  padding: 0.1rem 1rem !important;
+  font-size: 0.8rem !important;
+  text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.534) !important;
+  box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.534) !important;
+}
+
+.pat3-modal-body {
+  background-color: #3d4e65 !important;
+}
+
+.pat3-modal-panel {
+  background-color: #272f39;
+  min-width: 94% !important;
+  max-width: 94% !important;
+  border-radius: 0.75rem;
+}
+
+.pat3-modal-title-approved {
+  color: #33ff3a;
+  font-weight: bolder;
+}
+
+.pat3-modal-title-deny {
+  color: #ff4f3d;
+  font-weight: bolder;
+}
+
+.pat3-modal-warning {
+  background-color: #00fff6;
+  width: 70%;
+  color: #262d2d;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  margin: auto;
+  transform: translateY(-2rem);
+}
+
+.pat3-modal-warning-icon {
+  width: 3rem;
+}
+
+.pat3-modal-warning-label {
+  text-align: start;
+}
+
+.pat3-modal-approve {
+  background-color: #536886 !important;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.575) !important;
+  font-size: 1rem !important;
+  text-shadow: 1px 1px 3px black !important;
+  color: #33ff3a !important;
+}
+
+.pat3-modal-deny {
+  background-color: #536886 !important;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.575) !important;
+  font-size: 1rem !important;
+  text-shadow: 1px 1px 3px black !important;
+  color: #ff4f3d !important;
+}
+
+.pat3-modal-default {
+  background-color: #536886 !important;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.575) !important;
+  font-size: 1rem !important;
+  text-shadow: 1px 1px 3px black !important;
+  color: #fff !important;
+}
+
+.pat3-modal-close-btn {
+  width: fit-content;
+  color: #f6b749 !important;
+  text-shadow: 2px 2px 3px black;
+  position: absolute !important;
+  top: 1%;
+  right: 0;
+}

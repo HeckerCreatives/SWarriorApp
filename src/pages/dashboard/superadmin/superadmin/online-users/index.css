@@ -1,0 +1,44 @@
+.ou-card-wrapper {
+  background-color: #272f39;
+  border-radius: 0.5rem;
+}
+
+.ou-card-container {
+  background-color: #2b394a;
+  border-radius: 0.5rem;
+}
+
+.ou-card-header {
+  color: whitesmoke;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.ou-input-select {
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-radius: 0 !important;
+  background-color: transparent !important;
+  color: rgb(199, 199, 199) !important;
+  font-size: 0.9rem !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3e%3cpath fill=%27none%27 stroke=%27%23dad8d8%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%272%27 d=%27M2 5l6 6 6-6%27/%3e%3c/svg%3e") !important;
+}
+
+.ou-input-select option {
+  background-color: #2b394a !important;
+}
+
+.ou-input-select::placeholder {
+  color: rgb(199, 199, 199) !important;
+}
+
+.ou-card-body {
+  color: #dad8d8;
+}
+
+.ou-list-header {
+  font-size: 0.9rem;
+  color: gray;
+  border-bottom: 1px solid gray;
+}

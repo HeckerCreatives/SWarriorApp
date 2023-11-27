@@ -1,0 +1,159 @@
+.comms-req-wrapper {
+  background-color: #272f39;
+  border-radius: 0.5rem;
+}
+
+.comms-req-container {
+  background-color: #2b394a;
+  border-radius: 0.5rem;
+}
+
+.comms-req-header {
+  font-size: 0.9rem;
+  color: whitesmoke;
+  font-weight: bold;
+  border-bottom: 1px solid gray;
+}
+
+.comms-req-body {
+}
+
+.comms-req-body-panel {
+  background-color: #526682;
+  border-radius: 0.25rem;
+  color: whitesmoke;
+  font-size: 1.1rem;
+}
+
+.comms-req-body-text {
+  color: whitesmoke;
+  font-size: 0.85rem;
+}
+
+.comms-req-status-header {
+  background-color: #f6b749;
+  border-top-right-radius: 0.5rem;
+  border-top-left-radius: 0.5rem;
+}
+
+.comms-req-status-body {
+  background-color: #272f39;
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+.comms-req-button {
+  font-size: 1rem !important;
+  color: #fff !important;
+  /* background-color: #536886 !important; */
+  border: 0;
+  box-shadow: 2px 2px 10px black !important;
+  text-shadow: 1px 1px 5px black !important;
+}
+
+.comms-req-status-title {
+  line-height: 1rem;
+  font-weight: bold;
+  color: #15171a;
+}
+
+.comms-req-status-filter {
+  line-height: 1.5rem;
+  font-weight: bold;
+  color: #15171a;
+}
+
+.comms-req-status-title .title {
+  font-size: 1rem;
+}
+
+.comms-req-status-title .sub {
+  font-size: 0.8rem;
+}
+
+.comms-req-status-table-container {
+  background-color: #2b394a;
+  padding-bottom: 1.5rem;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.comms-req-status-table {
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  color: whitesmoke;
+}
+
+.comms-req-status-table td,
+.comms-req-status-table th {
+  padding: 0.4rem;
+}
+
+.comms-req-status-line {
+  border-bottom: 1px solid white;
+}
+
+.comms-req-status-table thead tr {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.comms-req-status-table thead tr th {
+  text-align: center;
+}
+
+.comms-req-status-table tbody tr:nth-child(even) {
+  background-color: #2b394a;
+  font-size: 0.9rem;
+}
+
+.comms-req-status-table tbody tr:nth-child(odd) {
+  background-color: #273445;
+  font-size: 0.9rem;
+}
+
+.comms-req-status-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: transparent;
+  color: white;
+}
+
+.comms-req-status-table tbody tr td {
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.comms-req-status-Pending-button {
+  background-color: #d8bc20;
+  color: #262d2d;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  border-radius: 0.75rem;
+  margin: auto;
+}
+
+.comms-req-status-Approved-button {
+  background-color: #5fd95c;
+  color: #fff;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  border-radius: 0.75rem;
+  margin: auto;
+}
+
+.comms-req-status-Rejected-button {
+  background-color: #ff5a49;
+  color: #fff;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  border-radius: 0.75rem;
+  margin: auto;
+}
+
+.comms-req-status-status-text {
+  color: #fff;
+  text-transform: uppercase;
+}

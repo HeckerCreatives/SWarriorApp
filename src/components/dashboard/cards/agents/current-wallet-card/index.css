@@ -1,0 +1,42 @@
+.cwc-wrapper {
+}
+
+.cwc-container {
+}
+
+.cwc-header {
+  background-color: #fbfbfb;
+  color: #303030;
+  font-weight: bold;
+  font-size: 0.9rem;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+.cwc-body {
+  background-color: #2f3947;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.cwc-label {
+  font-size: 0.9rem;
+  color: whitesmoke;
+  font-weight: bold;
+}
+
+.cwc-points {
+  font-size: 1.25rem;
+  color: whitesmoke;
+  font-weight: bold;
+}
+
+.cwc-transfer {
+  opacity: 0 !important;
+  padding: 0.25rem 1rem !important;
+  font-size: 1rem !important;
+  box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.479);
+}

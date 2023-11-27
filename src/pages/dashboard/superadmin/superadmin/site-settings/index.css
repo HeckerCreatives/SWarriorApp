@@ -1,0 +1,77 @@
+.gen-settings-wrapper {
+  background-color: #272f39;
+  border-radius: 0.75rem;
+  height: fit-content;
+}
+
+.gen-settings-container {
+  background-color: #2b394a;
+  color: whitesmoke;
+  border-radius: 0.75rem;
+}
+
+.gen-settings-header {
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-bottom: 1px solid whitesmoke;
+}
+
+.gen-settings-body h6 {
+  font-size: 0.9rem;
+  font-weight: normal;
+  color: rgb(212, 212, 212);
+}
+
+.gen-settings-input {
+  background-color: transparent !important;
+  font-size: 0.9rem !important;
+  color: white !important;
+}
+
+.gen-settings-input::placeholder {
+  color: rgb(156, 156, 156) !important;
+}
+
+.gen-settings-btn {
+  color: rgb(156, 156, 156) !important;
+  padding: 0 !important;
+}
+
+.realtime-controls-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.452);
+  font-size: 0.9rem;
+  color: #9b9b9b;
+}
+
+.realtime-controls-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.452);
+  font-size: 0.85rem;
+  color: #cfcfcf;
+}
+
+.realtime-controls-btn {
+  padding: 0.5rem 0 !important;
+  background-color: #3d4d60 !important;
+  color: #728daf !important;
+  white-space: nowrap !important;
+  min-width: 6rem !important;
+}
+
+.credentials-security-text {
+  font-size: 0.9rem;
+  color: #9b9b9b;
+  font-weight: bold;
+}
+
+.credentials-security-btn {
+  font-size: 1rem !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.527) !important;
+}

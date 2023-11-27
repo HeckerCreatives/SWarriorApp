@@ -1,0 +1,217 @@
+.arena-comms-table-container {
+  background-color: #272f39;
+  border-radius: 0.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.arena-comms-table {
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  color: whitesmoke;
+}
+
+.arena-comms-table td,
+.arena-comms-table th {
+  padding: 0.4rem;
+}
+
+.arena-comms-line {
+  border-bottom: 1px solid white;
+}
+
+.arena-comms-table thead tr {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.arena-comms-table thead tr th {
+  text-align: center;
+}
+
+.arena-comms-table tbody tr:nth-child(even) {
+  background-color: #2b394a;
+  font-size: 0.9rem;
+}
+
+.arena-comms-table tbody tr:nth-child(odd) {
+  background-color: #273445;
+  font-size: 0.9rem;
+}
+
+.arena-comms-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: transparent;
+  color: white;
+}
+
+.arena-comms-table tbody tr td {
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.arena-comms-pid {
+  width: fit-content;
+  background-color: #006659;
+  padding: 0.05rem 1rem;
+  margin: auto;
+  border-radius: 0.25rem;
+}
+
+.arena-comms-new {
+  background-color: #5bbfbb;
+  color: #262d2d;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  border-radius: 0.75rem;
+  margin: auto;
+}
+
+.arena-comms-new-icon {
+  background-color: whitesmoke;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+}
+
+.arena-comms-view {
+  background-color: #96a4fb;
+  color: #262d2d;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  border-radius: 0.75rem;
+  margin: auto;
+}
+
+.arena-comms-date {
+  background-color: #25262a;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  margin: auto;
+  border-radius: 0.25rem;
+  color: #d9d9d9;
+}
+
+.arena-comms-process {
+  width: fit-content;
+  border: 1px solid #05e8e2;
+  padding: 0.1rem 1rem;
+  margin: auto;
+  color: #06e6cf;
+  border-radius: 0.25rem;
+}
+
+.arena-comms-table-pager,
+.arena-comms-table-page {
+  background-color: #3d4e65;
+  color: #f9b948;
+  padding: 0.25rem 1.5rem;
+  margin: 0 0.5rem;
+  font-weight: bold;
+  border-radius: 0.5rem;
+}
+
+.arena-comms-table-page {
+  background-color: #58677c;
+}
+
+.arena-comms-modal-body {
+  background-color: #3d4e65 !important;
+}
+
+.arena-comms-modal-panel {
+  background-color: #272f39;
+  min-width: 94% !important;
+  max-width: 94% !important;
+  border-radius: 0.75rem;
+}
+
+.arena-comms-modal-title {
+  color: #03f7ef;
+}
+
+.arena-comms-modal-warning {
+  background-color: #00fff6;
+  width: 70%;
+  color: #262d2d;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  margin: auto;
+  transform: translateY(-2rem);
+}
+
+.arena-comms-modal-warning-icon {
+  width: 4rem;
+  margin-right: 1.5rem;
+}
+
+.arena-comms-modal-warning-label {
+  text-align: start;
+}
+
+.arena-comms-modal-approve {
+  background-color: #536886 !important;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.575) !important;
+  font-size: 1rem !important;
+  text-shadow: 1px 1px 3px black !important;
+  color: #33ff3a !important;
+}
+
+.arena-comms-modal-deny {
+  background-color: #536886 !important;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.575) !important;
+  font-size: 1rem !important;
+  text-shadow: 1px 1px 3px black !important;
+  color: #ff4f3d !important;
+}
+
+.arena-comms-modal-close-btn {
+  width: fit-content;
+  color: #f6b749 !important;
+  text-shadow: 2px 2px 3px black;
+  position: absolute !important;
+  top: 1%;
+  right: 0;
+}
+
+.ac-plasada {
+  background-color: #229d9c;
+  border-radius: 0.5rem;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  margin: auto;
+}
+
+.ac-tie-rate {
+  background-color: #3044a9;
+  border-radius: 0.5rem;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  margin: auto;
+}
+
+.ac-commissions {
+  background-color: #ea6947;
+  border-radius: 0.5rem;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  margin: auto;
+}
+
+.ac-logs {
+  background-color: #191919;
+  border-radius: 0.25rem;
+  width: fit-content;
+  padding: 0.1rem 0.5rem;
+  margin: auto;
+}
+
+.ac-date {
+  background-color: #656565;
+  border-radius: 0.25rem;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  margin: auto;
+}

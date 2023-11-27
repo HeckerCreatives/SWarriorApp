@@ -1,0 +1,139 @@
+.mal-table-container {
+  background-color: #272f39;
+  border-radius: 0.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.mal-table {
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  color: whitesmoke;
+}
+
+.mal-table td,
+.mal-table th {
+  padding: 0.4rem;
+}
+
+.mal-line {
+  border-bottom: 1px solid white;
+}
+
+.mal-table thead tr {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.mal-table thead tr th {
+  text-align: center;
+}
+
+.mal-table tbody tr:nth-child(even) {
+  background-color: #2b394a;
+  font-size: 0.9rem;
+}
+
+.mal-table tbody tr:nth-child(odd) {
+  background-color: #273445;
+  font-size: 0.9rem;
+}
+
+.mal-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: transparent;
+  color: white;
+}
+
+.mal-table tbody tr td {
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.mal-btn {
+  padding: 0 !important;
+  margin: 0 0.25rem !important;
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+}
+
+.mal-btn-img {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+}
+
+.mal-sid {
+  background-color: #297f7e;
+  padding: 0.1rem 0.5rem;
+  width: fit-content;
+  margin: auto;
+  border-radius: 0.25rem;
+}
+
+.mal-status-active {
+  background-color: #479f27;
+  padding: 0.1rem 0.5rem !important;
+  width: fit-content;
+  margin: auto;
+  border-radius: 0.25rem;
+}
+
+.mal-status-blocked {
+  background-color: #545353;
+  padding: 0.1rem 0.5rem !important;
+  width: fit-content;
+  margin: auto;
+  border-radius: 0.25rem;
+}
+
+.mal-verification-verified {
+  background-color: #0e37af;
+  padding: 0.1rem 0.5rem !important;
+  width: fit-content;
+  margin: auto;
+  border-radius: 0.25rem;
+}
+
+.mal-verification-unverified {
+  background-color: #803724;
+  padding: 0.1rem 0.5rem !important;
+  width: fit-content;
+  margin: auto;
+  border-radius: 0.25rem;
+}
+
+.mal-date {
+  background-color: #656565;
+  padding: 0.1rem 0.5rem !important;
+  width: fit-content;
+  margin: auto;
+  border-radius: 0.25rem;
+}
+
+.mal-search {
+  background-color: transparent !important;
+  font-size: 0.95rem !important;
+  padding-left: 2.5rem !important;
+  color: white !important;
+}
+
+.mal-search::placeholder {
+  color: whitesmoke !important;
+}
+
+.mal-view-btn,
+.mal-refresh-btn {
+  font-size: 1rem !important;
+  padding: 0.2rem 2rem !important;
+  background-color: #3d4e65 !important;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.61) !important;
+}
+
+.mal-search-icon {
+  color: whitesmoke;
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+}

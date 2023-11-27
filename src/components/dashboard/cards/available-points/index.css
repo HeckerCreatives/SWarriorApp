@@ -1,0 +1,23 @@
+.available-points-header {
+  background-color: #f6b749;
+  font-size: 1rem;
+  font-weight: bold;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  color: #1c232e;
+}
+
+.available-points-body {
+  color: white;
+  font-size: 1.25rem;
+  background-color: #272f39;
+  position: relative;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.available-points-btn {
+  position: absolute;
+  right: 1.5%;
+  top: 16%;
+}

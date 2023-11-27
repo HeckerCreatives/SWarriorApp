@@ -1,0 +1,45 @@
+.live-arena-header {
+  background-color: #f6b749;
+  border-top-right-radius: 0.5rem;
+  border-top-left-radius: 0.5rem;
+}
+
+.live-arena-body {
+  background-color: #272f39;
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+.live-arena-title {
+  line-height: 1rem;
+  font-weight: bold;
+  color: #15171a;
+}
+
+.live-arena-filter {
+  line-height: 1.5rem;
+  font-weight: bold;
+  color: #15171a;
+}
+
+.live-arena-title .title {
+  font-size: 1rem;
+}
+
+.live-arena-title .sub {
+  font-size: 0.8rem;
+}
+
+.live-arena-filter-btn {
+  font-size: 1rem !important;
+  padding: 0.25rem 2rem !important;
+  background-color: #3d4e65 !important;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.61) !important;
+}
+
+.live-arena-export-btn {
+  font-size: 1rem !important;
+  padding: 0.25rem 2rem !important;
+  background-color: #3d4e65 !important;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.61) !important;
+}

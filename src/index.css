@@ -1,0 +1,58 @@
+body {
+  margin: 0;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.main-container {
+  transition: padding-left 250ms ease-out;
+}
+
+.dashboard-bg {
+  background-color: #191f26;
+  min-height: 100vh;
+}
+
+.main-bg {
+  background-color: #191f26;
+  min-height: 100vh;
+}
+
+.section-size {
+  min-height: 100vh;
+  height: fit-content;
+}
+
+.section-size-2 {
+  min-height: 85vh;
+  height: fit-content;
+}
+
+.section-size-3 {
+  min-height: 65vh;
+  height: fit-content;
+}
+
+.side-menu-toggle {
+  position: absolute;
+  left: 1.5rem;
+  top: 1rem;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a2027;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #f6b749;
+  border-radius: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ec9e17;
+}

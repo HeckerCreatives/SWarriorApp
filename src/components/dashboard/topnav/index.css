@@ -1,0 +1,23 @@
+.custom-topnav-bg {
+  background-image: url(../../../assets/images/topbar/bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.topnav-tab-container {
+  background-image: url(../../../assets/images/topbar/tab.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: grid;
+  place-items: end;
+  color: #e5aa45 !important;
+}
+
+.topnav-title-container {
+  background-color: rgba(0, 0, 0, 0.301);
+  font-weight: bold;
+  color: rgb(209, 209, 209);
+  padding: 0.4rem 0 !important;
+  font-size: rem !important;
+}
