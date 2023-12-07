@@ -6,6 +6,7 @@ import AmountTableList from "../../../../components/dashboard/cards/agents/amoun
 import CommissionWalletCard from "../../../../components/dashboard/cards/agents/commission-wallet-card";
 import CurrentWalletCard from "../../../../components/dashboard/cards/agents/current-wallet-card";
 import AgentReferralCard from "../../../../components/dashboard/cards/agents/referral-card";
+import AgentReferralCardPlayer from "../../../../components/dashboard/cards/agents/referral-card-player";
 import DashboardTopNavigation from "../../../../components/dashboard/topnav";
 import CommissionsTableList from "../../../../components/dashboard/cards/agents/recieved-commission-table";
 import useUserStore from "../../../../stores/userStore";
@@ -31,6 +32,7 @@ const SubDashboard = () => {
       <DashboardTopNavigation title="DASHBOARD" />
       <MDBContainer fluid className="mt-2">
         <AgentReferralCard to="MASTER" />
+        <AgentReferralCardPlayer />
         <MDBRow className="mt-3">
           <CurrentWalletCard
             title="Current Wallet"
