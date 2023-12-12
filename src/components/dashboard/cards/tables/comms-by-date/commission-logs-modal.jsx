@@ -11,21 +11,8 @@ import {
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-// ** Redux
-import { useDispatch, useSelector } from "react-redux";
-import { arenaCommission } from "../../../../../redux/slices/commissionHistory";
-
-const CommsLogsModal = (item) => {
-  // ** Vars
-  const dispatch = useDispatch();
-  const storeCommissionHistory = useSelector(
-    (state) => state.commissionHistory
-  );
-
-  // ** States
+const CommsLogsModal = item => {
   const [centredModal, setCentredModal] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const toggleShow = () => {
     if (item.data.length === 0) {
@@ -33,50 +20,8 @@ const CommsLogsModal = (item) => {
         duration: 3000,
       });
     } else {
-      if (!centredModal) {
-        dispatch(
-          arenaCommission(
-            `?_start=${
-              (currentPage - 1) * itemsPerPage
-            }&_limit=${itemsPerPage}&_game_history_id.arena_id.id=${
-              item.data.id
-            }`
-          )
-        );
-      } else {
-        setCurrentPage(1);
-      }
       setCentredModal(!centredModal);
     }
-  };
-
-  const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => {
-      const prev = prevPage - 1;
-      dispatch(
-        arenaCommission(
-          `?_start=${
-            (prev - 1) * itemsPerPage
-          }&_limit=${itemsPerPage}&_game_history_id.arena_id.id=${item.data.id}`
-        )
-      );
-      return prev;
-    });
-  };
-
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => {
-      const prev = prevPage + 1;
-
-      dispatch(
-        arenaCommission(
-          `?_start=${
-            (prev - 1) * itemsPerPage
-          }&_limit=${itemsPerPage}&_game_history_id.arena_id.id=${item.data.id}`
-        )
-      );
-      return prev;
-    });
   };
 
   return (
@@ -107,26 +52,11 @@ const CommsLogsModal = (item) => {
                 fluid
                 className="px-0 mb-3 d-flex align-items-center justify-content-center"
               >
-                <button
-                  className="tc-pager"
-                  role="button"
-                  onClick={handlePreviousPage}
-                  disabled={
-                    currentPage === 1 || storeCommissionHistory.isLoading
-                  }
-                >
+                <button className="tc-pager" role="button">
                   <MDBIcon fas icon="angle-double-left" />
                 </button>
-                <div className="tc-page">{currentPage}</div>
-                <button
-                  className="tc-pager"
-                  role="button"
-                  onClick={handleNextPage}
-                  disabled={
-                    storeCommissionHistory.arenaCommission.length <
-                      itemsPerPage || storeCommissionHistory.isLoading
-                  }
-                >
+                <div className="tc-page">{1}</div>
+                <button className="tc-pager" role="button">
                   <MDBIcon fas icon="angle-double-right" />
                 </button>
               </MDBContainer>
@@ -163,38 +93,15 @@ const CommsLogsModal = (item) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {storeCommissionHistory.isLoading ? (
-                          <tr>
-                            <td colSpan="12" className="text-center">
-                              <div
-                                className="spinner-border text-center"
-                                role="status"
-                              >
-                                <span className="visually-hidden">
-                                  Loading...
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        ) : storeCommissionHistory.arenaCommission.length ? (
-                          storeCommissionHistory.arenaCommission.map((_, i) => (
-                            <tr key={i}>
-                              <td>{_?.arena_id?.eventName || "---"}</td>
-                              <td>{_?.arena_id?.round || "---"}</td>
-                              <td>{_.commision}</td>
-                              <td>{_.player_id?.username}</td>
-                              <td>{_.agent_id?.username}</td>
-                              <td>{_.game_history_id.outcome}</td>
-                              <td> {new Date(_.createdAt).toLocaleString()}</td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan={12} className="text-center">
-                              No Result Found.
-                            </td>
-                          </tr>
-                        )}
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>

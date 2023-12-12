@@ -34,111 +34,25 @@ import ArenaHeaderStatus from "./status/status";
 import ArenaTotalBetHeader from "./status/total-bet";
 import BettingHistory from "./components/BettingHistory";
 import OtherBettingHistory from "./components/OtherBettingHistory";
+import { socket } from "../../configs/socket";
+import Swal from "sweetalert2";
 
-// ** Redux
-import { useDispatch, useSelector } from "react-redux";
-import { setOneArena, setArenaGameHistory } from "../../redux/slices/arena";
-import { setStatus } from "../../redux/slices/roundStatus";
-import { ME } from "../../redux/slices/users";
-import {
-  setTeams,
-  setCurrentBet,
-  myCurrentBet,
-} from "../../redux/slices/currentRoundBets";
 // import sgLogo from '../../assets/images/logo.png'
 // import ArenaNotification from "./notification";
 
 const Arena = () => {
-  // ** Vars
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const urlParams = new URLSearchParams(window.location.search);
-  const arena_id = urlParams.get("arena_id");
-  console.log("arenaID Is?", arena_id);
-  // ** Login User
-  const auth = "";
-
-  // ** Redux States
-  const storeArena = useSelector(state => state.arena);
-  const storeUsers = useSelector(state => state.users);
-  const storeRoundStatus = useSelector(state => state.roundStatus);
-
-  // arena Message
-  const roundStats = storeRoundStatus.roundStatus.status;
-
-  let [arenaMessage, setArenaMessage] = useState(null);
-  console.log("theRoundStatutsTESTER!!@#$", storeArena);
-
-  const [centredModal, setCentredModal] = useState(false);
-
-  const toggleShow = () => setCentredModal(!centredModal);
-
   useEffect(() => {
-    const openMessage = "BETTING IS NOW OPEN. PLACE YOUR BET";
-    const closeMessage = "120 AND BELOW SHALL BE CANCEL FIGHT";
-    const standByMessage = "STANBY FOR THE NEXT FIGHT";
-
-    if (storeRoundStatus.roundStatus.status === "open") {
-      setArenaMessage(openMessage);
-    } else if (storeRoundStatus.roundStatus.status === "close") {
-      setArenaMessage(closeMessage);
-    } else if (storeRoundStatus.roundStatus.status === "standby") {
-      setArenaMessage(standByMessage);
-    } else {
-    }
-  }, [storeRoundStatus.roundStatus.status]);
-
-  useEffect(() => {
-    dispatch(ME(auth.user.id));
+    socket.emit("joinArena", { arenaId: "arenaId" });
+    return () => {
+      socket.emit("leaveArena", { arenaId: "arenaId" });
+    };
   }, []);
 
-  const roundStatusOutcomeHandler = data => {
-    dispatch(setStatus(data));
-    // console.log('this is the rounstatus outcome handler data', data)
-    const toastId = toast.success(
-      () => (
-        <span>
-          Round is now{" "}
-          <b style={{ textTransform: "capitalize" }}>{data.status}</b>
-        </span>
-      ),
-      { toastId: "roundStatus" }
-    );
-    if (data.status === "standby") {
-      window.location.reload();
-    }
-  };
-
-  const getGameHistoryOutcomeHandler = data => {
-    dispatch(setArenaGameHistory(data));
-  };
-
-  const roundOutcomeResponseHandler = data => {
-    if (data.success) {
-    }
-  };
-
-  const roundSettingsNextOutcomeHandler = data => {
-    dispatch(setStatus(data));
-  };
-
-  const roundPayoutOutcomeHandler = () => {
-    dispatch(setCurrentBet(""));
-  };
-
-  const getRoundStatusOutcomeHandler = data => {
-    dispatch(setStatus(data));
-  };
-
-  const getCurrentRoundBetsOutcomeHandler = data => {
-    dispatch(setTeams(data));
-  };
-
-  const getArenaOutcomeHandler = async data => {
-    dispatch(setOneArena(data));
-  };
-
-  //  ============================================
+  useEffect(() => {
+    socket.on("connect_error", () => {
+      // connection error here
+    });
+  }, []);
 
   return (
     <MDBContainer fluid className="px-0 main-bg">
@@ -147,38 +61,24 @@ const Arena = () => {
 
       <MDBContainer fluid>
         <p style={{ color: "#fbf201" }} className="m-0">
-          Live Title({storeArena.findOneArena.eventName}) -{" "}
-          {new Date(storeArena.findOneArena.createdAt).toLocaleString()}
+          Live Title(Event Name) - Date Locale String
         </p>
-        <p className="text-white m-0">
-          {new Date(storeArena.findOneArena.createdAt).toLocaleString()}
-        </p>
+        <p className="text-white m-0">Date Locale String</p>
       </MDBContainer>
-
-      {/* --------------------------------------------------------------------------------------------- */}
-
-      {/* <div className="bg-warning text-center" ><p className="p-2"><strong>{arenaMessage}</strong></p></div> */}
 
       {/* Mobile View Betting */}
       <MDBRow className="mx-2 mt-2 mobile-view-betting">
         <MDBCol xxl={9} xl={8} lg={7} className="px-1">
           <MDBContainer fluid className="p-1 mt-0 mb-1 arena-vid-wrapper">
             <MDBContainer fluid className="px-3 arena-vid-container">
-              <div className="arena-dummy-vid">
-                {parse(
-                  storeArena.findOneArena?.arena_video_id
-                    ?.compatibilityModeCode ||
-                    storeArena.findOneArena?.arena_video_id?.lowLatencyCode ||
-                    ""
-                )}
-              </div>
+              <div className="arena-dummy-vid">{1}</div>
             </MDBContainer>
           </MDBContainer>
 
           <MDBContainer id="arenaDisplayer" className=" mt-3">
             <div className="bg-warning text-center">
               <p className="p-2">
-                <strong>{arenaMessage}</strong>
+                <strong>Arena Message</strong>
               </p>
             </div>
           </MDBContainer>
@@ -187,7 +87,7 @@ const Arena = () => {
               <ArenaHeaderStatus />
             </MDBCol>
             <MDBCol size={6} xxl={2} xl={2} lg={2}>
-              <ArenaRoundHeader data={storeRoundStatus.roundStatus} />
+              <ArenaRoundHeader item={1} />
             </MDBCol>
           </MDBRow>
         </MDBCol>
@@ -201,32 +101,25 @@ const Arena = () => {
         <MDBCol xxl={9} xl={8} lg={7} className="px-1">
           <MDBRow className="px-0">
             <MDBCol xxl={7} xl={7} lg={7} className="px-lg-0 order-lg-2">
-              <ArenaTotalBetHeader data={storeRoundStatus.roundStatus} />
+              <ArenaTotalBetHeader data="Round Status" />
             </MDBCol>
             <MDBCol size={6} xxl={3} xl={3} lg={3} className="order-lg-1">
               <ArenaHeaderStatus />
             </MDBCol>
             <MDBCol size={6} xxl={2} xl={2} lg={2} className="order-lg-3">
-              <ArenaRoundHeader data={storeRoundStatus.roundStatus} />
+              <ArenaRoundHeader item={1} />
             </MDBCol>
           </MDBRow>
           <MDBContainer fluid className="p-3 arena-vid-wrapper">
             <MDBContainer fluid className="px-3 arena-vid-container">
-              <div className="arena-dummy-vid">
-                {parse(
-                  storeArena.findOneArena?.arena_video_id
-                    ?.compatibilityModeCode ||
-                    storeArena.findOneArena?.arena_video_id?.lowLatencyCode ||
-                    ""
-                )}
-              </div>
+              <div className="arena-dummy-vid">Arena Latency</div>
             </MDBContainer>
           </MDBContainer>
 
           <MDBContainer fluid id="arenaDisplayer" className=" mt-3">
             <div className="bg-warning text-center">
               <p className="p-2">
-                <strong>{arenaMessage}</strong>
+                <strong>Arena Message</strong>
               </p>
             </div>
           </MDBContainer>
@@ -236,7 +129,7 @@ const Arena = () => {
         </MDBCol>
         <MDBRow className="mx-0 mt-3">
           <MDBCol xxl={3} xl={3} lg={3} md={4} sm={5} size={6}>
-            {/* <ArenaBalanceAmount amount={storeUsers.me?.points} /> */}
+            <ArenaBalanceAmount amount={100} />
           </MDBCol>
           <MDBCol
             xxl={3}
@@ -247,7 +140,7 @@ const Arena = () => {
             size={6}
             className="offset-xxl-6 offset-xl-6 offset-lg-6 offset-md-4 offset-sm-2"
           >
-            {/* <ArenaDrawAmount /> */}
+            <ArenaDrawAmount />
           </MDBCol>
         </MDBRow>
       </MDBRow>

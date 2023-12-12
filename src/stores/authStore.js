@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { sgAxios } from "../configs/axios";
-import toast from "react-hot-toast";
 import { errToast, successToast } from "../utility/toaster";
 
 const authStore = set => ({

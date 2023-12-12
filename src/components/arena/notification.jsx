@@ -38,7 +38,7 @@ const ArenaNotification = () => {
 
   const toggleShow = () => setCentredModal(!centredModal);
 
-  // const user = JSON.parse(localStorage.getItem('auth'))
+  const user = {};
 
   useEffect(() => {}, [playerNotificationData]);
 
@@ -55,7 +55,7 @@ const ArenaNotification = () => {
         // ${user.user.id}
         const response = await fetch(
           process.env.REACT_APP_SGLIVE_API_URL +
-            `notifications/${arena_id}/${user.user.id}`,
+            `notifications/${arena_id}/${user?.user?.id}`,
           {
             // const response = await fetch(process.env.REACT_APP_SGLIVE_API_URL + `notifications`, {
             headers: { Authorization: `Bearer ${user.jwt}` },

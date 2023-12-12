@@ -21,7 +21,11 @@ const Login = () => {
 
   useEffect(() => {
     if (userInfo()?.username) {
-      navigate(`/dashboard/${userInfo().roleName.toLowerCase()}/home`);
+      if (userInfo().roleName !== "Player") {
+        navigate(`/dashboard/${userInfo().roleName.toLowerCase()}/home`);
+        return;
+      }
+      navigate(`/player/arenaList`);
     }
   }, []);
 

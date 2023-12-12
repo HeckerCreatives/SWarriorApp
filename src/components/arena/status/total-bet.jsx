@@ -1,32 +1,10 @@
 // ** React
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
-// ** Third Party Components
 import { MDBCol, MDBContainer, MDBRow, MDBSpinner } from "mdb-react-ui-kit";
-
-// ** Redux
-import { useSelector } from "react-redux";
-
-// ** Components
 import AnimatedNumber from "../components/AnimatedNumber";
 
 const ArenaTotalBetHeader = ({ data }) => {
-  // ** States
-  const storeCurrentRoundBets = useSelector(state => state.currentRoundBets);
-  const [allbetData, setallBetData] = useState(0);
-  const [fakeBet, setFakeBet] = useState(0);
-  const [fakeBetMeron, setFakeBetMeron] = useState(0);
-  const [fakeBetWala, setFakeBetWala] = useState(0);
-  const [totalBetLoader, setTotalBetLoader] = useState(false);
-  const [ghostMode, setGhostMode] = useState(true);
-  const auth = "";
-
-  console.log("this is the fakebetafter reload", data);
-  useEffect(() => {
-    if (data) {
-    }
-  }, [data]);
-
   return (
     <MDBCol>
       <MDBContainer fluid className="px-0 mb-2">
@@ -45,22 +23,7 @@ const ArenaTotalBetHeader = ({ data }) => {
               >
                 <div className="me-2">MERON</div>
                 <div className="arena-bet-value-meron flex-grow-1 animated-number">
-                  {totalBetLoader ? (
-                    <div className="d-flex justify-content-center">
-                      <MDBSpinner role="status" size="sm" color="light" grow>
-                        <span className="visually-hidden">Loading...</span>
-                      </MDBSpinner>
-                    </div>
-                  ) : (
-                    <AnimatedNumber
-                      // value={Number(storeCurrentRoundBets.totalMeron)}
-                      value={
-                        allbetData
-                          ? Number(allbetData.totalMeron + fakeBetMeron)
-                          : 0
-                      }
-                    />
-                  )}
+                  <AnimatedNumber value={0} />
                 </div>
               </MDBContainer>
             </MDBCol>
@@ -72,21 +35,14 @@ const ArenaTotalBetHeader = ({ data }) => {
               >
                 <div className="me-2">WALA</div>
                 <div className="arena-bet-value-wala flex-grow-1 animated-number">
-                  {totalBetLoader ? (
+                  {false ? (
                     <div className="d-flex justify-content-center">
                       <MDBSpinner role="status" size="sm" color="light" grow>
                         <span className="visually-hidden">Loading...</span>
                       </MDBSpinner>
                     </div>
                   ) : (
-                    <AnimatedNumber
-                      // value={Number(storeCurrentRoundBets.totalWala)}
-                      value={
-                        allbetData
-                          ? Number(allbetData.totalWala + fakeBetWala)
-                          : 0
-                      }
-                    />
+                    <AnimatedNumber value={0} />
                   )}
                 </div>
               </MDBContainer>
