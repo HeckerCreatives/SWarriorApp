@@ -22,7 +22,7 @@ if (process.env.REACT_APP_WEBSTATUS == "PRODUCTION") {
 }
 
 // sgAxios.defaults.baseURL = "http://localhost:5000/api/v1/";
-sgAxios.defaults.baseURL = "http://swarrior-g4tor.ondigitalocean.app/api/v1/";
+sgAxios.defaults.baseURL = "https://swarrior-g4tor.ondigitalocean.app/api/v1/";
 sgAxios.interceptors.request.use(Request, RequestError);
 sgAxios.interceptors.response.use(Response, ResponseError);
 
