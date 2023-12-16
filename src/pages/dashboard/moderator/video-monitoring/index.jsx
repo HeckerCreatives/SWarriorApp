@@ -18,7 +18,7 @@ const ModVideoMonitoring = () => {
   const dispatch = useDispatch();
 
   // ** Store
-  const storeArenaVideos = useSelector((state) => state.arenaVideos);
+  const storeArenaVideos = useSelector(state => state.arenaVideos);
 
   useEffect(() => {
     dispatch(allArenaVideos());

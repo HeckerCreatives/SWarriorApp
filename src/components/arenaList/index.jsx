@@ -1,7 +1,5 @@
 // ** React
 import { useEffect, useState } from "react";
-
-// ** Third Party Components
 import {
   MDBContainer,
   MDBIcon,
@@ -9,20 +7,59 @@ import {
   MDBCol,
   MDBTypography,
   MDBSpinner,
-  MDBModal,
-  MDBModalBody,
-  MDBBtn,
-  MDBModalContent,
-  MDBModalDialog,
   MDBTooltip,
 } from "mdb-react-ui-kit";
-import { useNavigate } from "react-router-dom";
+
 import "./style.css";
 import ArenaCard from "./card";
 import CashoutHistoryModal from "./CashoutHistoryModal";
+import useArenaStore from "../../stores/arenaStore";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const ArenaList = () => {
-  useEffect(() => {}, []);
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  const navigate = useNavigate();
+
+  const getArenas = useArenaStore(state => state.getArenas);
+  const arenas = useArenaStore(state => state.arena.arenas);
+  const totalPages = useArenaStore(state => state.arena.totalPages);
+  const nextPage = useArenaStore(state => state.arena.nextPage);
+  const prevPage = useArenaStore(state => state.arena.prevPage);
+  const loading = useArenaStore(state => state.loading.arenas);
+
+  useEffect(() => {
+    getArenas(limit, page);
+  }, []);
+
+  const handleNextPage = () => {
+    if (nextPage) {
+      setPage(nextPage);
+      getVideos(limit, nextPage);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (prevPage) {
+      setPage(prevPage);
+      getVideos(limit, prevPage);
+    }
+  };
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Are you sure you want to logout?",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`,
+    }).then(result => {
+      if (result.isConfirmed) {
+        localStorage.clear();
+        navigate("/login");
+      }
+    });
+  };
 
   return (
     <MDBContainer fluid className="px-0 main-bg">
@@ -56,7 +93,13 @@ const ArenaList = () => {
               </div>
               <div className="px-3">
                 <MDBTooltip tag="a" title="Sign out">
-                  <MDBIcon fas icon="sign-out-alt" size="xl" role="button" />
+                  <MDBIcon
+                    onClick={handleLogout}
+                    fas
+                    icon="sign-out-alt"
+                    size="xl"
+                    role="button"
+                  />
                 </MDBTooltip>
               </div>
             </div>
@@ -68,32 +111,43 @@ const ArenaList = () => {
           </MDBTypography>
         </MDBContainer>
       </MDBContainer>
-      <MDBContainer className="px-0 mb-3 d-flex align-items-center justify-content-center">
-        <button className="tc-pager" role="button">
+      <MDBContainer
+        fluid
+        className="px-0 mb-3 d-flex align-items-center justify-content-center"
+      >
+        <button
+          onClick={handlePrevPage}
+          disabled={prevPage === null || loading}
+          className="tp-pager"
+          role="button"
+        >
           <MDBIcon fas icon="angle-double-left" />
         </button>
-        <div className="tc-page">{1}</div>
-        <button className="tc-pager" role="button">
+        <div className="tp-page">
+          {page} / {totalPages}
+        </div>
+        <button
+          onClick={handleNextPage}
+          disabled={nextPage === null || loading}
+          className="tp-pager"
+          role="button"
+        >
           <MDBIcon fas icon="angle-double-right" />
         </button>
       </MDBContainer>
       <MDBContainer fluid>
         <MDBRow className="justify-content-center align-items-start">
-          {/* {storeArena.tableLoader ? (
-            <div className="d-flex justify-content-center">
-              <MDBSpinner role="status" color="light">
-                <span className="visually-hidden">Loading...</span>
-              </MDBSpinner>
-            </div>
-          ) : storeArena.liveArena?.length ? (
-            storeArena.liveArena?.map((item, i) => (
-              <ArenaCard key={`tr-${i}`} data={item} />
-            ))
+          {loading ? (
+            <MDBCol size={12} className="text-center">
+              <MDBSpinner size="sm" color="white" />
+            </MDBCol>
+          ) : arenas.length === 0 ? (
+            <MDBCol size={12} className="text-center text-white">
+              No Arena Found.
+            </MDBCol>
           ) : (
-            <div className="d-flex justify-content-center text-white">
-              No Result Found.
-            </div>
-          )} */}
+            arenas.map(arena => <ArenaCard key={arena._id} arena={arena} />)
+          )}
         </MDBRow>
       </MDBContainer>
     </MDBContainer>

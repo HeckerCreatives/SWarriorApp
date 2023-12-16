@@ -8,85 +8,11 @@ import {
   MDBModalDialog,
   MDBTypography,
 } from "mdb-react-ui-kit";
-
-// ** React
-import { useState, useEffect } from "react";
-
-// ** Redux
-import { useDispatch, useSelector } from "react-redux";
-import { cashoutLogs } from "../../redux/slices/cashout";
-
-// import { allCashoutRequest } from "../../../../../redux/slices/cashout";
+import { useState } from "react";
 
 const CashoutHistoryModal = () => {
-  // ** Vars
-  const dispatch = useDispatch();
   const [centredModal, setCentredModal] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-
-  const storeCashout = useSelector(state => state.cashout);
-
-  console.log(storeCashout);
-
-  // ** Login User
-  const auth = "";
-
-  const toggleShow = () => {
-    if (!centredModal) {
-      dispatch(
-        cashoutLogs(
-          `?_start=${
-            (currentPage - 1) * itemsPerPage
-          }&_limit=${itemsPerPage}&user_id.id=${auth.user.id}`
-        )
-      );
-    } else {
-      setCurrentPage(1);
-    }
-    setCentredModal(!centredModal);
-  };
-
-  const handlePreviousPage = () => {
-    setCurrentPage(prevPage => {
-      const prev = prevPage - 1;
-      dispatch(
-        cashoutLogs(
-          `?_start=${(currentPage - 1) * itemsPerPage}&_limit=${itemsPerPage}`
-        )
-      );
-      return prev;
-    });
-  };
-
-  const handleNextPage = () => {
-    setCurrentPage(prevPage => {
-      const prev = prevPage + 1;
-
-      dispatch(
-        cashoutLogs(
-          `?_start=${(currentPage - 1) * itemsPerPage}&_limit=${itemsPerPage}`
-        )
-      );
-      return prev;
-    });
-  };
-
-  //   useEffect(() => {
-  //     dispatch(
-  //       cashoutLogs(
-  //         `?_start=${(currentPage - 1) * itemsPerPage}&_limit=${itemsPerPage}`
-  //       )
-  //     );
-  //   }, [currentPage, itemsPerPage]);
-
-  //   const handlePreviousPage = () => {
-  //     setCurrentPage(currentPage - 1);
-  //   };
-
-  //   const handleNextPage = () => {
-  //     setCurrentPage(currentPage + 1);
-  //   };
+  const toggleShow = () => setCentredModal(!centredModal);
 
   return (
     <>
@@ -120,21 +46,11 @@ const CashoutHistoryModal = () => {
                 fluid
                 className="px-0 mb-3 d-flex align-items-center justify-content-center"
               >
-                <button
-                  className="tc-pager"
-                  role="button"
-                  onClick={handlePreviousPage}
-                  disabled={currentPage === 1}
-                >
+                <button className="tc-pager" role="button">
                   <MDBIcon fas icon="angle-double-left" />
                 </button>
-                <div className="tc-page">{currentPage}</div>
-                <button
-                  className="tc-pager"
-                  role="button"
-                  onClick={handleNextPage}
-                  disabled={storeCashout.cashoutLogs.length < itemsPerPage}
-                >
+                <div className="tc-page">{1}</div>
+                <button className="tc-pager" role="button">
                   <MDBIcon fas icon="angle-double-right" />
                 </button>
               </MDBContainer>
@@ -146,9 +62,6 @@ const CashoutHistoryModal = () => {
                         <th scope="col" className="text-truncate">
                           ID
                         </th>
-                        {/* <th scope="col" className="text-truncate">
-                  REF
-                </th> */}
                         <th scope="col" className="text-truncate">
                           USERNAME
                         </th>
@@ -158,9 +71,6 @@ const CashoutHistoryModal = () => {
                         <th scope="col" className="text-truncate">
                           AMOUNT
                         </th>
-                        {/* <th scope="col" className="text-truncate">
-                  DETAILS
-                </th> */}
                         <th scope="col" className="text-truncate">
                           LOG
                         </th>
@@ -170,61 +80,22 @@ const CashoutHistoryModal = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {storeCashout.isLoading ? (
-                        <tr>
-                          <td colSpan="12" className="text-center">
-                            <div
-                              className="spinner-border text-center"
-                              role="status"
-                            >
-                              <span className="visually-hidden">
-                                Loading...
-                              </span>
-                            </div>
-                          </td>
-                        </tr>
-                      ) : storeCashout.cashoutLogs.length ? (
-                        storeCashout.cashoutLogs.map((item, i) => (
-                          <tr className="text-center" key={i}>
-                            <td className="text-truncate">{item.id}</td>
-
-                            <td className="text-truncate text-info">
-                              {item.user_id.username}
-                            </td>
-                            <td className="text-truncate">
-                              <div className="clt-assigned">
-                                <MDBIcon fas icon="user-alt" />{" "}
-                                {item.assign_to.username}
-                              </div>
-                            </td>
-                            <td className="text-truncate text-primary">
-                              {item.amount}
-                            </td>
-                            {/* <td className="text-truncate text-primary"></td> */}
-                            <td
-                              className={`text-truncate ${
-                                item.details.includes("approve")
-                                  ? "text-success"
-                                  : "text-danger"
-                              }`}
-                            >
-                              <small>{item.details}</small>
-                            </td>
-                            <td className="text-truncate">
-                              <div className="clt-date">
-                                {" "}
-                                {new Date(item.createdAt).toLocaleString()}
-                              </div>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={12} className="text-center">
-                            No Result Found.
-                          </td>
-                        </tr>
-                      )}
+                      <tr className="text-center">
+                        <td className="text-truncate"></td>
+                        <td className="text-truncate text-info"></td>
+                        <td className="text-truncate">
+                          <div className="clt-assigned">
+                            <MDBIcon fas icon="user-alt" />
+                          </div>
+                        </td>
+                        <td className="text-truncate text-primary"></td>
+                        <td className={`text-truncate`}>
+                          <small></small>
+                        </td>
+                        <td className="text-truncate">
+                          <div className="clt-date"></div>
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>

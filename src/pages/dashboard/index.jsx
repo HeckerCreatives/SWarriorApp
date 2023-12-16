@@ -69,10 +69,10 @@ const Dashboard = () => {
                 name: "Create Videos",
                 path: "/dashboard/superadmin/arena-moderator/create-videos",
               },
-              {
-                name: "Video Monitoring",
-                path: "/dashboard/superadmin/arena-moderator/video-monitoring",
-              },
+              // {
+              //   name: "Video Monitoring",
+              //   path: "/dashboard/superadmin/arena-moderator/video-monitoring",
+              // },
             ],
           },
           {
@@ -235,10 +235,10 @@ const Dashboard = () => {
                 name: "Create Videos",
                 path: "/dashboard/moderator/create-videos",
               },
-              {
-                name: "Video Monitoring",
-                path: "/dashboard/moderator/video-monitoring",
-              },
+              // {
+              //   name: "Video Monitoring",
+              //   path: "/dashboard/moderator/video-monitoring",
+              // },
             ],
           },
         ]);

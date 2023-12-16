@@ -1,49 +1,47 @@
-// ** Third Party Components
-import { MDBContainer, MDBIcon } from "mdb-react-ui-kit";
+import { MDBContainer, MDBIcon, MDBSpinner } from "mdb-react-ui-kit";
 import { Toaster } from "react-hot-toast";
-
-// ** React
-import { useEffect } from "react";
-
-// ** Components
+import useVideoStore from "../../../../../stores/videoStore";
+import { useEffect, useState } from "react";
 import EmbedVideoList from "./item";
 
-// ** Style
-import "./index.css";
-
-// ** Redux
-import { useDispatch, useSelector } from "react-redux";
-import {
-  allArenaVideos,
-  allArenaVideosCount,
-  setCurrentPage,
-} from "../../../../../redux/slices/arenaVideos";
-
 const CreateVideoList = () => {
-  // ** Vars
-  const dispatch = useDispatch();
+  const [page, setPage] = useState(1);
+  const limit = 8;
 
-  // ** States
-  const storeArenaVideos = useSelector((state) => state.arenaVideos);
-
-  useEffect(() => {
-    dispatch(allArenaVideosCount());
-    dispatch(
-      allArenaVideos(
-        `?_start=${
-          (storeArenaVideos.currentPage - 1) * storeArenaVideos.itemsPerPage
-        }&_limit=${storeArenaVideos.itemsPerPage}`
-      )
-    );
-  }, [storeArenaVideos.currentPage, storeArenaVideos.itemsPerPage]);
-
-  const handlePreviousPage = () => {
-    dispatch(setCurrentPage(storeArenaVideos.currentPage - 1));
-  };
+  const getVideos = useVideoStore(state => state.getVideos);
+  const videos = useVideoStore(state => state.video.videos);
+  const nextPage = useVideoStore(state => state.video.nextPage);
+  const prevPage = useVideoStore(state => state.video.prevPage);
+  const totalPages = useVideoStore(state => state.video.totalPages);
+  const loading = useVideoStore(state => state.loading.videos);
+  const success = useVideoStore(state => state.success.create);
+  const delSuccess = useVideoStore(state => state.success.delete);
 
   const handleNextPage = () => {
-    dispatch(setCurrentPage(storeArenaVideos.currentPage + 1));
+    if (nextPage) {
+      setPage(nextPage);
+      getVideos(limit, nextPage);
+    }
   };
+
+  const handlePrevPage = () => {
+    if (prevPage) {
+      setPage(prevPage);
+      getVideos(limit, prevPage);
+    }
+  };
+
+  useEffect(() => {
+    delSuccess && getVideos(limit, page);
+  }, [delSuccess]);
+
+  useEffect(() => {
+    success && getVideos(limit, page);
+  }, [success]);
+
+  useEffect(() => {
+    getVideos(limit, page);
+  }, []);
 
   return (
     <MDBContainer fluid className="p-3 mt-3 cvlist-container">
@@ -53,45 +51,35 @@ const CreateVideoList = () => {
         className="px-0 mb-3 d-flex align-items-center justify-content-center"
       >
         <button
+          onClick={handlePrevPage}
+          disabled={prevPage === null || loading}
           className="tp-pager"
           role="button"
-          onClick={handlePreviousPage}
-          disabled={
-            storeArenaVideos.currentPage === 1 || storeArenaVideos.tableLoader
-          }
         >
           <MDBIcon fas icon="angle-double-left" />
         </button>
-        <div className="tp-page">{storeArenaVideos.currentPage}</div>
+        <div className="tp-page">
+          {page} / {totalPages}
+        </div>
         <button
+          onClick={handleNextPage}
+          disabled={nextPage === null || loading}
           className="tp-pager"
           role="button"
-          onClick={handleNextPage}
-          disabled={
-            storeArenaVideos?.allArenaVideos.length <
-              storeArenaVideos.itemsPerPage ||
-            storeArenaVideos.tableLoader ||
-            storeArenaVideos?.allArenaVideos.length >=
-              storeArenaVideos.allArenaVideosCount
-          }
         >
           <MDBIcon fas icon="angle-double-right" />
         </button>
       </MDBContainer>
-      {storeArenaVideos.tableLoader ? (
-        <div className="d-flex justify-content-center mt-5">
-          <div className="spinner-border text-light" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
-      ) : storeArenaVideos?.allArenaVideos?.length ? (
-        storeArenaVideos?.allArenaVideos?.map((_, i) => (
-          <EmbedVideoList data={_} key={`tr-${i}`} />
-        ))
+      {loading ? (
+        <MDBContainer className="text-center">
+          <MDBSpinner size="sm" color="light" />
+        </MDBContainer>
+      ) : videos.length === 0 ? (
+        <MDBContainer className="text-center text-white">
+          No Videos Found.
+        </MDBContainer>
       ) : (
-        <div className="d-flex justify-content-center mt-5">
-          <span className="text-white">No Result Found.</span>
-        </div>
+        videos.map(video => <EmbedVideoList key={video._id} video={video} />)
       )}
     </MDBContainer>
   );

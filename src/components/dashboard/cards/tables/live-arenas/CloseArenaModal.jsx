@@ -6,68 +6,30 @@ import {
   MDBModalBody,
   MDBModalContent,
   MDBModalDialog,
+  MDBSpinner,
   MDBTypography,
 } from "mdb-react-ui-kit";
-import { useState } from "react";
-import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+import useArenaStore from "../../../../../stores/arenaStore";
 
-// ** Redux
-import { useDispatch, useSelector } from "react-redux";
-import { updateArena, liveArena } from "../../../../../redux/slices/arena";
-
-const CloseArenaModal = (item) => {
-  // ** Vars
-  const dispatch = useDispatch();
+const CloseArenaModal = ({ data }) => {
   const [centredModal, setCentredModal] = useState(false);
 
-  const toggleShow = () => {
-    if (item.data.length === 0) {
-      toast.error("Please Select Arena To Be Closed", {
-        duration: 3000,
-      });
-    } else {
-      setCentredModal(!centredModal);
+  const toggleShow = () => setCentredModal(!centredModal);
+
+  const remove = useArenaStore(state => state.deleteArena);
+  const reset = useArenaStore(state => state.resetSuccess);
+  const loading = useArenaStore(state => state.loading.remove);
+  const success = useArenaStore(state => state.success.remove);
+
+  useEffect(() => {
+    if (success) {
+      reset();
     }
-  };
+  }, [success]);
 
-  const storeArena = useSelector((state) => state.arena);
-  
-  const processCashoutHandle = async (e) => {
-  
-    const toastId = toast.loading("Loading...");
-    const data = {
-      id: item.data.id,
-      isDeleted: true,
-    };
-
-    try {
-      const response = await dispatch(updateArena(data));
-
-      if (response.type === "arenas/fulfilled") {
-        toast.success(`Arena Closed.`, {
-          id: toastId,
-        });
-        dispatch(liveArena(
-          `?_start=${
-            (storeArena.liveArenaPage - 1) * storeArena.liveArenaItemsPerPage
-          }&_limit=${
-            storeArena.liveArenaItemsPerPage
-          }&_isDeleted_ne=true&_sort=createdAt:DESC`
-        ));
-        setCentredModal(false);
-      
-      } else {
-        toast.error("Something went wrong please try again", {
-          id: toastId,
-        });
-        setCentredModal(false);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong please try again", {
-        id: toastId,
-      });
-    }
+  const handleDelete = () => {
+    remove(data._id);
   };
 
   return (
@@ -91,6 +53,7 @@ const CloseArenaModal = (item) => {
               <MDBIcon fas icon="cogs" /> CLOSING ARENA
             </MDBTypography>
             <MDBBtn
+              disabled={loading}
               color="tranparent"
               onClick={toggleShow}
               className="coreq-modal-close-btn shadow-0"
@@ -102,7 +65,7 @@ const CloseArenaModal = (item) => {
               <MDBContainer className="position-relative">
                 <MDBContainer className="pt-3 pb-5 coreq-modal-panel text-center">
                   <MDBTypography className="text-white" tag="h4">
-                    {item.data?.eventName}
+                    {data.eventName}
                   </MDBTypography>
                 </MDBContainer>
                 <div className="coreq-modal-warning d-flex align-items-center justify-content-center">
@@ -117,12 +80,23 @@ const CloseArenaModal = (item) => {
               </MDBContainer>
               <MDBContainer className="d-flex align-items-center justify-content-between">
                 <MDBBtn
+                  disabled={loading}
+                  onClick={handleDelete}
                   className="coreq-modal-approve"
-                  onClick={() => processCashoutHandle("approve")}
                 >
-                  <MDBIcon fas icon="check" /> APPROVE
+                  {loading ? (
+                    <MDBSpinner size="sm" />
+                  ) : (
+                    <>
+                      <MDBIcon fas icon="check" /> APPROVE
+                    </>
+                  )}
                 </MDBBtn>
-                <MDBBtn className="coreq-modal-deny" onClick={toggleShow}>
+                <MDBBtn
+                  disabled={loading}
+                  className="coreq-modal-deny"
+                  onClick={toggleShow}
+                >
                   <MDBIcon fas icon="times" /> CANCEL
                 </MDBBtn>
               </MDBContainer>

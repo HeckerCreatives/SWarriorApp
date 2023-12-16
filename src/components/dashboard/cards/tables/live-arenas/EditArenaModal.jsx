@@ -10,151 +10,137 @@ import {
   MDBModalBody,
   MDBModalContent,
   MDBModalDialog,
+  MDBSpinner,
   MDBTypography,
-  MDBModalHeader,
-  MDBModalTitle,
-  MDBModalFooter,
 } from "mdb-react-ui-kit";
-import toast from "react-hot-toast";
-
-// ** Redux
-import { useDispatch, useSelector } from "react-redux";
-import {
-  updateArena,
-  liveArena,
-  setLiveArenaPage,
-} from "../../../../../redux/slices/arena";
-import { allArenaVideos } from "../../../../../redux/slices/arenaVideos";
+import useArenaStore from "../../../../../stores/arenaStore";
+import { errToast } from "../../../../../utility/toaster";
 
 const EditArenaModal = ({ data }) => {
-  //confirm edit arena modal
-  const [confirmEditArenaModal, setConfirmEditArenaModal] = useState(false);
-   // toggle modal confirm pop up
-   const toggleConfirmEditArena = (e) => {
-    e.preventDefault()
-    setConfirmEditArenaModal(!confirmEditArenaModal);
-  }
-
-  // ** Vars
-  const dispatch = useDispatch();
   const [centredModal, setCentredModal] = useState(false);
+  const [isDrawEnabled, setIsDrawEnabled] = useState(data.drawEnabled);
 
-  const toggleShow = () => {
-    if (data.length === 0) {
-      toast.error("Please Select Arena To Be Edited", {
-        duration: 3000,
-      });
-    } else {
-      if (!centredModal) {
-        dispatch(allArenaVideos());
-      }
-      setCentredModal(!centredModal);
+  const [plasadaRate, setPlasadaRate] = useState(data.plasadaRate);
+  const handleChange = event => setPlasadaRate(event.target.value);
+
+  const toggleShow = () => setCentredModal(!centredModal);
+
+  const videos = useArenaStore(state => state.videos);
+  const vidLoads = useArenaStore(state => state.loading.videos);
+
+  const update = useArenaStore(state => state.updateArena);
+  const reset = useArenaStore(state => state.resetSuccess);
+  const loading = useArenaStore(state => state.loading.update);
+  const success = useArenaStore(state => state.success.update);
+
+  useEffect(() => {
+    if (success) {
+      reset();
+      setCentredModal(false);
     }
-  };
+  }, [success]);
 
-  // ** Options
-
-  const tieRateOptions = [
-    { value: "6", label: "x6" },
-    { value: "7", label: "x7" },
-    { value: "8", label: "x8" },
-  ];
-
-  // ** Store
-  const storeArena = useSelector((state) => state.arena);
-  const storeArenaVideos = useSelector((state) => state.arenaVideos);
-
-  const eventTypeOptions = [{ value: "Live Event", label: "Live Event" }];
-
-  const handleSubmit = async (e) => {
-    const toastId = toast.loading("Loading...");
+  const handleSubmit = async e => {
     e.preventDefault();
-    //closes the confirm arena modal on submit
-    setConfirmEditArenaModal(!confirmEditArenaModal);
 
     const {
-      arenaVideo,
-      arenaLocation,
       arenaEventName,
+      arenaLocation,
       eventCode,
       plasadaRate,
+      arenaVideo,
       tieRate,
       eventType,
-      isEnabledDraw,
     } = e.target;
 
-    const dataToInsert = {
-      id: data.id,
-      arena_video_id: arenaVideo.value,
-      arenaLocation: arenaLocation.value || "",
-      eventName: arenaEventName.value || "",
-      code: eventCode.value || "",
-      plasadaRate: plasadaRate.value || "",
-      tieRate: tieRate.value || "",
-      eventType: eventType.value || "",
-      isEnabledDraw: isEnabledDraw.checked,
+    if (arenaEventName.value === "") {
+      errToast("Arena event name is required");
+      return;
+    }
+
+    if (arenaLocation.value === "") {
+      errToast("Arena location is required");
+      return;
+    }
+
+    if (eventCode.value === "") {
+      errToast("Event code is required");
+      return;
+    }
+
+    if (plasadaRate.value === "") {
+      errToast("Plasada rate is required");
+      return;
+    }
+
+    if (isNaN(plasadaRate.value)) {
+      errToast("Plasada rate must be a number");
+      return;
+    }
+
+    if (plasadaRate.value < 12) {
+      errToast("Plasada rate must be 12 and above");
+      return;
+    }
+
+    if (arenaVideo.value === "") {
+      errToast("Arena video is required");
+      return;
+    }
+
+    if (isDrawEnabled && tieRate.value === "") {
+      errToast("Tie rate is required");
+      return;
+    }
+
+    if (isDrawEnabled && isNaN(tieRate.value)) {
+      errToast("Tie rate must be a number");
+      return;
+    }
+
+    if (eventType.value === "") {
+      errToast("Event type is required");
+      return;
+    }
+
+    const arenaData = {
+      arenaId: data._id,
+      arenaEventName: arenaEventName.value,
+      arenaLocation: arenaLocation.value,
+      eventCode: eventCode.value,
+      plasadaRate: plasadaRate.value,
+      arenaVideo: arenaVideo.value,
+      eventType: eventType.value,
+      drawEnabled: isDrawEnabled,
     };
 
-    // Check if required fields are filled out
-    if (
-      !arenaVideo.value ||
-      !arenaLocation.value ||
-      !arenaEventName.value ||
-      !eventCode.value ||
-      !plasadaRate.value ||
-      !tieRate.value ||
-      !eventType.value
-    ) {
-      toast.error("Please fill out all required fields", {
-        id: toastId,
-      });
-      return;
+    if (isDrawEnabled) {
+      arenaData.tieRate = tieRate.value;
     }
 
-    // Check if input values are in correct format
-    const plasadaRateValue = parseFloat(plasadaRate.value);
-    const tieRateValue = parseFloat(tieRate.value);
-
-    if (isNaN(plasadaRateValue) || isNaN(tieRateValue)) {
-      toast.error("Please enter a valid rate", {
-        id: toastId,
-      });
-      return;
-    }
-
-    try {
-      const response = await dispatch(updateArena(dataToInsert));
-
-      if (response.type === "arenas/fulfilled") {
-        toast.success(`Arena Updated.`, {
-          id: toastId,
-        });
-        document.getElementById("myform").reset();
-        window.location.reload();
-        setCentredModal(false);
-      } else {
-        toast.error("Something went wrong please try again", {
-          id: toastId,
-        });
-        setCentredModal(false);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong please try again", {
-        id: toastId,
-      });
-    }
+    update(arenaData);
   };
+
+  const tieRates = [
+    { label: "2x", value: 2 },
+    { label: "3x", value: 3 },
+    { label: "4x", value: 4 },
+    { label: "5x", value: 5 },
+    { label: "6x", value: 6 },
+    { label: "7x", value: 7 },
+    { label: "8x", value: 8 },
+  ];
 
   return (
     <>
-      <MDBBtn
-        className="live-arena-controls la-btn-3 me-2 mb-2"
+      <MDBIcon
+        className="text-secondary shadow-sm la-icon-btn"
         onClick={toggleShow}
         role="button"
-      >
-        <MDBIcon fas icon="edit" /> EDIT
-      </MDBBtn>
+        fas
+        icon="edit"
+        size="xl"
+      />
 
       <MDBModal
         id="myform"
@@ -183,6 +169,7 @@ const EditArenaModal = ({ data }) => {
                 <form id="myform" onSubmit={handleSubmit} autoComplete="off">
                   <div className="mx-1 my-3">
                     <input
+                      disabled={loading}
                       type="text"
                       className="form-control cua-input-text"
                       placeholder="Arena Event Name"
@@ -194,119 +181,127 @@ const EditArenaModal = ({ data }) => {
                   <div className="d-flex flex-wrap my-3">
                     <div className="flex-grow-1 mx-1">
                       <input
+                        disabled={loading}
                         type="text"
                         className="form-control cua-input-text"
                         placeholder="Arena Location"
                         name="arenaLocation"
-                        defaultValue={data.arenaLocation}
+                        defaultValue={data.location}
                       />
                     </div>
                     <div className="flex-grow-1 mx-1">
                       <input
+                        disabled={loading}
                         type="text"
                         className="form-control cua-input-text"
                         placeholder="Event Code"
                         name="eventCode"
-                        defaultValue={data.code}
+                        defaultValue={data.eventCode}
                       />
                     </div>
                   </div>
 
                   <div className="mx-1 my-3">
                     <input
+                      disabled={loading}
                       type="number"
                       step="0.01"
                       className="form-control cua-input-text"
                       placeholder="Plasada Rate"
                       name="plasadaRate"
-                      defaultValue={data.plasadaRate}
+                      onChange={handleChange}
+                      value={plasadaRate}
                     />
+                    <p
+                      hidden={plasadaRate >= 12}
+                      className="text-danger fw-bold mt-0 pt-0 text-start"
+                      style={{ fontSize: "0.8rem" }}
+                    >
+                      Plasada rate must be 12 or above!
+                    </p>
                   </div>
 
                   <div className="mx-1 my-3">
                     <select
+                      disabled={loading}
                       className="form-select  cua-input-select-2"
                       name="arenaVideo"
-                      defaultValue=""
+                      defaultValue={data.arenaVideo.videoId}
                     >
-                      <option disabled hidden value="">
-                        Select Arena Video
-                      </option>
-
-                      {storeArenaVideos?.allArenaVideos.map((_, i) =>
-                        data.arena_video_id?.id === _.id ? (
-                          <option key={i} value={_.id} selected>
-                            {_.videoName}
+                      {vidLoads ? (
+                        <option disabled hidden value="">
+                          Loading...
+                        </option>
+                      ) : videos.length === 0 ? (
+                        <option disabled hidden value="">
+                          No Video Found.
+                        </option>
+                      ) : (
+                        <>
+                          <option disabled hidden value="">
+                            Select Arena Video
                           </option>
-                        ) : (
-                          <option key={i} value={_.id}>
-                            {_.videoName}
+                          <option value={data.arenaVideo.videoId}>
+                            {data.arenaVideo.name}
                           </option>
-                        )
+                          {videos.map(video => (
+                            <option key={video._id} value={video._id}>
+                              {video.name}
+                            </option>
+                          ))}
+                        </>
                       )}
                     </select>
                   </div>
 
                   <div className="d-flex flex-wrap my-3">
-                    <div className="flex-grow-1 mx-1">
-                      <select
-                        className="form-select  cua-input-select-2"
-                        name="tieRate"
-                        defaultValue=""
-                      >
-                        <option disabled hidden value="">
-                          Tie Rate
-                        </option>
-
-                        {tieRateOptions.map((_, i) =>
-                          Number(data.tieRate) === Number(_.value) ? (
-                            <option key={i} value={_.value} selected>
-                              {_.label}
+                    {isDrawEnabled && (
+                      <div className="flex-grow-1 mx-1">
+                        <select
+                          disabled={loading}
+                          className="form-select cua-input-select-2"
+                          name="tieRate"
+                          defaultValue={data.tieRate}
+                        >
+                          <option disabled hidden value="">
+                            Tie Rate
+                          </option>
+                          {tieRates.map((tr, i) => (
+                            <option value={tr.value} key={`tr-${i}`}>
+                              {tr.label}
                             </option>
-                          ) : (
-                            <option key={i} value={_.value}>
-                              {_.label}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    </div>
+                          ))}
+                        </select>
+                      </div>
+                    )}
 
                     <div className="flex-grow-1 mx-1">
                       <select
+                        disabled={loading}
                         className="form-select cua-input-select-2"
                         name="eventType"
-                        defaultValue=""
+                        defaultValue={data.evenType}
                       >
                         <option disabled hidden value="">
                           Event Type
                         </option>
-
-                        {eventTypeOptions.map((_, i) =>
-                          data.eventType === _.value ? (
-                            <option key={i} value={_.value} selected>
-                              {_.label}
-                            </option>
-                          ) : (
-                            <option key={i} value={_.value}>
-                              {_.label}
-                            </option>
-                          )
-                        )}
+                        <option value="Live Event">Live Event</option>
                       </select>
                     </div>
                   </div>
 
                   <div className="d-flex flex-wrap mx-1 my-3">
-                    <div className="flex-grow-1 ">
+                    <div className="">
                       <div className="form-check form-switch">
                         <input
+                          disabled={loading}
                           className="form-check-input"
                           name="isEnabledDraw"
                           type="checkbox"
                           role="switch"
-                          defaultChecked={data.isEnabledDraw}
                           id="flexSwitchCheckDisabled"
+                          checked={isDrawEnabled}
+                          onChange={() => setIsDrawEnabled(!isDrawEnabled)}
                         />
                         <label className="form-check-label text-white small">
                           Enable Draw
@@ -317,36 +312,19 @@ const EditArenaModal = ({ data }) => {
 
                   <div className="mx-1">
                     <MDBBtn
+                      disabled={loading}
                       color="warning"
                       className="w-100 fw-bold"
-                      role="button"
-                      onClick={toggleConfirmEditArena}
                     >
-                      <MDBIcon fas icon="plus" />
-                      &nbsp;&nbsp;EDIT ARENA
+                      {loading ? (
+                        <MDBSpinner size="sm" />
+                      ) : (
+                        <>
+                          <MDBIcon fas icon="edit" />
+                          &nbsp;&nbsp;UPDATE ARENA
+                        </>
+                      )}
                     </MDBBtn>
-
-                    {/* cofirmation modal */}
-
-              <MDBModal tabIndex='-1' show={confirmEditArenaModal} setShow={setConfirmEditArenaModal}
-              >
-        <MDBModalDialog centered> 
-          <MDBModalContent>
-            <MDBModalHeader>
-              
-              <MDBModalTitle> <MDBIcon fas icon="cogs" className="pe-3"/> Confirm Edit Arena?</MDBModalTitle>
-              <MDBBtn type="button" className='btn-close' color='none' onClick={toggleConfirmEditArena}></MDBBtn>
-            </MDBModalHeader>
-            
-            <MDBModalFooter className="justify-content-center text-center pe-5">
-              <MDBBtn className='pe-5 ps-5 me-4'>
-                Yes
-              </MDBBtn>
-              <MDBBtn className='pe-5 ps-5 ms-4' onClick={toggleConfirmEditArena}>No</MDBBtn>
-            </MDBModalFooter>
-          </MDBModalContent>
-        </MDBModalDialog>
-      </MDBModal>
                   </div>
                 </form>
               </MDBContainer>

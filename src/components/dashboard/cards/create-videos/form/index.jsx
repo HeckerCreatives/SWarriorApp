@@ -1,100 +1,51 @@
 // ** React
-import React, { useState } from "react";
-
-// ** Third Party Components
-import { MDBBtn, MDBCol, MDBContainer, MDBIcon } from "mdb-react-ui-kit";
-import toast, { Toaster } from "react-hot-toast";
-
-// ** Style
-import "./index.css";
-
-// ** Redux
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
 import {
-  createArenaVideo,
-  allArenaVideosCount,
-  allArenaVideos,
-} from "../../../../../redux/slices/arenaVideos";
+  MDBBtn,
+  MDBCol,
+  MDBContainer,
+  MDBIcon,
+  MDBSpinner,
+} from "mdb-react-ui-kit";
+import { Toaster } from "react-hot-toast";
+import "./index.css";
+import { errToast } from "../../../../../utility/toaster";
+import useVideoStore from "../../../../../stores/videoStore";
 
 const CreateVideoForm = () => {
-  //use State
-  const [videoURL, setVideoURL] = useState('')
-  // ** Vars
-  const dispatch = useDispatch();
+  const create = useVideoStore(state => state.createVideo);
+  const reset = useVideoStore(state => state.resetSuccess);
+  const loading = useVideoStore(state => state.loading.create);
+  const success = useVideoStore(state => state.success.create);
 
-  // ** Store
-  const storeArenaVideos = useSelector((state) => state.arenaVideos);
-
-  const handleTextareaChange = (event) => {
-    setVideoURL(event.target.value)
-  }
-
-  const handleSubmit = async (e) => {
-   
-    const toastId = toast.loading("Loading...");
-    e.preventDefault();
-    console.log(e);
-
-    const { videoName, lowLatencyCode, compatibilityCode } = e.target;
-   
-    const data = {
-      videoName: videoName.value,
-      // lowLatencyCode: lowLatencyCode.value,
-      // compatibilityModeCode: compatibilityCode.value,
-      compatibilityModeCode: `<iframe width="560" height="315" src="${videoURL}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`
-    //  compatibilityModeCode: `<iframe width="560" height="315" src="${videoURL}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`
-    };
-
-    try {
-      const response = await dispatch(createArenaVideo(data));
-
-      if (data.videoName === ""){
-        toast.error(`Please input a video name`, {
-          id: toastId,
-        });
-      }
-      // else if (data.lowLatencyCode === ""){
-      //   toast.error(`Please input a low latency code or embed code`, {
-      //     id: toastId,
-      //   });
-      // }
-      else if (data.compatibilityCode === ""){
-        toast.error(`Please input a compatibility code or embed code`, {
-          id: toastId,
-        });
-      }
-      else{
-        if (response.type === "arenaVideos/fulfilled") {
-          toast.success(`Video Created.`, {
-            id: toastId,
-          });
-          await dispatch(allArenaVideosCount());
-          await dispatch(
-            allArenaVideos(
-              `?_start=${
-                (storeArenaVideos.currentPage - 1) * storeArenaVideos.itemsPerPage
-              }&_limit=${storeArenaVideos.itemsPerPage}`
-            )
-          );
-          await document.getElementById("myform").reset();
-        }
-        if (response.payload.status === 400) {
-          toast.error(response.payload.message, {
-            id: toastId,
-          });
-        } else {
-          // toast.error("Something went wrong please try again", {
-          //   id: toastId,
-          // });
-        }
-      }
-    } catch (error) {
-      console.log(error);
-      // toast.error("Something went wrong please try again", {
-      //   id: toastId,
-      // });
+  useEffect(() => {
+    if (success) {
+      reset();
+      document.getElementById("myform").reset();
     }
+  }, [success]);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    const { videoName, videoUrl } = e.target;
+
+    if (videoName.value === "") {
+      errToast("Video name is required.");
+      return;
+    }
+
+    if (videoUrl.value === "") {
+      errToast("Video url is required.");
+      return;
+    }
+
+    create({
+      name: videoName.value,
+      url: videoUrl.value,
+    });
   };
+
   return (
     <MDBCol xxl={4} xl={4} lg={5} className="mb-3">
       <Toaster />
@@ -102,6 +53,7 @@ const CreateVideoForm = () => {
         <form onSubmit={handleSubmit} id="myform" autoComplete="off">
           <div className="mb-3">
             <input
+              disabled={loading}
               type="text"
               className="form-control cvform-input"
               id=""
@@ -109,31 +61,29 @@ const CreateVideoForm = () => {
               name="videoName"
             />
           </div>
-          {/* <div className="mb-3">
-            <textarea
-              className="form-control cvform-input"
-              id=""
-              // placeholder="Low Latency (WEB RTC) Embed Code"
-              placeholder="Enter Video URL"
-              name="lowLatencyCode"
-              rows="5"
-              // defaultValue="Default text goes here"
-            ></textarea>
-          </div> */}
+
           <div className="mb-3">
             <textarea
+              disabled={loading}
               className="form-control cvform-input"
               id=""
-              // placeholder="Compatibility (HLS) Embed Code"
-               placeholder="Enter Video URL"
-              name="compatibilityCode"
+              placeholder="Enter Video URL"
+              name="videoUrl"
               rows="5"
-              value={videoURL}
-              onChange={handleTextareaChange}
             />
           </div>
-          <MDBBtn className="cvform-submit-btn" role="button">
-            <MDBIcon fas icon="plus" /> ADD VIDEO
+          <MDBBtn
+            disabled={loading}
+            className="cvform-submit-btn"
+            role="button"
+          >
+            {loading ? (
+              <MDBSpinner size="sm" />
+            ) : (
+              <>
+                <MDBIcon fas icon="plus" /> ADD VIDEO
+              </>
+            )}
           </MDBBtn>
         </form>
       </MDBContainer>

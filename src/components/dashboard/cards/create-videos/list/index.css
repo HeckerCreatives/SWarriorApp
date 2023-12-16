@@ -10,14 +10,13 @@
   background: #000;
 }
 
-.cvlist-iframe-container iframe{
-width: 100% !important;
-height: 100% !important;
+.cvlist-iframe-container iframe {
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .cvlist-modal-custom-maxwidth {
   max-width: 1350px !important;
-
 }
 .cvitem-item {
   background-color: #37474f;

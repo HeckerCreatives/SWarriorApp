@@ -1,67 +1,37 @@
 // ** React
 import { useEffect, useState } from "react";
-
-// ** Third Party Components
 import { MDBCol, MDBContainer, MDBIcon } from "mdb-react-ui-kit";
-
-// ** Style
 import "./index.css";
-
-// ** Components
 import ClosedArenaTableRow from "./row";
-
-// ** Redux
-import { useDispatch, useSelector } from "react-redux";
-import { closeArena } from "../../../../../redux/slices/arena";
+import useArenaStore from "../../../../../stores/arenaStore";
 
 const ClosedArenasTable = () => {
-  // ** Vars
-  const dispatch = useDispatch();
+  const [page, setPage] = useState(1);
+  const limit = 10;
 
-  // ** Redux State
-  const storeArena = useSelector((state) => state.arena);
-
-  // ** React State
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(15);
+  const getClosedArenas = useArenaStore(state => state.getClosedArenas);
+  const arenas = useArenaStore(state => state.closed.arenas);
+  const totalPages = useArenaStore(state => state.closed.totalPages);
+  const nextPage = useArenaStore(state => state.closed.nextPage);
+  const prevPage = useArenaStore(state => state.closed.prevPage);
+  const loading = useArenaStore(state => state.loading.arenas);
 
   useEffect(() => {
-    dispatch(
-      closeArena(
-        `?_start=${
-          (currentPage - 1) * itemsPerPage
-        }&_limit=${itemsPerPage}&_isDeleted_eq=true&_sort=createdAt:DESC`
-      )
-    );
+    getClosedArenas(limit, page);
   }, []);
 
-  const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => {
-      const prev = prevPage - 1;
-      dispatch(
-        closeArena(
-          `?_start=${
-            (prev - 1) * itemsPerPage
-          }&_limit=${itemsPerPage}&_isDeleted_eq=true&_sort=createdAt:DESC`
-        )
-      );
-      return prev;
-    });
+  const handleNextPage = () => {
+    if (nextPage) {
+      setPage(nextPage);
+      getClosedArenas(limit, nextPage);
+    }
   };
 
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => {
-      const prev = prevPage + 1;
-
-      dispatch(
-        closeArena(
-          `?_start=${
-            (prev - 1) * itemsPerPage
-          }&_limit=${itemsPerPage}&_isDeleted_eq=true&_sort=createdAt:DESC`
-        )
-      );
-      return prev;
-    });
+  const handlePrevPage = () => {
+    if (prevPage) {
+      setPage(prevPage);
+      getClosedArenas(limit, prevPage);
+    }
   };
 
   return (
@@ -72,22 +42,21 @@ const ClosedArenasTable = () => {
           className="px-0 mb-3 d-flex align-items-center justify-content-center"
         >
           <button
-            className="tc-pager"
+            onClick={handlePrevPage}
+            disabled={prevPage === null || loading}
+            className="tp-pager"
             role="button"
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1 || storeArena.tableLoader}
           >
             <MDBIcon fas icon="angle-double-left" />
           </button>
-          <div className="tc-page">{currentPage}</div>
+          <div className="tp-page">
+            {page} / {totalPages}
+          </div>
           <button
-            className="tc-pager"
-            role="button"
             onClick={handleNextPage}
-            disabled={
-              storeArena.closeArena.length < itemsPerPage ||
-              storeArena.tableLoader
-            }
+            disabled={nextPage === null || loading}
+            className="tp-pager"
+            role="button"
           >
             <MDBIcon fas icon="angle-double-right" />
           </button>
@@ -110,9 +79,9 @@ const ClosedArenasTable = () => {
                     <th scope="col" className="text-truncate">
                       FIGHTS
                     </th>
-                    {/* <th scope="col" className="text-truncate text-center">
+                    <th scope="col" className="text-truncate text-center">
                       MODERATOR
-                    </th> */}
+                    </th>
                     <th scope="col" className="text-truncate">
                       VIDEO
                     </th>
@@ -134,28 +103,13 @@ const ClosedArenasTable = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {storeArena.tableLoader ? (
-                    <tr>
-                      <td colSpan="12" className="text-center">
-                        <div
-                          className="spinner-border text-center"
-                          role="status"
-                        >
-                          <span className="visually-hidden">Loading...</span>
-                        </div>
-                      </td>
-                    </tr>
-                  ) : storeArena.closeArena?.length ? (
-                    storeArena.closeArena?.map((item, i) => (
-                      <ClosedArenaTableRow key={`tr-${i}`} data={item} />
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={12} className="text-center">
-                        No Result Found.
-                      </td>
-                    </tr>
-                  )}
+                  {loading
+                    ? ""
+                    : arenas.length === 0
+                    ? ""
+                    : arenas.map(arena => (
+                        <ClosedArenaTableRow key={arena._id} data={arena} />
+                      ))}
                 </tbody>
               </table>
             </div>

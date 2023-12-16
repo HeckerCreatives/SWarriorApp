@@ -1,5 +1,5 @@
 // ** React
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // ** Third Party Components
 import {
@@ -10,65 +10,47 @@ import {
   MDBModalBody,
   MDBModalContent,
   MDBModalDialog,
+  MDBSpinner,
   MDBTypography,
 } from "mdb-react-ui-kit";
-import toast from "react-hot-toast";
+import useVideoStore from "../../../../../stores/videoStore";
 
-// ** Redux
-import { useDispatch, useSelector } from "react-redux";
-import {
-  updateArenaVideo,
-  allArenaVideos,
-} from "../../../../../redux/slices/arenaVideos";
-
-const EditVideoModal = (item) => {
-  // ** Vars
-  const dispatch = useDispatch();
+const EditVideoModal = ({ data }) => {
   const [centredModal, setCentredModal] = useState(false);
   const toggleShow = () => setCentredModal(!centredModal);
 
-  // ** Store
-  const storeArenaVideos = useSelector((state) => state.arenaVideos);
+  const update = useVideoStore(state => state.updateVideo);
+  const reset = useVideoStore(state => state.resetSuccess);
+  const success = useVideoStore(state => state.success.update);
+  const loading = useVideoStore(state => state.loading.update);
 
-  const handleSubmit = async (e) => {
-    const toastId = toast.loading("Loading...");
+  useEffect(() => {
+    if (success) {
+      setCentredModal(false);
+      reset();
+    }
+  }, [success]);
+
+  const handleSubmit = e => {
     e.preventDefault();
 
-    const { videoName, lowLatencyCode, compatibilityCode } = e.target;
+    const { videoName, videoUrl } = e.target;
 
-    const data = {
-      id: item.data.id,
-      videoName: videoName.value,
-      lowLatencyCode: lowLatencyCode.value,
-      compatibilityModeCode: compatibilityCode.value,
-    };
-
-    try {
-      const response = await dispatch(updateArenaVideo(data));
-
-      if (response.type === "arenaVideos/fulfilled") {
-        toast.success(`Video Updated`, {
-          id: toastId,
-        });
-        await dispatch(
-          allArenaVideos(
-            `?_start=${
-              (storeArenaVideos.currentPage - 1) * storeArenaVideos.itemsPerPage
-            }&_limit=${storeArenaVideos.itemsPerPage}`
-          )
-        );
-        await setCentredModal(false);
-      } else {
-        toast.error("Something went wrong please try again", {
-          id: toastId,
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong please try again", {
-        id: toastId,
-      });
+    if (videoName.value === "") {
+      errToast("Video name is required.");
+      return;
     }
+
+    if (videoUrl.value === "") {
+      errToast("Video url is required.");
+      return;
+    }
+
+    update({
+      videoId: data._id,
+      name: videoName.value,
+      url: videoUrl.value,
+    });
   };
 
   return (
@@ -103,14 +85,15 @@ const EditVideoModal = (item) => {
                 <form onSubmit={handleSubmit} id="myform" autoComplete="off">
                   <div className="mb-3">
                     <input
+                      disabled={loading}
                       type="text"
                       className="form-control cvform-input"
-                      defaultValue={item.data.videoName}
+                      defaultValue={data.name}
                       placeholder="Video Name"
                       name="videoName"
                     />
                   </div>
-                  <div className="mb-3">
+                  {/* <div className="mb-3">
                     <textarea
                       className="form-control cvform-input"
                       defaultValue={item.data.lowLatencyCode}
@@ -118,18 +101,25 @@ const EditVideoModal = (item) => {
                       name="lowLatencyCode"
                       rows="5"
                     ></textarea>
-                  </div>
+                  </div> */}
                   <div className="mb-3">
                     <textarea
+                      disabled={loading}
                       className="form-control cvform-input"
-                      defaultValue={item.data.compatibilityModeCode}
+                      defaultValue={data.url}
                       placeholder="Compatibility (HLS) Embed Code"
-                      name="compatibilityCode"
+                      name="videoUrl"
                       rows="5"
                     ></textarea>
                   </div>
-                  <MDBBtn className="cvform-submit-btn" role="button">
-                    <MDBIcon fas icon="plus" /> UPDATE VIDEO
+                  <MDBBtn disabled={loading} className="cvform-submit-btn">
+                    {loading ? (
+                      <MDBSpinner size="sm" />
+                    ) : (
+                      <>
+                        <MDBIcon fas icon="plus" /> UPDATE VIDEO
+                      </>
+                    )}
                   </MDBBtn>
                 </form>
               </MDBContainer>

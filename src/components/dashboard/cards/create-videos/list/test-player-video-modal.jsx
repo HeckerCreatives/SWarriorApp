@@ -14,21 +14,16 @@ import {
 } from "mdb-react-ui-kit";
 import parse from "html-react-parser";
 
-const TestVideoPlayerModal = (item) => {
+const TestVideoPlayerModal = ({ data }) => {
   // ** Vars
   const [centredModal, setCentredModal] = useState(false);
-  const [data, setData] = useState([]);
+  const [url, setUrl] = useState("");
 
   const toggleShow = () => {
-    if (centredModal) {
-      setData([]);
-    } else {
-      setData(item.data);
-    }
-
+    console.log(centredModal);
+    if (!centredModal) setUrl(data.url);
+    if (centredModal) setUrl("");
     setCentredModal(!centredModal);
-
-    console.log(data);
   };
 
   return (
@@ -41,9 +36,12 @@ const TestVideoPlayerModal = (item) => {
         <MDBIcon fas icon="play" /> TEST PLAY
       </MDBBtn>
 
-      <MDBModal tabIndex="-1" show={centredModal} setShow={setCentredModal} >
-        <MDBModalDialog centered className="cvlist-modal-custom-maxwidth" >
-          <MDBModalContent className="coreq-modal-body py-2" style={{height:"800px"}}>
+      <MDBModal tabIndex="-1" show={centredModal} setShow={setCentredModal}>
+        <MDBModalDialog centered className="cvlist-modal-custom-maxwidth">
+          <MDBModalContent
+            className="coreq-modal-body py-2"
+            style={{ height: "800px" }}
+          >
             <MDBTypography
               tag="h5"
               className="text-start ms-5 pt-4 coreq-modal-title"
@@ -72,10 +70,11 @@ const TestVideoPlayerModal = (item) => {
                   <MDBTypography tag="h5" className="text-white">
                     <small>Compatibility Mode Code</small>
                   </MDBTypography>
-                  <div className="cvlist-iframe-container py-5" style={{height:"600px"}}>
-
-                    {parse(data?.compatibilityModeCode || "")}
-          
+                  <div
+                    className="cvlist-iframe-container py-5"
+                    style={{ height: "600px" }}
+                  >
+                    {parse(url || "")}
                   </div>
                 </MDBContainer>
               </MDBContainer>
