@@ -13,8 +13,36 @@ const DatedStatusTable = () => {
   const lastMonth = useDashboardStore(state => state.regularEarnings.lastMonth);
   const reLoads = useDashboardStore(state => state.loading.regularEarnings);
 
+  const getDrawEarnings = useDashboardStore(state => state.getDrawEarnings);
+  const deCurrentMonth = useDashboardStore(
+    state => state.drawEarnings.currentMonth
+  );
+  const deLastMonth = useDashboardStore(state => state.drawEarnings.lastMonth);
+  const deLoads = useDashboardStore(state => state.loading.drawEarnings);
+
+  const getCompanyEarnings = useDashboardStore(
+    state => state.getCompanyEarnings
+  );
+  const geCurrentMonth = useDashboardStore(
+    state => state.companyEarnings.currentMonth
+  );
+  const geLastMonth = useDashboardStore(
+    state => state.companyEarnings.lastMonth
+  );
+  const geLoads = useDashboardStore(state => state.loading.companyEarnings);
+
+  const getAgentEarnings = useDashboardStore(state => state.getAgentEarnings);
+  const gaCurrentMonth = useDashboardStore(
+    state => state.agentEarnings.currentMonth
+  );
+  const gaLastMonth = useDashboardStore(state => state.agentEarnings.lastMonth);
+  const gaLoads = useDashboardStore(state => state.loading.agentEarnings);
+
   useEffect(() => {
     getRegularEarnings();
+    getDrawEarnings();
+    getCompanyEarnings();
+    getAgentEarnings();
   }, []);
 
   const handleNumber = amount => Number(amount).toFixed(2);
@@ -42,52 +70,54 @@ const DatedStatusTable = () => {
           <tbody>
             <tr>
               <td>Regular Earnings</td>
-              <td>{reLoads ? <MDBSpinner size="sm" /> : currentMonth}</td>
-              <td>{reLoads ? <MDBSpinner size="sm" /> : lastMonth}</td>
+              <td>
+                {reLoads ? (
+                  <MDBSpinner size="sm" />
+                ) : (
+                  handleNumber(currentMonth)
+                )}
+              </td>
+              <td>
+                {reLoads ? <MDBSpinner size="sm" /> : handleNumber(lastMonth)}
+              </td>
             </tr>
             <tr>
               <td>Draw Earnings</td>
               <td>
-                {/* <MDBSpinner role="status" grow size="sm">
-                    <span className="visually-hidden">Loading...</span>
-                  </MDBSpinner> */}
-                1
+                {deLoads ? (
+                  <MDBSpinner size="sm" />
+                ) : (
+                  handleNumber(deCurrentMonth)
+                )}
               </td>
               <td>
-                {/* <MDBSpinner role="status" grow size="sm">
-                    <span className="visually-hidden">Loading...</span>
-                  </MDBSpinner> */}
-                1
+                {deLoads ? <MDBSpinner size="sm" /> : handleNumber(deLastMonth)}
               </td>
             </tr>
             <tr>
               <td>Company Earnings</td>
               <td>
-                {/* <MDBSpinner role="status" grow size="sm">
-                    <span className="visually-hidden">Loading...</span>
-                  </MDBSpinner> */}
-                1
+                {geLoads ? (
+                  <MDBSpinner size="sm" />
+                ) : (
+                  handleNumber(geCurrentMonth)
+                )}
               </td>
               <td>
-                {/* <MDBSpinner role="status" grow size="sm">
-                    <span className="visually-hidden">Loading...</span>
-                  </MDBSpinner> */}
-                1
+                {deLoads ? <MDBSpinner size="sm" /> : handleNumber(geLastMonth)}
               </td>
             </tr>
             <tr>
               <td>Agents Earnings</td>
               <td>
-                {/* <MDBSpinner role="status" grow size="sm">
-                    <span className="visually-hidden">Loading...</span>
-                  </MDBSpinner> */}
-                1
+                {gaLoads ? (
+                  <MDBSpinner size="sm" />
+                ) : (
+                  handleNumber(gaCurrentMonth)
+                )}
               </td>
               <td>
-                {/* <MDBSpinner role="status" grow size="sm">
-                    <span className="visually-hidden">Loading...</span>
-                  </MDBSpinner> */}
-                1
+                {deLoads ? <MDBSpinner size="sm" /> : handleNumber(gaLastMonth)}
               </td>
             </tr>
           </tbody>

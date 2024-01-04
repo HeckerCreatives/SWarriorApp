@@ -1,11 +1,11 @@
 // ** React
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 // ** Third Party Components
 import toast, { Toaster } from "react-hot-toast";
 import parse from "html-react-parser";
-import { useNavigate } from "react-router-dom";
-import { MDBCol, MDBContainer, MDBRow } from "mdb-react-ui-kit";
+import { useLocation, useNavigate } from "react-router-dom";
+import { MDBCol, MDBContainer, MDBRow, MDBSpinner } from "mdb-react-ui-kit";
 
 // ** Style
 import "./index.css";
@@ -20,153 +20,149 @@ import ArenaHeaderStatus from "./status/status";
 import ArenaTotalBetHeader from "./status/total-bet";
 import BettingHistory from "./components/BettingHistory";
 import OtherBettingHistory from "./components/OtherBettingHistory";
-
-// ** Redux
-import { useDispatch, useSelector } from "react-redux";
-
-import { setOneArena, setArenaGameHistory } from "../../redux/slices/arena";
-import { setCurrentOutcome } from "../../redux/slices/gameHistory";
-import {
-  setStatus,
-  setPayoutButtonLoader,
-  setRoundLoader,
-  setBettingLoader,
-  setNextRoundLoader,
-} from "../../redux/slices/roundStatus";
-
-import { setTeams, setCurrentBet } from "../../redux/slices/currentRoundBets";
+import { handleDate } from "../../utility/utils";
+import { socket } from "../../configs/socket";
+import useAdminArenaStore from "../../stores/adminArenaStore";
 
 const ArenaAdmin = () => {
-  // ** Vars
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const urlParams = new URLSearchParams(window.location.search);
-  const arena_id = urlParams.get("arena_id");
+  const { state } = useLocation();
 
-  // ** Login User
-  const auth = "";
+  const getArena = useAdminArenaStore(state => state.getArena);
+  const getCurrentOutcome = useAdminArenaStore(
+    state => state.getCurrentOutcome
+  );
 
-  // ** Redux States
-  const storeArena = useSelector(state => state.arena);
-  const storeRoundStatus = useSelector(state => state.roundStatus);
-  // arena Message
-  const roundStats = storeRoundStatus.roundStatus.status;
+  const arena = useAdminArenaStore(state => state.arena);
+  const arenaLoads = useAdminArenaStore(state => state.loading.arena);
 
-  let [arenaMessage, setArenaMessage] = useState(null);
-  console.log("roundStatusTesting", storeRoundStatus);
-  // useEffect Test
+  useLayoutEffect(() => {
+    socket.emit("get:total-bets", state._id);
+  }, []);
+
+  useLayoutEffect(() => {
+    getArena(state._id);
+    getCurrentOutcome(state._id);
+  }, []);
 
   useEffect(() => {
-    const openMessage = "BETTING IS NOW OPEN. PLACE YOUR BET";
-    const closeMessage = "120 AND BELOW SHALL BE CANCEL FIGHT";
-    const standByMessage = "STANBY FOR THE NEXT FIGHT";
-    if (storeRoundStatus.roundStatus.status === "open") {
-      setArenaMessage(openMessage);
-    } else if (storeRoundStatus.roundStatus.status === "close") {
-      setArenaMessage(closeMessage);
-    } else if (storeRoundStatus.roundStatus.status === "standby") {
-      setArenaMessage(standByMessage);
-    }
-  }, [roundStats]);
+    socket.emit("joinArena", { arenaId: state._id, user: "controller" });
+    return () => {
+      socket.emit("leaveArena", state._id);
+    };
+  }, []);
+
+  useEffect(() => {
+    socket.on("connect_error", () => {
+      // connection error here
+    });
+  }, []);
 
   return (
-    <MDBContainer fluid className="px-0 main-bg">
-      <Toaster reverseOrder={false} />
-      <ArenaHeader />
+    <>
+      {arenaLoads ? (
+        <MDBContainer
+          fluid
+          className="px-0 main-bg d-flex align-items-center justify-content-center"
+        >
+          <MDBSpinner color="white" style={{ width: "5rem", height: "5rem" }} />
+        </MDBContainer>
+      ) : (
+        <MDBContainer fluid className="px-0 main-bg">
+          <Toaster reverseOrder={false} />
+          <ArenaHeader />
 
-      <MDBContainer fluid>
-        <p style={{ color: "#fbf201" }} className="m-0">
-          Live Title ({storeArena.findOneArena.eventName}) -{" "}
-          {new Date(storeArena.findOneArena.createdAt).toLocaleString()}
-        </p>
-      </MDBContainer>
+          <MDBContainer fluid>
+            <p style={{ color: "#fbf201" }} className="m-0">
+              Live Title ( {state.eventName} ) - ( {handleDate(state.createdAt)}{" "}
+              )
+            </p>
+          </MDBContainer>
 
-      <MDBRow className="mx-2 mt-3">
-        <MDBCol xxl={9} xl={8} lg={7} className="px-1">
-          <MDBRow className="px-0">
-            <MDBCol xxl={3} xl={3} lg={3}>
-              <ArenaHeaderStatus />
+          <MDBRow className="mx-2 mt-3">
+            <MDBCol xxl={9} xl={8} lg={7} className="px-1">
+              <MDBRow className="px-0">
+                <MDBCol xxl={3} xl={3} lg={3}>
+                  <ArenaHeaderStatus status={arena?.bettingStatus} />
+                </MDBCol>
+                <MDBCol xxl={7} xl={7} lg={7} className="px-lg-0">
+                  <ArenaTotalBetHeader />
+                </MDBCol>
+                <MDBCol xxl={2} xl={2} lg={2}>
+                  <ArenaRoundHeader />
+                </MDBCol>
+              </MDBRow>
+              <MDBContainer fluid className="p-3 arena-vid-wrapper">
+                <MDBContainer fluid className="px-3 arena-vid-container">
+                  <div className="arena-dummy-vid" onContextMenu={false}>
+                    {parse(state.arenaVideo.url)}
+                  </div>
+                </MDBContainer>
+              </MDBContainer>
+
+              <MDBContainer id="arenaDisplayer" className=" mt-3">
+                <div className="bg-warning text-center">
+                  <p className="p-2">
+                    <strong>Arena Message</strong>
+                  </p>
+                </div>
+              </MDBContainer>
             </MDBCol>
-            <MDBCol xxl={7} xl={7} lg={7} className="px-lg-0">
-              <ArenaTotalBetHeader data={storeRoundStatus.roundStatus} />
-            </MDBCol>
-            <MDBCol xxl={2} xl={2} lg={2}>
-              <ArenaRoundHeader data={storeRoundStatus.roundStatus} />
+            <MDBCol xxl={3} xl={4} lg={5} className="px-1">
+              <ArenaSidePanel />
             </MDBCol>
           </MDBRow>
-          <MDBContainer fluid className="p-3 arena-vid-wrapper">
-            <MDBContainer fluid className="px-3 arena-vid-container">
-              <div className="arena-dummy-vid">
-                {parse(
-                  storeArena.findOneArena?.arena_video_id
-                    ?.compatibilityModeCode || ""
-                )}
-              </div>
+
+          <MDBRow className="mx-0 mt-3">
+            <BettingHistory />
+            <MDBContainer className="d-flex align-items-center justify-content-center flex-wrap mt-5">
+              <MDBRow>
+                <MDBCol>
+                  <div className="mx-5 d-flex align-items-center flex-column">
+                    <span
+                      className={`my-2 square bg-danger rounded-circle text-center betting-history-icon`}
+                    >
+                      M
+                    </span>
+                    <h6 className="mt-2 text-white">MERON</h6>
+                  </div>
+                </MDBCol>
+                <MDBCol>
+                  <div className="mx-5 d-flex align-items-center flex-column">
+                    <span
+                      className={`my-2 square bg-primary rounded-circle text-center betting-history-icon`}
+                    >
+                      W
+                    </span>
+                    <h6 className="mt-2 text-white">WALA</h6>
+                  </div>
+                </MDBCol>
+                <MDBCol>
+                  <div className="mx-5 d-flex align-items-center flex-column">
+                    <span
+                      className={`my-2 square bg-success rounded-circle text-center betting-history-icon`}
+                    >
+                      D
+                    </span>
+                    <h6 className="mt-2 text-white">DRAW</h6>
+                  </div>
+                </MDBCol>
+                <MDBCol>
+                  <div className="mx-5 d-flex align-items-center flex-column">
+                    <span
+                      className={`my-2 square bg-light text-dark rounded-circle text-center betting-history-icon`}
+                    >
+                      C
+                    </span>
+                    <h6 className="mt-2 text-white">CANCEL</h6>
+                  </div>
+                </MDBCol>
+              </MDBRow>
             </MDBContainer>
-          </MDBContainer>
-
-          <MDBContainer id="arenaDisplayer" className=" mt-3">
-            <div className="bg-warning text-center">
-              <p className="p-2">
-                <strong>{arenaMessage}</strong>
-              </p>
-            </div>
-          </MDBContainer>
-        </MDBCol>
-        <MDBCol xxl={3} xl={4} lg={5} className="px-1">
-          <ArenaSidePanel />
-        </MDBCol>
-      </MDBRow>
-
-      <MDBRow className="mx-0 mt-3">
-        <BettingHistory />
-        <MDBContainer className="d-flex align-items-center justify-content-center flex-wrap mt-5">
-          <MDBRow>
-            <MDBCol>
-              <div className="mx-5 d-flex align-items-center flex-column">
-                <span
-                  className={`my-2 square bg-danger rounded-circle p-4 text-center betting-history-icon`}
-                >
-                  M
-                </span>
-                <h6 className="mt-2 text-white">MERON</h6>
-              </div>
-            </MDBCol>
-            <MDBCol>
-              <div className="mx-5 d-flex align-items-center flex-column">
-                <span
-                  className={`my-2 square bg-primary rounded-circle p-4 text-center betting-history-icon`}
-                >
-                  W
-                </span>
-                <h6 className="mt-2 text-white">WALA</h6>
-              </div>
-            </MDBCol>
-            <MDBCol>
-              <div className="mx-5 d-flex align-items-center flex-column">
-                <span
-                  className={`my-2 square bg-success rounded-circle p-4 text-center betting-history-icon`}
-                >
-                  D
-                </span>
-                <h6 className="mt-2 text-white">DRAW</h6>
-              </div>
-            </MDBCol>
-            <MDBCol>
-              <div className="mx-5 d-flex align-items-center flex-column">
-                <span
-                  className={`my-2 square bg-light text-dark rounded-circle p-4 text-center betting-history-icon`}
-                >
-                  C
-                </span>
-                <h6 className="mt-2 text-white">CANCEL</h6>
-              </div>
-            </MDBCol>
+            <OtherBettingHistory />
           </MDBRow>
         </MDBContainer>
-        <OtherBettingHistory />
-      </MDBRow>
-    </MDBContainer>
+      )}
+    </>
   );
 };
 

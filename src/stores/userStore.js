@@ -402,6 +402,7 @@ const userStore = (set, get) => ({
             success: { ...state.success, cashoutCredit: true },
             points: res.data.balance,
           }));
+          successToast("Cashout successfully requested.");
           return;
         }
         errToast("Failed to request cashout");

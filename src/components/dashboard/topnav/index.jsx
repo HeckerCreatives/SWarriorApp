@@ -2,16 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { MDBCol, MDBContainer, MDBIcon } from "mdb-react-ui-kit";
 import "./index.css";
+import { userInfo } from "../../../utility/UserInfo";
 
 const DashboardTopNavigation = ({ title }) => {
-  // ** Vars
   const navigate = useNavigate();
 
-  // ** Login User
-  const auth = "";
-
   const navigateToDashboard = () => {
-    navigate(`/dashboard/${auth.user.role.type}/home`);
+    navigate(`/dashboard/${userInfo().roleName.toLowerCase()}/home`);
   };
 
   return (

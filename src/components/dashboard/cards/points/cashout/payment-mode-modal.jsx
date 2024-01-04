@@ -88,8 +88,8 @@ const PaymentModeModal = () => {
                 &nbsp;&nbsp;EDIT PAYMENT MODE
               </div>
               <div className="pmf-sub">
-                Edit your wallet details htmlFor a faster cashout request, you
-                can enter a maximum of 5 wallet account.
+                Edit your wallet details for a faster cashout request, you can
+                enter a maximum of 5 wallet account.
               </div>
             </MDBContainer>
             <MDBBtn

@@ -1,36 +1,28 @@
 import { MDBIcon } from "mdb-react-ui-kit";
 import React from "react";
+import { handleCharLimit, handleDate } from "../../../../../utility/utils";
+import CommsLogsModal from "../comms-by-date/commission-logs-modal";
 
-const ArenaCommissionsTableRow = (item) => {
+const ArenaCommissionsTableRow = ({ arena }) => {
   return (
     <tr className="text-center">
-      <td className="text-truncate">{item.data.id}</td>
-      <td className="text-truncate">{item.data.arenaLocation || "---"}</td>
-      <td className="text-truncate">{item.data.eventName || "---"}</td>
-      <td className="text-truncate">150</td>
-      {/* <td className="text-truncate">Admin_Pablo</td> */}
-      <td className="text-truncate">{item.data.eventType || "---"}</td>
+      <td className="text-truncate">{handleCharLimit(arena._id)}</td>
+      <td className="text-truncate">{arena.eventName}</td>
+      <td className="text-truncate">{arena.fights}</td>
+      <td className="text-truncate">{arena.eventType}</td>
       <td className="text-truncate">
-        <div className="ac-plasada">{`${item.data.plasadaRate}%` || "---"}</div>
+        <div className="ac-plasada">{arena.plasadaRate}</div>
       </td>
       <td className="text-truncate">
-        <div className="ac-tie-rate">{`x${item.data.tieRate}` || "---"}</div>
+        <div className="ac-tie-rate">x{arena.tieRate}</div>
       </td>
-      {/* <td className="text-truncate">
-        <div className="ac-commissions" role="button">
-          $ VIEW
-        </div>  
-      </td> */}
       <td className="text-truncate">
         <div className="ac-logs" role="button">
-          <MDBIcon fas icon="list" />
+          <CommsLogsModal arenaId={arena._id} />
         </div>
       </td>
       <td className="text-truncate">
-        <div className="ac-date">
-          {" "}
-          {new Date(item.data.createdAt).toLocaleString()}
-        </div>
+        <div className="ac-date">{handleDate(arena.createdAt)}</div>
       </td>
     </tr>
   );

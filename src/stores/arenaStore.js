@@ -22,19 +22,23 @@ const arenaStore = (set, get) => ({
     create: false,
     update: false,
     remove: false,
+    control: false,
   },
   success: {
     create: false,
     update: false,
     remove: false,
+    control: false,
   },
-  resetSuccess: () => {
+  resetSuccess: arenaId => {
     set(state => ({
       success: {
         ...state.success,
         create: false,
         update: false,
         remove: false,
+        control: false,
+        [`${arenaId}`]: false,
       },
     }));
   },
@@ -200,6 +204,27 @@ const arenaStore = (set, get) => ({
       })
       .finally(() => {
         set(state => ({ loading: { ...state.loading, remove: false } }));
+      });
+  },
+  controlArena: arenaId => {
+    set(state => ({ loading: { ...state.loading, control: true } }));
+    sgAxios
+      .get(`/arenas/control/${arenaId}`)
+      .then(res => {
+        if (res.data.success) {
+          set(state => ({
+            success: { ...state.success, [`${arenaId}`]: true },
+          }));
+          return;
+        }
+        errToast("Failed to control arena");
+      })
+      .catch(error => {
+        const message = error.response?.data?.error?.message;
+        errToast(message || "Failed to control arena");
+      })
+      .finally(() => {
+        set(state => ({ loading: { ...state.loading, control: false } }));
       });
   },
 });

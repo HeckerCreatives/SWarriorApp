@@ -1,15 +1,9 @@
-// ** React
 import React from "react";
-
-// ** Third Party Components
 import { MDBCol, MDBContainer, MDBTypography } from "mdb-react-ui-kit";
-
-// ** Redux
-import { useSelector } from "react-redux";
+import useAdminArenaStore from "../../../stores/adminArenaStore";
 
 const SidePanelOutcome = () => {
-  // ** Redux States
-  const storeGameHistory = useSelector((state) => state.gameHistory);
+  const outcome = useAdminArenaStore(state => state.currentRoundOutcome);
 
   return (
     <MDBCol>
@@ -18,28 +12,27 @@ const SidePanelOutcome = () => {
         className="p-3 mt-4 sppayout-container position-relative"
       >
         <div className="sppayout-label px-3">CURRENT ROUND OUTCOME:</div>
-
-        {storeGameHistory.isLoading ? (
-          <div className="d-flex justify-content-center">
-            <div className="spinner-grow text-light" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          </div>
-        ) : (
-          <MDBContainer
-            fluid
-            role="button"
-            className={`px-0 py-1 sppayout-btn sppayout-btn-${storeGameHistory.currentRoundOutcome?.outcome} mb-3`}
+        <MDBContainer
+          fluid
+          role="button"
+          className={`px-0 py-1 sppayout-btn mb-3 ${
+            outcome === "meron"
+              ? "bg-success text-white"
+              : outcome === "wala"
+              ? "bg-danger text-white"
+              : outcome === "draw"
+              ? "bg-primary text-white"
+              : outcome === "cancel" && "bg-white text-black"
+          }`}
+        >
+          <MDBTypography
+            tag="h4"
+            className="text-center m-2"
+            style={{ textTransform: "uppercase" }}
           >
-            <MDBTypography
-              tag="h4"
-              className="text-center m-2"
-              style={{ textTransform: "uppercase" }}
-            >
-              {storeGameHistory.currentRoundOutcome?.outcome || "---"}
-            </MDBTypography>
-          </MDBContainer>
-        )}
+            {outcome}
+          </MDBTypography>
+        </MDBContainer>
       </MDBContainer>
     </MDBCol>
   );

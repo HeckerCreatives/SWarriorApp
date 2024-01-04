@@ -6,12 +6,25 @@ import { MDBCol, MDBContainer, MDBRow, MDBSpinner } from "mdb-react-ui-kit";
 
 // ** Components
 import AnimatedNumber from "../components/AnimatedNumber";
+import useAdminArenaStore from "../../../stores/adminArenaStore";
+import { socket } from "../../../configs/socket";
+import { useLocation } from "react-router-dom";
 
-const ArenaTotalBetHeader = ({ data }) => {
-  console.log("this is the betheader data", data);
-  const [allbetData, setallBetData] = useState("");
-  const [fakeBetMeron, setFakeBetMeron] = useState(0);
-  const [fakeBetWala, setFakeBetWala] = useState(0);
+const ArenaTotalBetHeader = () => {
+  const { state } = useLocation();
+  const totalMeron = useAdminArenaStore(state => state.totalBets.meron);
+  const totalWala = useAdminArenaStore(state => state.totalBets.wala);
+  const update = useAdminArenaStore(state => state.updateTotalBets);
+
+  useEffect(() => {
+    socket.on("updated:total-bets", data => {
+      update(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    socket.emit("get:total-bets", state._id);
+  }, []);
 
   return (
     <MDBCol>
@@ -31,15 +44,7 @@ const ArenaTotalBetHeader = ({ data }) => {
               >
                 <div className="me-2">MERON</div>
                 <div className="arena-bet-value-meron flex-grow-1">
-                  {/* <AnimatedNumber value={allbetData ? (Number(allbetData.totalMeron)):(0)} /> */}
-
-                  <AnimatedNumber
-                    value={
-                      allbetData
-                        ? Number(allbetData.totalMeron + fakeBetMeron)
-                        : 0
-                    }
-                  />
+                  <AnimatedNumber value={Number(totalMeron).toFixed(2)} />
                 </div>
               </MDBContainer>
             </MDBCol>
@@ -50,14 +55,7 @@ const ArenaTotalBetHeader = ({ data }) => {
               >
                 <div className="me-2">WALA</div>
                 <div className="arena-bet-value-wala flex-grow-1">
-                  {/* <AnimatedNumber value={allbetData ? (Number(allbetData.totalWala)):(0)} /> */}
-                  <AnimatedNumber
-                    value={
-                      allbetData
-                        ? Number(allbetData.totalWala + fakeBetWala)
-                        : 0
-                    }
-                  />
+                  <AnimatedNumber value={Number(totalWala).toFixed(2)} />
                 </div>
               </MDBContainer>
             </MDBCol>

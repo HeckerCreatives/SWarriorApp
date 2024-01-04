@@ -1,531 +1,416 @@
 // ** React
 import { useState, useEffect } from "react";
-
-// ** Third Party Components
-import toast from "react-hot-toast";
 import {
   MDBBtn,
   MDBCol,
   MDBContainer,
   MDBTypography,
   MDBSpinner,
-  MDBModalHeader,
-  MDBModalTitle,
-  MDBModalFooter,
-  MDBIcon,
-  MDBModalDialog,
-  MDBModal,
-  MDBModalContent,
+  MDBRow,
 } from "mdb-react-ui-kit";
 
 // ** Components
 import clear from "../../../assets/images/arena/clear.png";
-
-// ** Redux
-import { useDispatch, useSelector } from "react-redux";
-import {
-  myCurrentBet,
-  setCurrentRoundLoader,
-} from "../../../redux/slices/currentRoundBets";
-
-import { dataAdded } from "../../../redux/slices/socket";
 import ArenaDrawAmount from "../status/draw";
 import ArenaBalanceAmount from "../status/balance";
+import usePlayerArenaStore from "../../../stores/playerArenaStore";
+import useUserStore from "../../../stores/userStore";
+import Swal from "sweetalert2";
+import { errToast } from "../../../utility/toaster";
+import { useLocation } from "react-router-dom";
+import AnimatedNumber from "../components/AnimatedNumber";
+import { setPayout } from "../../../utility/plasada";
+import { socket } from "../../../configs/socket";
 
 const SidePanelBets = () => {
-  // Bet Meron Modal
-  const [centredModalBetMeron, setCentredModalBetMeron] = useState(false);
-  const toggleShowBetMeron = () => {
-    setCentredModalBetMeron(!centredModalBetMeron);
-  };
+  const { state } = useLocation();
 
-  // Bet Wala Modal
-  const [centredModalBetWala, setCentredModalBetWala] = useState(false);
-  const toggleShowBetWala = () => {
-    setCentredModalBetWala(!centredModalBetWala);
-  };
+  const arena = usePlayerArenaStore(state => state.arena);
+  const currentBet = usePlayerArenaStore(state => state.currentBet);
+  const totalMeron = usePlayerArenaStore(state => state.totalBets.meron);
+  const totalWala = usePlayerArenaStore(state => state.totalBets.wala);
 
-  // Bet Draw Modal
-  const [centredModalBetDraw, setCentredModalBetDraw] = useState(false);
-  const toggleShowBetDraw = () => {
-    setCentredModalBetDraw(!centredModalBetDraw);
-  };
+  const getCreditOwned = useUserStore(state => state.getCreditOwned);
+  const points = useUserStore(state => state.points);
 
-  // ** Vars
-  const dispatch = useDispatch();
-  const urlParams = new URLSearchParams(window.location.search);
-  const arena_id = urlParams.get("arena_id");
+  const betOnMeron = usePlayerArenaStore(state => state.betOnMeron);
+  const betOnWala = usePlayerArenaStore(state => state.betOnWala);
+  const betOnDraw = usePlayerArenaStore(state => state.betOnDraw);
+  const reset = usePlayerArenaStore(state => state.resetSuccess);
 
-  // ** Login User
-  const auth = "";
+  const loading = usePlayerArenaStore(state => state.loading.bet);
+  const success = usePlayerArenaStore(state => state.success.bet);
 
-  // ** States
+  const update = usePlayerArenaStore(state => state.updateTotalBets);
+
+  useEffect(() => {
+    socket.on("updated:total-bets", data => {
+      update(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    socket.emit("get:total-bets", state._id);
+  }, []);
+
+  useEffect(() => {
+    if (success) {
+      getCreditOwned();
+      setBetAmount("");
+      reset();
+    }
+  }, [success]);
+
   const [betAmount, setBetAmount] = useState("");
-  const [betValues, setBetValues] = useState("");
-  const [payoutValues, setPayoutValues] = useState("");
-  const [allbuttonDisabler, setAllButtonDisabler] = useState(false);
-  const [enabledDraw, setEnabledDraw] = useState(true);
-  const [buttonLoader, setButtonLoader] = useState(false);
+  const statuses = ["close", "standby"];
 
-  // ** Redux States
-  const storeUsers = useSelector(state => state.users);
-  const storeRoundStatus = useSelector(state => state.roundStatus);
-  const storeCurrentRoundBets = useSelector(state => state.currentRoundBets);
-  const currentBet = storeCurrentRoundBets.myCurrentBet;
-
-  //**  testing logs
-  // console.log(storeRoundStatus)
-
-  // ** useEffect
-
-  useEffect(() => {
-    if (storeRoundStatus?.roundStatus?.isEnabledDraw) {
-      setEnabledDraw(false);
-    } else {
-      setEnabledDraw(true);
+  const isBetValid = () => {
+    if (arena.bettingStatus !== "open") {
+      errToast("Betting has not yet started.");
+      return false;
     }
-  }, [storeRoundStatus]);
 
-  useEffect(() => {
-    if (storeRoundStatus.roundStatus.status === "standby") {
-      setBetAmount("");
-    } else if (storeRoundStatus.roundStatus.status === "open") {
-      setAllButtonDisabler(false);
+    if (isNaN(betAmount)) {
+      errToast("Invalid bet");
+      return false;
     }
-  }, [storeRoundStatus.roundStatus.status]);
 
-  useEffect(() => {
-    if (currentBet?.betAmount !== "") {
-      if (currentBet.betAmount > 0) {
-        setBetAmount(currentBet.betAmount);
-        setAllButtonDisabler(true);
+    if (betAmount < 1) {
+      errToast("Bet amount must not be 0");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleWalaBet = () => {
+    Swal.fire({
+      title: "Are you sure you want to bet on WALA?",
+      text: "( After confirmation you cannot change your bet. )",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`,
+    }).then(result => {
+      if (result.isConfirmed) {
+        if (isBetValid()) {
+          const betData = {
+            arenaId: arena._id,
+            amount: betAmount,
+          };
+          betOnWala(betData);
+        }
       }
-    }
-  }, [currentBet]);
-
-  // ** Handles
-  const handleBetSelection = value => {
-    // setAllButtonDisabler(true)
-    console.log("testForValue", value);
-
-    if (value === "max") {
-      setBetAmount(storeUsers.me?.points);
-    } else if (value === "clear") {
-      setBetAmount("");
-    } else {
-      setBetAmount(value);
-    }
+    });
   };
 
-  const handleInputChange = event => {
-    setBetAmount(event.target.value);
-  };
-
-  const handleBetting = team => {
-    setButtonLoader(true);
-    setAllButtonDisabler(true);
-    if (team === "meron") {
-      setCentredModalBetMeron(!centredModalBetMeron);
-    } else if (team === "wala") {
-      setCentredModalBetWala(!centredModalBetWala);
-    } else {
-      setCentredModalBetDraw(!centredModalBetDraw);
-    }
-
-    if (betAmount && betAmount !== 0 && betAmount !== "" && betAmount !== "0") {
-      const data = {
-        arena_id,
-        user_id: auth.user.id,
-        team,
-        amount: betAmount,
-        round: storeRoundStatus.roundStatus.round,
-        ghostMode: auth.user.GhostMode,
-      };
-      setBetValues(data.arena_id);
-      setPayoutValues(data);
-
-      if (auth.user.GhostMode === true) {
+  const handleMeronBet = () => {
+    Swal.fire({
+      title: "Are you sure you want to bet on MERON?",
+      text: "( After confirmation you cannot change your bet. )",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`,
+    }).then(result => {
+      if (result.isConfirmed) {
+        if (isBetValid()) {
+          const betData = {
+            arenaId: arena._id,
+            amount: betAmount,
+          };
+          betOnMeron(betData);
+        }
       }
-    } else {
-      toast.error("Please enter your betting amount");
-      setAllButtonDisabler(false);
-    }
+    });
   };
 
-  const updateOverallBets = () => {
-    if (typeof betValues === "string" && betValues !== "") {
-    }
+  const handleDrawBet = () => {
+    Swal.fire({
+      title: "Are you sure you want to bet on DRAW?",
+      text: "( After confirmation you cannot change your bet. )",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`,
+    }).then(result => {
+      if (result.isConfirmed) {
+        if (isBetValid()) {
+          if (betAmount > 1000) {
+            errToast("Max bet on DRAW is 1000");
+            return;
+          }
+
+          const betData = {
+            arenaId: arena._id,
+            amount: betAmount,
+          };
+          betOnDraw(betData);
+        }
+      }
+    });
   };
 
   return (
-    <MDBCol>
-      <MDBContainer
-        fluid
-        className="pt-5 pb-5 px-3 mt-2 mb-1 sppayout-container position-relative"
-      >
-        <div className="form-group position-relative mb-2">
-          <img
-            src={clear}
-            alt="clear"
-            className="img-fluid spbets-btn-clear"
-            role="button"
-            disabled={
-              storeRoundStatus.roundStatus.status === "close" ||
-              storeRoundStatus.roundStatus.status === "standby" ||
-              allbuttonDisabler === true
-                ? true
-                : false || (storeRoundStatus.roundStatus.status && true)
-            }
-            onClick={() => handleBetSelection("clear")}
-            hidden={allbuttonDisabler === true}
-          />
-
-          {/* <MDBBtn
-           color="dark"
-          // onClick={toggleShow}
-          className="coreq-modal-close-btn shadow-0"
-        >
-          <MDBIcon fas icon="times" size="2x"/>
-        </MDBBtn> */}
-          <input
-            type="number"
-            min="0"
-            className="form-control spbets-input-text"
-            value={betAmount}
-            disabled={
-              storeRoundStatus.roundStatus.status === "close" ||
-              storeRoundStatus.roundStatus.status === "standby" ||
-              allbuttonDisabler === true
-                ? true
-                : false || storeRoundStatus.roundStatus.status === "done round"
-            }
-            onChange={handleInputChange}
-          />
-        </div>
-        <MDBContainer
-          fluid
-          className="px-0 d-flex align-items-center justify-content-between flex-wrap py-2"
-          disabled={
-            storeRoundStatus.roundStatus.status === "close" ||
-            storeRoundStatus.roundStatus.status === "standby" ||
-            allbuttonDisabler === true
-              ? true
-              : false || storeRoundStatus.roundStatus.status === "done round"
-          }
-        >
-          <MDBBtn
-            className="spbets-btn-bet mb-2"
-            disabled={
-              storeRoundStatus.roundStatus.status === "close" ||
-              storeRoundStatus.roundStatus.status === "standby" ||
-              allbuttonDisabler === true
-                ? true
-                : false || storeRoundStatus.roundStatus.status === "done round"
-            }
-            onClick={() => handleBetSelection("50")}
-          >
-            50
-          </MDBBtn>
-          <MDBBtn
-            className="spbets-btn-bet mb-2"
-            disabled={
-              storeRoundStatus.roundStatus.status === "close" ||
-              storeRoundStatus.roundStatus.status === "standby" ||
-              allbuttonDisabler === true
-                ? true
-                : false || storeRoundStatus.roundStatus.status === "done round"
-            }
-            onClick={() => handleBetSelection("500")}
-          >
-            500
-          </MDBBtn>
-          <MDBBtn
-            className="spbets-btn-bet mb-2"
-            disabled={
-              storeRoundStatus.roundStatus.status === "close" ||
-              storeRoundStatus.roundStatus.status === "standby" ||
-              allbuttonDisabler === true
-                ? true
-                : false || storeRoundStatus.roundStatus.status === "done round"
-            }
-            onClick={() => handleBetSelection("1000")}
-          >
-            1k
-          </MDBBtn>
-          <MDBBtn
-            className="spbets-btn-bet mb-2"
-            disabled={
-              storeRoundStatus.roundStatus.status === "close" ||
-              storeRoundStatus.roundStatus.status === "standby" ||
-              allbuttonDisabler === true
-                ? true
-                : false || storeRoundStatus.roundStatus.status === "done round"
-            }
-            onClick={() => handleBetSelection("2000")}
-          >
-            2k
-          </MDBBtn>
-
-          <MDBBtn
-            className="spbets-btn-bet mb-2"
-            disabled={
-              storeRoundStatus.roundStatus.status === "close" ||
-              storeRoundStatus.roundStatus.status === "standby" ||
-              allbuttonDisabler === true
-                ? true
-                : false || storeRoundStatus.roundStatus.status === "done round"
-            }
-            onClick={() => handleBetSelection("5000")}
-          >
-            5k
-          </MDBBtn>
-          <MDBBtn
-            className="spbets-btn-bet mb-2"
-            disabled={
-              storeRoundStatus.roundStatus.status === "close" ||
-              storeRoundStatus.roundStatus.status === "standby" ||
-              allbuttonDisabler === true
-                ? true
-                : false || storeRoundStatus.roundStatus.status === "done round"
-            }
-            onClick={() => handleBetSelection("max")}
-          >
-            MAX
-          </MDBBtn>
-        </MDBContainer>
+    <MDBCol className="">
+      <MDBContainer fluid className="px-0 sppayout-container">
         <MDBContainer
           fluid
           className="px-0 d-flex align-items-center justify-content-around pt-4 pb-3"
         >
-          {/* {buttonLoader ? (
-            <div className="d-flex justify-content-center">
-              <MDBSpinner role="status" color="light" grow>
-                <span className="visually-hidden">Loading...</span>
-              </MDBSpinner>
-            </div>
-          ) :   (     */}
-          <button
-            className="spbets-btn-container p-2"
-            role="button"
-            disabled={
-              storeRoundStatus.roundStatus.status === "close" ||
-              storeRoundStatus.roundStatus.status === "standby" ||
-              allbuttonDisabler === true
-                ? true
-                : false || storeRoundStatus.roundStatus.status === "done round"
-            }
-            onClick={toggleShowBetMeron}
-            // onClick={() => handleBetting("meron")}
-          >
-            <div className="spbets-btn-meron">
-              <MDBTypography tag="h4" className="m-0">
+          <MDBRow className="px-0 w-100">
+            <MDBCol className="mb-2">
+              <MDBContainer
+                fluid
+                className="text-white bg-danger text-center rounded-top fs-6 fw-bolder"
+              >
                 MERON
-              </MDBTypography>
-            </div>
-          </button>
-          {/* )} */}
-
-          {/* {buttonLoader  ? (
-            <div className="d-flex justify-content-center">
-              <MDBSpinner role="status" color="light" grow>
-                <span className="visually-hidden">Loading...</span>
-              </MDBSpinner>
-            </div>
-          ) : ( */}
-          <button
-            className="spbets-btn-container p-2"
-            role="button"
-            disabled={
-              storeRoundStatus.roundStatus.status === "close" ||
-              storeRoundStatus.roundStatus.status === "standby" ||
-              allbuttonDisabler === true
-                ? true
-                : false || storeRoundStatus.roundStatus.status === "done round"
-            }
-            onClick={toggleShowBetWala}
-            // onClick={() => handleBetting("wala")}
-          >
-            <div className="spbets-btn-wala">
-              <MDBTypography tag="h4" className="m-0">
+              </MDBContainer>
+              <MDBContainer
+                fluid
+                className="px-0 border-start border-end border-bottom"
+              >
+                <MDBContainer fluid className="text-center text-warning fs-5">
+                  <AnimatedNumber value={Number(totalMeron) || 0} />
+                </MDBContainer>
+                <MDBContainer
+                  fluid
+                  className="text-center text-white d-flex align-items-center justify-content-center"
+                  style={{ fontSize: "0.8rem" }}
+                >
+                  <span>PAYOUT =&nbsp;</span>
+                  {
+                    <AnimatedNumber
+                      value={
+                        setPayout(
+                          state.plasadaRate,
+                          totalMeron,
+                          totalWala,
+                          currentBet?.bet !== "draw" ? currentBet?.amount : 0
+                        ).walaPayout || 0
+                      }
+                    />
+                  }
+                </MDBContainer>
+                <MDBContainer
+                  fluid
+                  className="text-center text-success"
+                  style={{ fontSize: "0.8rem" }}
+                >
+                  <AnimatedNumber
+                    value={currentBet?.bet === "meron" ? currentBet?.amount : 0}
+                  />
+                </MDBContainer>
+                <MDBContainer fluid className="my-2 text-center">
+                  <button
+                    onClick={handleMeronBet}
+                    disabled={
+                      loading ||
+                      statuses.includes(arena?.bettingStatus) ||
+                      currentBet
+                    }
+                    className="spbets-btn-container px-2 py-1"
+                    role="button"
+                  >
+                    <div className="spbets-btn-meron">
+                      <MDBTypography tag="h6" className="m-0 my-1">
+                        {loading ? <MDBSpinner size="sm" /> : '"BET MERON"'}
+                      </MDBTypography>
+                    </div>
+                  </button>
+                </MDBContainer>
+              </MDBContainer>
+            </MDBCol>
+            <MDBCol className="mb-2">
+              <MDBContainer
+                fluid
+                className="text-white text-center rounded-top fs-6 fw-bolder"
+                style={{
+                  backgroundColor: "#3f51db",
+                }}
+              >
                 WALA
-              </MDBTypography>
-            </div>
-          </button>
-          {/* )} */}
+              </MDBContainer>
+              <MDBContainer
+                fluid
+                className="px-0 border-start border-end border-bottom"
+              >
+                <MDBContainer
+                  fluid
+                  className="text-center text-warning fw-bold fs-5"
+                >
+                  <AnimatedNumber value={Number(totalWala) || 0} />
+                </MDBContainer>
+                <MDBContainer
+                  fluid
+                  className="text-center text-white d-flex align-items-center justify-content-center"
+                  style={{ fontSize: "0.8rem" }}
+                >
+                  <span>PAYOUT =&nbsp;</span>
+                  {
+                    <AnimatedNumber
+                      value={
+                        setPayout(
+                          state.plasadaRate,
+                          totalMeron,
+                          totalWala,
+                          currentBet?.bet !== "draw" ? currentBet?.amount : 0
+                        ).walaPayout || 0
+                      }
+                    />
+                  }
+                </MDBContainer>
+                <MDBContainer
+                  fluid
+                  className="text-center text-success"
+                  style={{ fontSize: "0.8rem" }}
+                >
+                  <AnimatedNumber
+                    value={currentBet?.bet === "wala" ? currentBet?.amount : 0}
+                  />
+                </MDBContainer>
+                <MDBContainer fluid className="my-2 text-center">
+                  <button
+                    onClick={handleWalaBet}
+                    disabled={
+                      loading ||
+                      statuses.includes(arena?.bettingStatus) ||
+                      currentBet
+                    }
+                    className="spbets-btn-container px-2 py-1"
+                    role="button"
+                  >
+                    <div className="spbets-btn-wala">
+                      <MDBTypography tag="h6" className="m-0 my-1">
+                        {loading ? <MDBSpinner size="sm" /> : '"BETWALA"'}
+                      </MDBTypography>
+                    </div>
+                  </button>
+                </MDBContainer>
+              </MDBContainer>
+            </MDBCol>
+          </MDBRow>
         </MDBContainer>
-
-        <MDBContainer></MDBContainer>
-
-        <MDBContainer className="text-center p-0 d-flex justify-content-around ">
-          {/* {buttonLoader ? (
-            <div className="d-flex justify-content-center">
-              <MDBSpinner role="status" color="light" grow>
-                <span className="visually-hidden">Loading...</span>
-              </MDBSpinner>
-            </div>
-          ) : (   */}
-          <button
-            className="spbets-btn-container"
-            role="button"
-            disabled={
-              storeRoundStatus.roundStatus.status === "close" ||
-              storeRoundStatus.roundStatus.status === "standby" ||
-              allbuttonDisabler === true
-                ? true
-                : false || storeRoundStatus.roundStatus.status === "done round"
-            }
-            onClick={toggleShowBetDraw}
-            hidden={enabledDraw}
-          >
-            <div className="spbets-btn-draw">
-              <MDBTypography tag="h4" className="m-0">
-                DRAW
-              </MDBTypography>
-            </div>
-          </button>
-          {/* )} */}
-
-          <div
-            className="p-2"
-            style={{
-              borderRadius: "10px",
-              border: "3px solid silver",
-              background: "#4d617e",
-            }}
-          >
-            <div className=" mx-0 ps-0 ">
-              <ArenaDrawAmount />
-            </div>
-          </div>
-        </MDBContainer>
-
-        {/* meron cofirmation modal */}
-        <MDBModal
-          tabIndex="-1"
-          show={centredModalBetMeron}
-          setShow={setCentredModalBetMeron}
-        >
-          <MDBModalDialog centered>
-            <MDBModalContent>
-              <MDBModalHeader>
-                <MDBModalTitle>
-                  {" "}
-                  <MDBIcon fas icon="cogs" className="pe-3" /> Are you sure you
-                  want to bet on MERON?
-                </MDBModalTitle>
-                <MDBBtn
-                  type="button"
-                  className="btn-close"
-                  color="none"
-                  onClick={toggleShowBetMeron}
-                ></MDBBtn>
-              </MDBModalHeader>
-
-              <MDBModalFooter className="justify-content-center text-center pe-5">
-                <MDBBtn
-                  className="pe-5 ps-5 me-4"
-                  onClick={() => handleBetting("meron")}
-                >
-                  Yes
-                </MDBBtn>
-                <MDBBtn className="pe-5 ps-5 ms-4" onClick={toggleShowBetMeron}>
-                  No
-                </MDBBtn>
-              </MDBModalFooter>
-            </MDBModalContent>
-          </MDBModalDialog>
-        </MDBModal>
-
-        {/* ------------------------------------------------------------------------------------- */}
-
-        {/* wala cofirmation modal */}
-        <MDBModal
-          tabIndex="-1"
-          show={centredModalBetWala}
-          setShow={setCentredModalBetWala}
-        >
-          <MDBModalDialog centered>
-            <MDBModalContent>
-              <MDBModalHeader>
-                <MDBModalTitle>
-                  {" "}
-                  <MDBIcon fas icon="cogs" className="pe-3" /> Are you sure you
-                  want to bet on WALA?{" "}
-                </MDBModalTitle>
-                <MDBBtn
-                  type="button"
-                  className="btn-close"
-                  color="none"
-                  onClick={toggleShowBetWala}
-                ></MDBBtn>
-              </MDBModalHeader>
-
-              <MDBModalFooter className="justify-content-center text-center pe-5">
-                <MDBBtn
-                  className="pe-5 ps-5 me-4"
-                  onClick={() => handleBetting("wala")}
-                >
-                  Yes
-                </MDBBtn>
-                <MDBBtn className="pe-5 ps-5 ms-4" onClick={toggleShowBetWala}>
-                  No
-                </MDBBtn>
-              </MDBModalFooter>
-            </MDBModalContent>
-          </MDBModalDialog>
-        </MDBModal>
-
-        {/* ------------------------------------------------------------------------------------- */}
-
-        {/* draw cofirmation modal */}
-        <MDBModal
-          tabIndex="-1"
-          show={centredModalBetDraw}
-          setShow={setCentredModalBetDraw}
-        >
-          <MDBModalDialog centered>
-            <MDBModalContent>
-              <MDBModalHeader>
-                <MDBModalTitle>
-                  {" "}
-                  <MDBIcon fas icon="cogs" className="pe-3" /> Are you sure you
-                  want to bet on DRAW?{" "}
-                </MDBModalTitle>
-                <MDBBtn
-                  type="button"
-                  className="btn-close"
-                  color="none"
-                  onClick={toggleShowBetDraw}
-                ></MDBBtn>
-              </MDBModalHeader>
-
-              <MDBModalFooter className="justify-content-center text-center pe-5">
-                <MDBBtn
-                  className="pe-5 ps-5 me-4"
-                  onClick={() => handleBetting("draw")}
-                >
-                  Yes
-                </MDBBtn>
-                <MDBBtn className="pe-5 ps-5 ms-4" onClick={toggleShowBetDraw}>
-                  No
-                </MDBBtn>
-              </MDBModalFooter>
-            </MDBModalContent>
-          </MDBModalDialog>
-        </MDBModal>
-
-        {/* ------------------------------------------------------------------------------------- */}
       </MDBContainer>
-
+      <ArenaBalanceAmount />
       <MDBContainer
-        className="p-3 mt-3"
-        style={{
-          background: "black",
-          border: "3px solid silver",
-          borderRadius: "10px",
-        }}
+        fluid
+        className="pt-4 pb-3 px-3 mt-2 mb-1 sppayout-container position-relative"
       >
-        <ArenaBalanceAmount amount={storeUsers.me?.points} />
+        <div className="form-group position-relative mb-2">
+          <img
+            src={clear}
+            onClick={() => setBetAmount("")}
+            disabled={
+              loading || statuses.includes(arena?.bettingStatus) || currentBet
+            }
+            alt="clear"
+            className="img-fluid spbets-btn-clear"
+            role="button"
+          />
+
+          <input
+            placeholder="ENTER BET AMOUNT"
+            type="number"
+            min="0"
+            disabled={
+              loading || statuses.includes(arena?.bettingStatus) || currentBet
+            }
+            className="form-control spbets-input-text"
+            onChange={e => setBetAmount(e.target.value)}
+            value={betAmount}
+          />
+        </div>
+        <MDBContainer
+          fluid
+          className="px-0 d-flex align-items-center justify-content-start gap-1 flex-wrap py-2"
+        >
+          <MDBBtn
+            onClick={() => setBetAmount(50)}
+            disabled={
+              loading || statuses.includes(arena?.bettingStatus) || currentBet
+            }
+            className="spbets-btn-bet mb-2"
+          >
+            50
+          </MDBBtn>
+          <MDBBtn
+            onClick={() => setBetAmount(500)}
+            disabled={
+              loading || statuses.includes(arena?.bettingStatus) || currentBet
+            }
+            className="spbets-btn-bet mb-2"
+          >
+            500
+          </MDBBtn>
+          <MDBBtn
+            onClick={() => setBetAmount(1000)}
+            disabled={
+              loading || statuses.includes(arena?.bettingStatus) || currentBet
+            }
+            className="spbets-btn-bet mb-2"
+          >
+            1k
+          </MDBBtn>
+          <MDBBtn
+            onClick={() => setBetAmount(2000)}
+            disabled={
+              loading || statuses.includes(arena?.bettingStatus) || currentBet
+            }
+            className="spbets-btn-bet mb-2"
+          >
+            2k
+          </MDBBtn>
+          <MDBBtn
+            onClick={() => setBetAmount(5000)}
+            disabled={
+              loading || statuses.includes(arena?.bettingStatus) || currentBet
+            }
+            className="spbets-btn-bet mb-2"
+          >
+            5k
+          </MDBBtn>
+          <MDBBtn
+            onClick={() => setBetAmount(points)}
+            disabled={
+              loading || statuses.includes(arena?.bettingStatus) || currentBet
+            }
+            className="spbets-btn-bet mb-2"
+          >
+            MAX
+          </MDBBtn>
+        </MDBContainer>
+
+        {arena?.drawEnabled && (
+          <MDBContainer
+            fluid
+            className="text-center p-0 mt-2 position-relative"
+          >
+            <button
+              onClick={handleDrawBet}
+              disabled={
+                loading || statuses.includes(arena?.bettingStatus) || currentBet
+              }
+              className="spbets-btn-container py-2"
+              role="button"
+              style={{ position: "absolute", left: 1, top: -6 }}
+            >
+              <div className="spbets-btn-draw">
+                <MDBTypography tag="h6" className="m-0 py-1">
+                  BET DRAW
+                </MDBTypography>
+              </div>
+            </button>
+            <div className="mx-0 ps-0 ">
+              <ArenaDrawAmount
+                amount={currentBet?.bet === "draw" ? currentBet?.amount : 0}
+              />
+            </div>
+            <div
+              className="mt-2 text-start text-white"
+              style={{ fontSize: "0.7rem" }}
+            >
+              DRAW WINS x8 Max. DRAW bet per player: 1000/fight
+            </div>
+          </MDBContainer>
+        )}
       </MDBContainer>
     </MDBCol>
   );

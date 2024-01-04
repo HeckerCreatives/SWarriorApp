@@ -7,8 +7,12 @@ import {
   MDBTypography,
   MDBSpinner,
 } from "mdb-react-ui-kit";
+import usePlayerArenaStore from "../../../stores/playerArenaStore";
+import { useLocation } from "react-router-dom";
 
 const PreviousOutcomePanel = () => {
+  const outcome = usePlayerArenaStore(state => state.previousOutcome);
+
   return (
     <MDBCol>
       <MDBContainer
@@ -19,15 +23,15 @@ const PreviousOutcomePanel = () => {
         <MDBCol className="d-flex">
           <MDBContainer className="text-center">
             <h5 className="text-white">Round</h5>
-            <span className="text-info">{1}</span>
+            <span className="text-info">{outcome?.round || "--"}</span>
           </MDBContainer>
           <MDBContainer className="text-center">
             <h5 className="text-white">Outcome</h5>
-            <span className="text-primary">{"WALA"}</span>
+            <span className="text-primary">{outcome?.outcome || "--"}</span>
           </MDBContainer>
           <MDBContainer className=" text-center">
             <h5 className="text-white">Status</h5>
-            <span>--</span>
+            <span>{outcome === null ? "finished" : "--"}</span>
           </MDBContainer>
         </MDBCol>
       </MDBContainer>

@@ -16,6 +16,7 @@ import CashoutHistoryModal from "./CashoutHistoryModal";
 import useArenaStore from "../../stores/arenaStore";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import useProfileStore from "../../stores/profileStore";
 
 const ArenaList = () => {
   const [page, setPage] = useState(1);
@@ -28,6 +29,12 @@ const ArenaList = () => {
   const nextPage = useArenaStore(state => state.arena.nextPage);
   const prevPage = useArenaStore(state => state.arena.prevPage);
   const loading = useArenaStore(state => state.loading.arenas);
+
+  const getProfile = useProfileStore(state => state.getProfile);
+
+  useEffect(() => {
+    getProfile();
+  }, []);
 
   useEffect(() => {
     getArenas(limit, page);
@@ -76,13 +83,13 @@ const ArenaList = () => {
           >
             <div className="d-flex align-items-center ">
               <div className="px-3">
-                <MDBTooltip tag="a" title="Refresh Page">
+                <MDBTooltip tag="a" title="Unprocess Bets">
                   <MDBIcon
-                    fas
-                    icon="redo-alt"
-                    size="xl"
                     role="button"
-                    onClick={() => window.location.reload()}
+                    onClick={() => window.reload()}
+                    fas
+                    icon="rotate-right"
+                    size="2x"
                   />
                 </MDBTooltip>
               </div>

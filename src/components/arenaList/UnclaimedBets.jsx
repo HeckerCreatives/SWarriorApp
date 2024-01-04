@@ -17,36 +17,26 @@ import {
   MDBSpinner,
 } from "mdb-react-ui-kit";
 import useBetStore from "../../stores/betStore";
-import { useLocation } from "react-router-dom";
 import { handleDate } from "../../utility/utils";
 
-const ArenaNotification = () => {
-  const { state } = useLocation();
-
+const UnclaimedBets = () => {
   const [centredModal, setCentredModal] = useState(false);
   const toggleShow = () => setCentredModal(!centredModal);
 
-  const getArenaBetsByUser = useBetStore(state => state.getArenaBetsByUser);
-  const bets = useBetStore(state => state.arenaBetsByUser);
-  const loading = useBetStore(state => state.loading.arenaBetsByUser);
-
-  useEffect(() => {
-    getArenaBetsByUser(state._id);
-  }, []);
+  const bets = [];
+  const loading = false;
 
   const handleNumber = amount => Number(amount).toFixed(2);
 
   return (
-    <MDBContainer className="my-2 mx-2">
-      <div
-        style={{
-          position: "relative",
-          display: "inline-block",
-          cursor: "pointer",
-        }}
-      >
-        <MDBIcon onClick={() => toggleShow()} fas icon="history" size="2x" />
-      </div>
+    <>
+      <MDBIcon
+        role="button"
+        onClick={() => toggleShow()}
+        fas
+        icon="credit-card"
+        size="2x"
+      />
 
       <MDBModal tabIndex="-1" show={centredModal} setShow={setCentredModal}>
         <MDBModalDialog centered size="xl">
@@ -60,7 +50,7 @@ const ArenaNotification = () => {
                   className=""
                 />
                 <h5 className="flex-grow-1 text-center m-0">
-                  Bet And Outcome History
+                  Unprocessed Bets
                 </h5>
                 <MDBBtn
                   className="btn-close btn-close-white me-1"
@@ -76,23 +66,23 @@ const ArenaNotification = () => {
               <MDBTable fluid className="tlt-table">
                 <MDBTableHead fluid>
                   <tr className="">
-                    <th scope="col" className="text-center text-truncate">
-                      Date
+                    <th scope="col" className="text-center">
+                      Bet
                     </th>
-                    <th scope="col" className="text-center text-truncate">
-                      My Bet
-                    </th>
-                    <th scope="col" className="text-center text-truncate">
+                    <th scope="col" className="text-center">
                       Amount
                     </th>
-                    <th scope="col" className="text-center text-truncate">
-                      Outcome
+                    <th scope="col" className="text-center">
+                      Arena
                     </th>
-                    <th scope="col" className="text-center text-truncate">
+                    <th scope="col" className="text-center">
                       Round #
                     </th>
-                    <th scope="col" className="text-center text-truncate">
-                      System Message
+                    <th scope="col" className="text-center">
+                      Date
+                    </th>
+                    <th scope="col" className="text-center">
+                      Action
                     </th>
                   </tr>
                 </MDBTableHead>
@@ -106,50 +96,45 @@ const ArenaNotification = () => {
                   ) : bets.length === 0 ? (
                     <tr>
                       <td colSpan={6} className="text-center">
-                        No Record Found
+                        No Unprocessed bets
                       </td>
                     </tr>
                   ) : (
                     bets.map(bet => (
                       <tr key={bet._id}>
-                        <th className="text-center text-truncate">
+                        <th className="text-center">
                           {handleDate(bet.createdAt)}
                         </th>
-                        <td className="text-center text-capitalize text-truncate">
+                        <td className="text-center text-capitalize">
                           {bet.myBet}
                         </td>
-                        <td className="text-center text-capitalize text-truncate">
+                        <td className="text-center text-capitalize">
                           {handleNumber(bet.amount)}
                         </td>
-                        <td className="text-center text-capitalize text-truncate">
+                        <td className="text-center text-capitalize">
                           {bet.outcome}
                         </td>
-                        <td className="text-center text-truncate">
-                          {bet.round}
-                        </td>
-                        <td className="text-center text-truncate">
+                        <td className="text-center">{bet.round}</td>
+                        <td className="text-center">
                           {bet.outcome === "cancel"
                             ? "Round Cancelled"
                             : bet.myBet === bet.outcome
                             ? "Congratulations You Won"
                             : "Better Luck Next Round"}
                         </td>
+                        <td></td>
                       </tr>
                     ))
                   )}
                 </MDBTableBody>
               </MDBTable>
             </MDBModalBody>
-            <MDBModalFooter>
-              {/* <MDBBtn color="secondary" onClick={toggleShow}>
-                Close
-              </MDBBtn> */}
-            </MDBModalFooter>
+            <MDBModalFooter></MDBModalFooter>
           </MDBModalContent>
         </MDBModalDialog>
       </MDBModal>
-    </MDBContainer>
+    </>
   );
 };
 
-export default ArenaNotification;
+export default UnclaimedBets;

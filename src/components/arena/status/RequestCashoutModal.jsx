@@ -1,7 +1,4 @@
-// ** React
-import React, { useState } from "react";
-
-// ** Third Party Components
+import React, { useEffect, useState } from "react";
 import {
   MDBBtn,
   MDBContainer,
@@ -10,91 +7,79 @@ import {
   MDBModalBody,
   MDBModalContent,
   MDBModalDialog,
+  MDBSpinner,
 } from "mdb-react-ui-kit";
-import toast from "react-hot-toast";
-
-// ** Redux
-import { useDispatch, useSelector } from "react-redux";
-import {
-  cashoutRequest,
-  myCashoutRequest,
-} from "../../../redux/slices/cashout";
-import { ME } from "../../../redux/slices/users";
-
 import withdraw from "../../../assets/images/arena/withdraw.png";
+import useUserStore from "../../../stores/userStore";
+import Swal from "sweetalert2";
+import PaymentModeModal from "../../dashboard/cards/points/cashout/payment-mode-modal";
+import useProfileStore from "../../../stores/profileStore";
 
-const RequestCashoutModal = data => {
-  const dispatch = useDispatch();
-  const storeCashout = useSelector(state => state.cashout);
+const RequestCashoutModal = () => {
   const [centredModal, setCentredModal] = useState(false);
-  const [disableButton, setDisableButton] = useState(false);
 
   const toggleShow = () => setCentredModal(!centredModal);
 
-  // ** Login User
-  const auth = "";
+  const points = useUserStore(state => state.points);
+  const request = useUserStore(state => state.requestCreditCashout);
+  const reset = useUserStore(state => state.resetSuccess);
+  const loading = useUserStore(state => state.loading.cashoutCredit);
+  const success = useUserStore(state => state.success.cashoutCredit);
 
-  const handleSubmit = async e => {
-    const toastId = toast.loading("Loading...");
-    setDisableButton(true);
+  const getProfile = useProfileStore(state => state.getProfile);
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  useEffect(() => {
+    if (success) {
+      document.getElementById("myForm").reset();
+      reset();
+      setCentredModal(false);
+    }
+  }, [success]);
+
+  const handleSubmit = e => {
     e.preventDefault();
 
     const { amount } = e.target;
-    if (amount.value) {
-      const data = {
-        status: "Pending",
-        amount: amount.value,
-        user_id: auth.user.id,
-      };
 
-      const response = await dispatch(cashoutRequest(data));
-
-      dispatch(myCashoutRequest(auth.user.id));
-      if (response.type === "cashout/cashoutRequest/fulfilled") {
-        toast.success(`Cashout Successfully Request`, {
-          id: toastId,
-          duration: 4000,
-        });
-        dispatch(ME(auth.user.id));
-        document.getElementById("myForm").reset();
-        setCentredModal(false);
-        setDisableButton(false);
-      } else {
-        toast.error("Cashout Failed To Request", {
-          id: toastId,
-          duration: 4000,
-        });
-        document.getElementById("myForm").reset();
-        setCentredModal(false);
-        setDisableButton(false);
-      }
-    } else {
-      toast.error("Please enter your amount", {
-        id: toastId,
-        duration: 4000,
-      });
-      setDisableButton(false);
+    if (amount.value === "") {
+      errToast("Please enter an amount to cashout");
+      return;
     }
+
+    if (isNaN(amount.value)) {
+      errToast("Invalid Amount");
+      return;
+    }
+
+    if (points < parseFloat(amount.value)) {
+      errToast("Insufficient Balance");
+      return;
+    }
+
+    Swal.fire({
+      title: `Are you sure you want to cashout ${amount.value} credits?`,
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`,
+    }).then(result => {
+      if (result.isConfirmed) {
+        request({ amount: amount.value });
+      }
+    });
   };
 
   return (
     <>
-      {/* <MDBBtn
-        onClick={toggleShow}
-        className="arc-button px-5 mb-3"
-        disabled={data.disabled}
-        block
-      >
-        Request Cashout
-      </MDBBtn> */}
-
       <img
         onClick={toggleShow}
-        disabled={data.disabled}
         src={withdraw}
         alt="withdraw"
-        className="aba-withdraw-btn"
         role="button"
+        className="object-cover"
       />
       <MDBModal tabIndex="-1" show={centredModal} setShow={setCentredModal}>
         <MDBModalDialog centered size="lg">
@@ -102,7 +87,7 @@ const RequestCashoutModal = data => {
             <MDBModalBody>
               <MDBContainer
                 fluid
-                className="px-5 d-flex align-items-center justify-content-between mt-3 mb-4"
+                className="px-5 d-flex align-items-center justify-content-between mt-3 mb-1"
               >
                 <div className="commswc-modal-title">ENTER CASHOUT AMOUNT</div>
                 <MDBIcon
@@ -114,7 +99,15 @@ const RequestCashoutModal = data => {
                   size="2x"
                 />
               </MDBContainer>
-              <form id="myForm" onSubmit={handleSubmit} autoComplete="off">
+              <small className="px-5 text-white">
+                Edit your payment mode. <PaymentModeModal />
+              </small>
+              <form
+                id="myForm"
+                onSubmit={handleSubmit}
+                autoComplete="off"
+                noValidate
+              >
                 <div className="d-flex align-items-center commswc-form-container p-2 mx-5">
                   <div className="flex-grow-1">
                     <input
@@ -124,17 +117,17 @@ const RequestCashoutModal = data => {
                       className="form-control commswc-modal-input shadow-0"
                     />
                   </div>
-                  {/* <MDBBtn className="commswc-modal-clear">
-                    <MDBIcon fas icon="window-close" size="3x" />
-                  </MDBBtn> */}
                 </div>
                 <MDBContainer fluid className="px-5 mt-4 text-center">
-                  <MDBBtn
-                    className="commswc-confirm-btn px-5"
-                    disabled={storeCashout.isLoading || disableButton}
-                  >
-                    <MDBIcon fas icon="check" />
-                    &nbsp;&nbsp;CONFIRM
+                  <MDBBtn className="commswc-confirm-btn px-5">
+                    {loading ? (
+                      <MDBSpinner size="sm" />
+                    ) : (
+                      <>
+                        <MDBIcon fas icon="check" />
+                        &nbsp;&nbsp;CONFIRM
+                      </>
+                    )}
                   </MDBBtn>
                 </MDBContainer>
               </form>

@@ -69,15 +69,13 @@
 }
 
 .betting-history-icon {
-  width: 30px !important;
-  height: 30px !important;
+  width: 2.25rem !important;
+  height: 2.25rem !important;
   color: #fff;
   font-weight: bolder;
-  display: flex;
   font-size: 15px;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  place-items: center;
 }
 
 .arena-topnav-bg {
@@ -119,6 +117,7 @@
   background-color: #f6b749;
   color: #151e2a;
   font-weight: bolder;
+  font-size: 0.8rem;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
 }
@@ -220,6 +219,7 @@
   color: whitesmoke;
   border-radius: 0.5rem;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.575);
+  transition: transform 0.3s ease-in-out;
 }
 
 .sppayout-btn-inactive {
@@ -248,12 +248,16 @@
 
 .spbets-input-text {
   background-color: transparent !important;
-  font-size: 1.5rem !important;
+  font-size: 1.2rem !important;
   font-weight: bold !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  text-align: center !important;
+  padding-top: 0.2rem !important;
+  padding-bottom: 0.1rem !important;
+  text-align: start !important;
   color: whitesmoke !important;
+}
+
+.spbets-input-text::placeholder {
+  color: rgba(245, 245, 245, 0.705) !important;
 }
 
 .spbets-btn-clear {
@@ -264,9 +268,10 @@
 }
 
 .spbets-btn-bet {
-  font-size: 1.75rem;
+  /* font-size: 1rem !important; */
   padding: 0.1rem 0.8rem !important;
-  background-color: #4d617e !important;
+  /* background-color: #4d617e !important; */
+  background-color: transparent !important;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.514) !important;
 }
 
@@ -275,12 +280,12 @@
   color: whitesmoke;
   border-radius: 0.5rem;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.514) !important;
+  margin: auto;
 }
 
 .spbets-btn-draw {
   background-color: #4ddf81;
   width: 10rem !important;
-  height: 2.5rem !important;
   display: grid;
   place-items: center;
   border-radius: 0.5rem;
@@ -289,28 +294,32 @@
 
 .spbets-btn-meron {
   background-color: #df4d4d;
-  width: 7rem;
-  height: 6.5rem;
   display: grid;
   place-items: center;
   border-radius: 0.5rem;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.24) !important;
+}
+
+.spbets-btn-meron h6 {
+  font-size: 0.9rem;
+  font-weight: bolder;
 }
 
 .spbets-btn-wala {
   background-color: #3f51db;
-  width: 7rem;
-  height: 6.5rem;
   display: grid;
   place-items: center;
   border-radius: 0.5rem;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.24) !important;
 }
 
+.spbets-btn-wala h6 {
+  font-size: 0.9rem;
+  font-weight: bolder;
+}
+
 .spbets-btn-draw {
   background-color: #4ddf81;
-  width: 7rem;
-  height: 6.5rem;
   display: grid;
   place-items: center;
   border-radius: 0.5rem;
@@ -339,10 +348,10 @@
   .mobile-view-betting {
     display: none !important;
   }
- 
-  .notificationModalTitle{
+
+  .notificationModalTitle {
     padding-inline-start: 280px;
-      }
+  }
 }
 
 /* media */
@@ -352,36 +361,9 @@
     width: 3rem;
   }
 
-  .spbets-btn-draw {
-    height: 20px !important;
-    width: 115px !important;
-  }
-  .spbets-btn-draw h4 {
-    font-size: 12px;
-  }
-
-  .spbets-btn-wala {
-    height: 20px !important;
-    width: 115px !important;
-  }
-  .spbets-btn-meron {
-    height: 20px !important;
-    width: 115px !important;
-  }
-  .spbets-btn-meron h4 {
-    font-size: 12px;
-  }
-
-  .spbets-btn-wala h4 {
-    font-size: 12px;
-  }
   .sppayout-container {
     padding: 0 !important;
   }
-  .spbets-btn-bet {
-    font-size: 12px !important;
-  }
-
   .sppayout-btn {
     border-bottom-right-radius: 0px !important;
     border-bottom-left-radius: 0px !important;
@@ -430,8 +412,6 @@
   .arena-tab-container {
     width: 60vw;
   }
- 
- 
 }
 
 @media only screen and (max-width: 1199px) {

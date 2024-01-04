@@ -15,4 +15,3 @@ const FinancerArenaCommissions = () => {
 };
 
 export default FinancerArenaCommissions;
- 

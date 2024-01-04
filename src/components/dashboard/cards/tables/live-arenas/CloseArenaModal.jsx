@@ -72,7 +72,7 @@ const CloseArenaModal = ({ data }) => {
                   <div className="coreq-modal-warning-icon">
                     <MDBIcon fas icon="exclamation-triangle" size="2xl" />
                   </div>
-                  <div className="coreq-modal-warning-label">
+                  <div className="coreq-modal-warning-label text-wrap">
                     Are you certain you want to close this arena? You will not
                     be able to undo this after updating.
                   </div>

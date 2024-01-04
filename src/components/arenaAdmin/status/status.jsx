@@ -1,16 +1,8 @@
 // ** React
 import React from "react";
-
-// ** Third Party Components
 import { MDBCol, MDBContainer, MDBTypography } from "mdb-react-ui-kit";
 
-// ** Redux
-import { useSelector } from "react-redux";
-
-const ArenaHeaderStatus = () => {
-  // ** States
-  const storeRoundStatus = useSelector((state) => state.roundStatus);
-    
+const ArenaHeaderStatus = ({ status }) => {
   return (
     <MDBCol>
       <MDBContainer fluid className="px-0 mb-2">
@@ -26,15 +18,7 @@ const ArenaHeaderStatus = () => {
             className="text-center m-0"
             style={{ textTransform: "uppercase" }}
           >
-            {storeRoundStatus.isLoading ? (
-              <div className="d-flex justify-content-center">
-                <div className="spinner-grow text-light" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </div>
-              </div>
-            ) : (
-              storeRoundStatus.roundStatus?.status
-            )}
+            {status}
           </MDBTypography>
         </MDBContainer>
       </MDBContainer>

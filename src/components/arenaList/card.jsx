@@ -8,14 +8,21 @@ import {
   MDBBtn,
 } from "mdb-react-ui-kit";
 import defaultBackground from "../../assets/images/landing/body/image.png";
+import { useNavigate } from "react-router-dom";
 
 const ArenaCard = ({ arena }) => {
+  const navigate = useNavigate();
+
   return (
     <MDBCol
-      md="6"
-      lg="2"
+      size={8}
+      sm={6}
+      md={6}
+      lg={4}
+      xl={3}
+      xxl={3}
       fluid
-      className="p-3 cvitem-wrapper arena-column mb-4"
+      className="p-3 cvitem-wrapper arena-column mb-4 mx-1"
       style={{ cursor: "pointer" }}
     >
       <MDBCard>
@@ -25,13 +32,22 @@ const ArenaCard = ({ arena }) => {
           position="top"
           width={50}
           alt="..."
+          style={{ objectFit: "cover" }}
         />
         <MDBCardBody className="arena-list-item-container">
-          <MDBCardTitle>{arena.eventName}</MDBCardTitle>
-          <p className="small text-white fw-bold text-uppercase">
+          <MDBCardTitle className="m-0">{arena.eventName}</MDBCardTitle>
+          <p className="small text-white text-uppercase mb-2 mt-0">
             {arena.eventType}
           </p>
-          <MDBBtn>Enter</MDBBtn>
+          <MDBBtn
+            onClick={() =>
+              navigate(`/player/arena/${arena._id}`, { state: arena })
+            }
+            color="warning"
+            className="py-1 text-dark fw-bold"
+          >
+            Enter Arena
+          </MDBBtn>
         </MDBCardBody>
       </MDBCard>
     </MDBCol>

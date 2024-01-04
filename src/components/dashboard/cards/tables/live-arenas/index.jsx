@@ -135,7 +135,7 @@ const LiveArenasTable = () => {
               </table>
             </div>
           </MDBContainer>
-          <MDBContainer
+          {/* <MDBContainer
             fluid
             className="px-3 d-flex align-items-center justify-content-between py-3"
           >
@@ -143,12 +143,12 @@ const LiveArenasTable = () => {
               <MDBBtn className="live-arena-controls la-btn-1 me-2 mb-2">
                 <MDBIcon fas icon="cogs" /> CONTROL
               </MDBBtn>
-              {/* <MDBBtn className="live-arena-controls la-btn-2 mb-2">
+              <MDBBtn className="live-arena-controls la-btn-2 mb-2">
                 <MDBIcon fas icon="cogs" /> GO TO ARENA
-              </MDBBtn> */}
+              </MDBBtn>
             </div>
-            <div>{/* <ArenaLogsModal /> */}</div>
-          </MDBContainer>
+            <div><ArenaLogsModal /></div>
+          </MDBContainer> */}
         </MDBContainer>
       </MDBContainer>
     </MDBCol>

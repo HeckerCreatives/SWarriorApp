@@ -6,23 +6,60 @@ import {
   MDBModalBody,
   MDBModalContent,
   MDBModalDialog,
+  MDBSpinner,
   MDBTypography,
 } from "mdb-react-ui-kit";
-import { useState } from "react";
-import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+import useCommissionHistoryStore from "../../../../../stores/commissionHistoryStore";
+import { handleDate } from "../../../../../utility/utils";
 
-const CommsLogsModal = item => {
+const CommsLogsModal = ({ arenaId }) => {
   const [centredModal, setCentredModal] = useState(false);
+  const toggleShow = () => setCentredModal(!centredModal);
 
-  const toggleShow = () => {
-    if (item.data.length === 0) {
-      toast.error("Please Select Arena", {
-        duration: 3000,
-      });
-    } else {
-      setCentredModal(!centredModal);
+  const limit = 10;
+  const [page, setPage] = useState(1);
+
+  const getCommissions = useCommissionHistoryStore(
+    state => state.getCommissionHistoryByUser
+  );
+  const loading = useCommissionHistoryStore(
+    state => state.loading.commissionByUser
+  );
+  const commissions = useCommissionHistoryStore(
+    state => state.commissionByUser.commissions
+  );
+  const totalPages = useCommissionHistoryStore(
+    state => state.commissionByUser.totalPages
+  );
+  const prevPage = useCommissionHistoryStore(
+    state => state.commissionByUser.prevPage
+  );
+  const nextPage = useCommissionHistoryStore(
+    state => state.commissionByUser.nextPage
+  );
+
+  const handleNextPage = () => {
+    if (nextPage) {
+      setPage(nextPage);
+      getCommissions(limit, nextPage, arenaId);
     }
   };
+
+  const handlePrevPage = () => {
+    if (prevPage) {
+      setPage(prevPage);
+      getCommissions(limit, prevPage, arenaId);
+    }
+  };
+
+  useEffect(() => {
+    if (centredModal) {
+      getCommissions(limit, page, arenaId);
+    }
+  }, [centredModal]);
+
+  const handleNumber = amount => Number(amount).toFixed(2);
 
   return (
     <>
@@ -52,11 +89,23 @@ const CommsLogsModal = item => {
                 fluid
                 className="px-0 mb-3 d-flex align-items-center justify-content-center"
               >
-                <button className="tc-pager" role="button">
+                <button
+                  onClick={handlePrevPage}
+                  disabled={prevPage === null || loading}
+                  className="tp-pager"
+                  role="button"
+                >
                   <MDBIcon fas icon="angle-double-left" />
                 </button>
-                <div className="tc-page">{1}</div>
-                <button className="tc-pager" role="button">
+                <div className="tp-page">
+                  {page} / {totalPages}
+                </div>
+                <button
+                  onClick={handleNextPage}
+                  disabled={nextPage === null || loading}
+                  className="tp-pager"
+                  role="button"
+                >
                   <MDBIcon fas icon="angle-double-right" />
                 </button>
               </MDBContainer>
@@ -93,15 +142,31 @@ const CommsLogsModal = item => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                        </tr>
+                        {loading ? (
+                          <tr>
+                            <td colSpan={7}>
+                              <MDBSpinner size="sm" />
+                            </td>
+                          </tr>
+                        ) : commissions.length === 0 ? (
+                          <tr>
+                            <td colSpan={7}>No Commission Found</td>
+                          </tr>
+                        ) : (
+                          commissions.map(commission => (
+                            <tr key={commission._id}>
+                              <td>{commission.arena}</td>
+                              <td>{commission.fights}</td>
+                              <td>{handleNumber(commission.commission)}</td>
+                              <td>{commission.player}</td>
+                              <td>{commission.agent}</td>
+                              <td className="text-capitalize">
+                                {commission.outcome}
+                              </td>
+                              <td>{handleDate(commission.createdAt)}</td>
+                            </tr>
+                          ))
+                        )}
                       </tbody>
                     </table>
                   </div>

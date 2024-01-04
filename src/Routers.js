@@ -180,7 +180,7 @@ const Routers = () => {
       <Route path="/registration/:uid/:type" element={<Register />} />
 
       <Route path="player" element={<RequireAuth allowedRoles={["player"]} />}>
-        <Route path="arena" element={<Arena />} />
+        <Route path="arena/:aid" element={<Arena />} />
         <Route path="arenaList" element={<ArenaList />} />
       </Route>
 
@@ -189,7 +189,7 @@ const Routers = () => {
         path="admin"
         element={<RequireAuth allowedRoles={["superadmin", "moderator"]} />}
       >
-        <Route path="arena" element={<ArenaAdmin />} />
+        <Route path="arena/:aid" element={<ArenaAdmin />} />
       </Route>
 
       <Route path="/dashboard" element={<Dashboard />}>

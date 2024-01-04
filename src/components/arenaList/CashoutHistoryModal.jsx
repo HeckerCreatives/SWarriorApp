@@ -8,11 +8,46 @@ import {
   MDBModalDialog,
   MDBTypography,
 } from "mdb-react-ui-kit";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useCashoutStore from "../../stores/cashoutStore";
+import useProfileStore from "../../stores/profileStore";
+import { handleCharLimit, handleDate } from "../../utility/utils";
 
 const CashoutHistoryModal = () => {
   const [centredModal, setCentredModal] = useState(false);
   const toggleShow = () => setCentredModal(!centredModal);
+
+  const limit = 10;
+  const [page, setPage] = useState(1);
+
+  const getRequests = useCashoutStore(state => state.getOwnCreditRequest);
+  const loading = useCashoutStore(state => state.loading.ownCredit);
+  const requests = useCashoutStore(state => state.ownCredit.requests);
+  const totalPages = useCashoutStore(state => state.ownCredit.totalPages);
+  const prevPage = useCashoutStore(state => state.ownCredit.prevPage);
+  const nextPage = useCashoutStore(state => state.ownCredit.nextPage);
+
+  const profile = useProfileStore(state => state.profile);
+
+  const handleNextPage = () => {
+    if (nextPage) {
+      setPage(nextPage);
+      getRequests(limit, nextPage);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (prevPage) {
+      setPage(prevPage);
+      getRequests(limit, prevPage);
+    }
+  };
+
+  useEffect(() => {
+    getRequests(limit, page);
+  }, []);
+
+  const handleNumber = amount => Number(amount).toFixed(2);
 
   return (
     <>
@@ -46,11 +81,23 @@ const CashoutHistoryModal = () => {
                 fluid
                 className="px-0 mb-3 d-flex align-items-center justify-content-center"
               >
-                <button className="tc-pager" role="button">
+                <button
+                  onClick={handlePrevPage}
+                  disabled={prevPage === null || loading}
+                  className="tp-pager"
+                  role="button"
+                >
                   <MDBIcon fas icon="angle-double-left" />
                 </button>
-                <div className="tc-page">{1}</div>
-                <button className="tc-pager" role="button">
+                <div className="tp-page">
+                  {page} / {totalPages}
+                </div>
+                <button
+                  onClick={handleNextPage}
+                  disabled={nextPage === null || loading}
+                  className="tp-pager"
+                  role="button"
+                >
                   <MDBIcon fas icon="angle-double-right" />
                 </button>
               </MDBContainer>
@@ -72,7 +119,7 @@ const CashoutHistoryModal = () => {
                           AMOUNT
                         </th>
                         <th scope="col" className="text-truncate">
-                          LOG
+                          STATUS
                         </th>
                         <th scope="col" className="text-truncate">
                           DATE
@@ -80,22 +127,37 @@ const CashoutHistoryModal = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className="text-center">
-                        <td className="text-truncate"></td>
-                        <td className="text-truncate text-info"></td>
-                        <td className="text-truncate">
-                          <div className="clt-assigned">
-                            <MDBIcon fas icon="user-alt" />
-                          </div>
-                        </td>
-                        <td className="text-truncate text-primary"></td>
-                        <td className={`text-truncate`}>
-                          <small></small>
-                        </td>
-                        <td className="text-truncate">
-                          <div className="clt-date"></div>
-                        </td>
-                      </tr>
+                      {loading
+                        ? ""
+                        : requests.length === 0
+                        ? ""
+                        : requests.map(request => (
+                            <tr key={request._id} className="text-center">
+                              <td className="text-truncate">
+                                {handleCharLimit(request._id)}
+                              </td>
+                              <td className="text-truncate text-info">
+                                {profile?.username}
+                              </td>
+                              <td className="text-truncate">
+                                <div className="clt-assigned">
+                                  <MDBIcon fas icon="user-alt" />{" "}
+                                  {profile?.referrer}
+                                </div>
+                              </td>
+                              <td className="text-truncate text-primary">
+                                {handleNumber(request.amount)}
+                              </td>
+                              <td className={`text-truncate text-capitalize`}>
+                                <small>{request.status}</small>
+                              </td>
+                              <td className="text-truncate">
+                                <div className="clt-date">
+                                  {handleDate(request.createdAt)}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
                     </tbody>
                   </table>
                 </div>

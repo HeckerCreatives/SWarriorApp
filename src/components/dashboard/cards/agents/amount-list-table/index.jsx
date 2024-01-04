@@ -1,4 +1,10 @@
-import { MDBCol, MDBContainer, MDBRow, MDBIcon } from "mdb-react-ui-kit";
+import {
+  MDBCol,
+  MDBContainer,
+  MDBRow,
+  MDBIcon,
+  MDBSpinner,
+} from "mdb-react-ui-kit";
 import React, { useState, useEffect } from "react";
 import "./index.css";
 import useTransferStore from "../../../../../stores/transferStore";
@@ -65,20 +71,23 @@ const AmountTableList = () => {
           <table className="atl-table h-100">
             <tbody className="text-center">
               {loading ? (
-                ""
-              ) : histories.length === 0 ? (
                 <tr className="text-center">
                   <td
+                    colSpan={2}
                     className="text-truncate px-0 py-0"
                     style={{ width: "180px", height: "10px" }}
                   >
-                    Amount
+                    <MDBSpinner size="sm" />
                   </td>
+                </tr>
+              ) : histories.length === 0 ? (
+                <tr className="text-center">
                   <td
+                    colSpan={2}
                     className="text-truncate px-0 py-0"
-                    style={{ width: "180px" }}
+                    style={{ width: "180px", height: "10px" }}
                   >
-                    Date Locale String
+                    No Transfer Commission History
                   </td>
                 </tr>
               ) : (

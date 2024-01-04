@@ -1,4 +1,4 @@
-#arenaDisplayer{
+#arenaDisplayer {
   align-items: center;
   padding-top: 20px;
   padding-bottom: 4px;
@@ -94,8 +94,7 @@
 
 .arena-vid-container {
   background-color: #141421;
-  position: relative; 
-
+  position: relative;
 }
 
 .arena-dummy-vid {
@@ -104,7 +103,6 @@
 
   background-color: black;
   object-fit: cover;
-  
 }
 
 .arena-dummy-vid iframe {
@@ -202,10 +200,9 @@
 }
 
 .spbets-btn-bet {
-  font-size: 1.75rem !important;
+  font-size: 0.9rem !important;
   padding: 0.1rem 0.8rem !important;
-  background-color: #4d617e !important;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.514) !important;
+  border: 1px solid rgb(230, 195, 0) !important;
 }
 
 .spbets-btn-container {
@@ -213,12 +210,12 @@
   color: whitesmoke;
   border-radius: 0.5rem;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.514) !important;
+  margin: auto;
 }
 
 .spbets-btn-meron {
   background-color: #df4d4d;
   width: 7rem;
-  height: 6.5rem;
   display: grid;
   place-items: center;
   border-radius: 0.5rem;
@@ -228,7 +225,6 @@
 .spbets-btn-wala {
   background-color: #3f51db;
   width: 7rem;
-  height: 6.5rem;
   display: grid;
   place-items: center;
   border-radius: 0.5rem;
@@ -265,9 +261,6 @@
 /* media */
 
 @media only screen and (max-width: 1200px) {
-  .spbets-btn-bet {
-    font-size: 12px !important;
-  }
   .arena-tab-container {
     width: 30vw;
   }
@@ -294,4 +287,3 @@
     font-size: 10px !important;
   }
 }
-

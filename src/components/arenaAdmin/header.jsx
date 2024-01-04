@@ -11,17 +11,21 @@ import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
 import logo from "../../assets/images/sidebar/logo.png";
+import Swal from "sweetalert2";
+import { userInfo } from "../../utility/UserInfo";
 
 const ArenaHeader = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
-
   const handleHideModal = () => {
     setShowModal(false);
+  };
+
+  const navigateToDashboard = () => {
+    navigate(
+      `/dashboard/${userInfo().roleName.toLowerCase()}/arena-moderator/live-arenas`
+    );
   };
 
   const handleLogout = () => {
@@ -34,7 +38,6 @@ const ArenaHeader = () => {
       if (result.isConfirmed) {
         localStorage.clear();
         navigate("/login");
-      } else if (result.isDenied) {
       }
     });
   };
@@ -50,13 +53,21 @@ const ArenaHeader = () => {
         </div>
         <div className="arena-tab-container">
           <MDBIcon
+            onClick={navigateToDashboard}
+            fas
+            icon="home"
+            size="xl"
+            role="button"
+            className="mt-4 me-3"
+          />
+          {/* <MDBIcon
             fas
             icon="sign-out-alt"
             size="xl"
             role="button"
             className="mt-4 me-3"
-            onClick={handleShowModal}
-          />
+            onClick={handleLogout}
+          /> */}
         </div>
         <MDBModal
           className="logout-confimation-modal"

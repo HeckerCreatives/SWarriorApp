@@ -32,12 +32,33 @@ const AccountantDashboard = () => {
   const gtcdLoads = useDashboardStore(state => state.loading.convertedComms);
   const totalConvertedComms = useDashboardStore(state => state.convertedComms);
 
+  const getDailyDrawEarnings = useDashboardStore(
+    state => state.getDailyDrawEarnings
+  );
+  const gddeLoads = useDashboardStore(state => state.loading.dailyDrawEarnings);
+  const dailyDrawEarnings = useDashboardStore(state => state.dailyDrawEarnings);
+
+  const getCompanyDailyComms = useDashboardStore(
+    state => state.getCompanyDailyComms
+  );
+  const gcdcLoads = useDashboardStore(state => state.loading.dailyCompanyComms);
+  const dailyCompanyComms = useDashboardStore(state => state.dailyCompanyComms);
+
+  const getAgentDailyComms = useDashboardStore(
+    state => state.getAgentDailyComms
+  );
+  const gadcLoads = useDashboardStore(state => state.loading.dailyAgentComms);
+  const dailyAgentComms = useDashboardStore(state => state.dailyAgentComms);
+
   useEffect(() => {
     getCompanyComms();
     getAgentTotalComms();
     getAgentTotalCredits();
     getPlayerTotalCredits();
     getTotalConverted();
+    getDailyDrawEarnings();
+    getCompanyDailyComms();
+    getAgentDailyComms();
   }, []);
 
   const handleNumber = amount => Number(amount).toFixed(2);
@@ -80,34 +101,29 @@ const AccountantDashboard = () => {
       <MDBContainer fluid className="px-0 my-3">
         <MDBContainer className="px-0 py-4">
           <MDBRow className="mx-0">
-            <StatusCardMedium title="Draw Earnings" value={1} />
-            <StatusCardMedium title="Company Daily Commission" value={1} />
-            <StatusCardMedium title="Agent Daily Commissions" value={1} />
+            <StatusCardMedium
+              title="Daily Draw Earnings"
+              value={handleNumber(dailyDrawEarnings)}
+              loading={gddeLoads}
+            />
+            <StatusCardMedium
+              title="Company Daily Commission"
+              value={handleNumber(dailyCompanyComms)}
+              loading={gcdcLoads}
+            />
+            <StatusCardMedium
+              title="Agent Daily Commissions"
+              value={handleNumber(dailyAgentComms)}
+              loading={gadcLoads}
+            />
           </MDBRow>
         </MDBContainer>
       </MDBContainer>
       <MDBContainer fluid className="px-0 su-third-row">
         <MDBContainer className="px-0">
           <MDBRow className="mx-0 h-100">
-            {/* <DatedStatusTable /> */}
-            <DatedStatusTable
-              regularCommsCurrent={1}
-              regularCommsLast={1}
-              drawCommsCurrent={1}
-              drawCommsLast={1}
-              agentCommsCurrent={1}
-              agentCommsLast={1}
-              companyCommsCurrent={1}
-              companyCommsLast={1}
-            />
-            <OtherStatusTable
-              systemPoints={1}
-              activePlayers={1}
-              activeAgents={1}
-              cashIns={1}
-              cashOut={1}
-              blockedUsers={1}
-            />
+            <DatedStatusTable />
+            <OtherStatusTable />
           </MDBRow>
         </MDBContainer>
       </MDBContainer>

@@ -5,6 +5,7 @@ import CommsByDateTable from "../../../../../components/dashboard/cards/tables/c
 import DashboardTopNavigation from "../../../../../components/dashboard/topnav";
 import useDashboardStore from "../../../../../stores/dashboardStore";
 import { useEffect } from "react";
+import useCommissionHistoryStore from "../../../../../stores/commissionHistoryStore";
 
 const AcctCommissionsByDate = () => {
   const getCompanyComms = useDashboardStore(state => state.getCompanyComms);
@@ -15,9 +16,20 @@ const AcctCommissionsByDate = () => {
   const gatcLoads = useDashboardStore(state => state.loading.totalComms);
   const agentTotalComms = useDashboardStore(state => state.totalComms);
 
+  const getCommissionData = useCommissionHistoryStore(
+    state => state.getCommissionData
+  );
+  const dashboardLoads = useCommissionHistoryStore(
+    state => state.loading.dashboard
+  );
+  const regular = useCommissionHistoryStore(state => state.dashboard.regular);
+  const draw = useCommissionHistoryStore(state => state.dashboard.draw);
+  const gross = useCommissionHistoryStore(state => state.dashboard.gross);
+
   useEffect(() => {
     getCompanyComms();
     getAgentTotalComms();
+    getCommissionData();
   }, []);
 
   const handleNumber = amount => Number(amount).toFixed(2);
@@ -44,19 +56,22 @@ const AcctCommissionsByDate = () => {
           title="Regular Commissions"
           sub="This is the Commission Earned from Meron / Wala Bets"
           icon="box"
-          value={1}
+          value={handleNumber(regular)}
+          loading={dashboardLoads}
         />
         <CommsByDateCard
           title="Draw Commissions"
           sub="This is Commission Earned from Draw Bets"
           icon="box-open"
-          value={0}
+          value={handleNumber(draw)}
+          loading={dashboardLoads}
         />
         <CommsByDateCard
           title="Gross Commissions"
           sub="This is the sum of Regular and Draw Commission"
           icon="gem"
-          value={1}
+          value={handleNumber(gross)}
+          loading={dashboardLoads}
         />
 
         <CommsByDateCard

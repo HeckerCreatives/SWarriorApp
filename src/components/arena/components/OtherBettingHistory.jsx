@@ -8,7 +8,7 @@ import { MDBContainer, MDBCol, MDBTypography, MDBRow } from "mdb-react-ui-kit";
 import { useDispatch, useSelector } from "react-redux";
 
 const BettingHistory = () => {
-  const storeArena = useSelector((state) => state.arena);
+  const storeArena = useSelector(state => state.arena);
 
   const rows = [];
   let currentRow = [];
@@ -51,7 +51,7 @@ const BettingHistory = () => {
   }
 
   return (
-    <MDBContainer fluid className="px-0 mt-5">
+    <MDBContainer fluid className="px-0 mt-3">
       <MDBContainer fluid className="px-0 topnav-title-container">
         <MDBContainer
           fluid
@@ -72,7 +72,7 @@ const BettingHistory = () => {
                 style={{ width: "50px" }}
                 key={rowIndex}
               >
-                {[0, 1, 2, 3, 4, 5].map((columnIndex) => {
+                {[0, 1, 2, 3, 4, 5].map(columnIndex => {
                   const game = row[columnIndex];
                   const isEmptyColumn = !game;
                   const outcome = isEmptyColumn ? "" : game.outcome;
