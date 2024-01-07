@@ -10,7 +10,7 @@ const roundStore = set => ({
     sgAxios
       .get(`/rounds/${arenaId}/all`)
       .then(res => {
-        console.log(res.data.rounds);
+        set(() => ({ rounds: res.data.rounds }));
       })
       .finally(() => {
         set(() => ({ loading: false }));

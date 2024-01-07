@@ -1,17 +1,13 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import parse from "html-react-parser";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { MDBCol, MDBContainer, MDBRow, MDBSpinner } from "mdb-react-ui-kit";
 import "./index.css";
 import ArenaHeader from "./header";
 import ArenaSidePanel from "./side-panel";
-import ArenaSidePanelMobile from "./side-panel-mobile";
-import ArenaBalanceAmount from "./status/balance";
-import ArenaDrawAmount from "./status/draw";
 import ArenaRoundHeader from "./status/round";
 import ArenaHeaderStatus from "./status/status";
-import ArenaTotalBetHeader from "./status/total-bet";
 import BettingHistory from "./components/BettingHistory";
 import OtherBettingHistory from "./components/OtherBettingHistory";
 import { socket } from "../../configs/socket";
@@ -19,13 +15,14 @@ import { handleDate } from "../../utility/utils";
 import usePlayerArenaStore from "../../stores/playerArenaStore";
 import useUserStore from "../../stores/userStore";
 import useBetStore from "../../stores/betStore";
+import useRoundStore from "../../stores/roundStore";
 // import sgLogo from '../../assets/images/logo.png'
 // import ArenaNotification from "./notification";
 
 const Arena = () => {
   const { state } = useLocation();
-  const navigate = useNavigate();
 
+  const getRounds = useRoundStore(state => state.getRoundsByArena);
   const getArena = usePlayerArenaStore(state => state.getArena);
   const getOwnedPoints = useUserStore(state => state.getCreditOwned);
   const getCurrentBet = usePlayerArenaStore(state => state.getCurrentBet);
@@ -111,6 +108,7 @@ const Arena = () => {
 
   useEffect(() => {
     if (frSuccess) {
+      getRounds(state._id);
       getOwnedPoints();
       reset();
     }

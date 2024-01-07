@@ -9,15 +9,27 @@ import React, { useEffect, useState } from "react";
 import useAdminArenaStore from "../../../../stores/adminArenaStore";
 import { errToast } from "../../../../utility/toaster";
 import Swal from "sweetalert2";
+import useRoundStore from "../../../../stores/roundStore";
 
 const DeclareResult = () => {
   const arena = useAdminArenaStore(state => state.arena);
   const finishRound = useAdminArenaStore(state => state.arenaFinishRound);
+  const frSuccess = useAdminArenaStore(state => state.success.finish);
+
+  const getRounds = useRoundStore(state => state.getRoundsByArena);
+
   const reset = useAdminArenaStore(state => state.resetSuccess);
   const success = useAdminArenaStore(state => state.success.nextRound);
   const currentOutcome = useAdminArenaStore(state => state.currentRoundOutcome);
 
   const [outcome, setOutcome] = useState("");
+
+  useEffect(() => {
+    if (frSuccess) {
+      getRounds(arena._id);
+      reset();
+    }
+  }, [frSuccess]);
 
   useEffect(() => {
     if (success) {

@@ -1,110 +1,99 @@
-// ** React
-import { useEffect } from "react";
-
-// ** Third Party Components
+import { useEffect, useState } from "react";
 import { MDBContainer, MDBCol, MDBTypography, MDBRow } from "mdb-react-ui-kit";
-
-// ** Redux
-import { useDispatch, useSelector } from "react-redux";
+import useRoundStore from "../../../stores/roundStore";
 
 const BettingHistory = () => {
-  const storeArena = useSelector(state => state.arena);
+  const cols = Array.from(Array(24));
+  const [rows, setRows] = useState([]);
 
-  const rows = [];
-  let currentRow = [];
+  const rounds = useRoundStore(state => state.rounds);
+  const [changed, setChanged] = useState([]);
 
-  const history = storeArena.arenaGameHistory;
+  useEffect(() => {
+    const updateResultArray = () => {
+      const newArray = [];
+      let current = [];
 
-  // Define the number of columns you want to display
-  const numColumns = 6;
+      rounds.forEach(round => {
+        const outcome = round.outcome;
 
-  // Determine the number of empty columns you need to add
-  const numEmptyColumns = numColumns - (history.length % numColumns);
+        if (
+          current.length === 0 ||
+          current[current.length - 1].outcome === outcome
+        ) {
+          current.push(round);
+        } else {
+          newArray.push(current);
+          current = [round];
+        }
+      });
 
-  // Create an array with the necessary number of empty objects
-  const emptyColumns = Array(228 + numEmptyColumns).fill({});
+      if (current.length > 0) {
+        newArray.push(current);
+      }
+      setChanged(newArray);
+    };
 
-  // Add the empty objects to the history array
-  const extendedHistory = [...history, ...emptyColumns];
+    updateResultArray();
+  }, [rounds]);
 
-  extendedHistory.forEach((game, index) => {
-    const isSameOutcome =
-      index > 0 && game.outcome === extendedHistory[index - 1].outcome;
-
-    if (!isSameOutcome && currentRow.length > 0) {
-      rows.push(currentRow);
-      currentRow = [];
-    }
-
-    currentRow.push(game);
-
-    // create a new row when the current row has reached its maximum length
-    if (currentRow.length === 6) {
-      rows.push(currentRow);
-      currentRow = [];
-    }
-  });
-
-  // add the last row to the rows list
-  if (currentRow.length > 0) {
-    rows.push(currentRow);
-  }
+  useEffect(() => {
+    setRows(Array.from(Array(changed.length)));
+  }, [changed]);
 
   return (
-    <MDBContainer fluid className="px-0 mt-3">
-      <MDBContainer fluid className="px-0 topnav-title-container">
+    <MDBContainer
+      fluid
+      className="px-0"
+      style={{ overflow: "auto", maxHeight: "20rem" }}
+    >
+      {rows.map((row, x) => (
         <MDBContainer
+          key={x}
           fluid
-          className="px-0 topnav-title-container"
-          style={{ overflow: "auto" }}
+          className="p-0 m-0 topnav-title-container d-flex"
         >
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "nowrap",
-              overflow: "auto",
-              padding: 0,
-            }}
-          >
-            {rows.map((row, rowIndex) => (
+          {cols.map((col, i) => (
+            <div
+              key={i}
+              style={{
+                height: "3.25rem",
+                width: "3.25rem",
+                minHeight: "3.25rem",
+                minWidth: "3.25rem",
+              }}
+              className="border d-flex align-items-center justify-content-center"
+            >
               <div
-                className="d-flex align-items-start flex-column col-1"
-                style={{ width: "50px" }}
-                key={rowIndex}
+                className={`rounded-circle d-flex align-items-center justify-content-center
+                ${
+                  changed.length !== 0 && changed[x][i]
+                    ? changed[x][i].outcome === "meron"
+                      ? "bg-danger"
+                      : changed[x][i].outcome === "wala"
+                      ? "bg-primary"
+                      : changed[x][i].outcome === "draw"
+                      ? "bg-success"
+                      : changed[x][i].outcome === "cancel" &&
+                        "bg-white text-dark"
+                    : null
+                }
+                `}
+                style={{
+                  minHeight: "2.5rem",
+                  minWidth: "2.5rem",
+                  height: "2.5rem",
+                  width: "2.5rem",
+                }}
               >
-                {[0, 1, 2, 3, 4, 5].map(columnIndex => {
-                  const game = row[columnIndex];
-                  const isEmptyColumn = !game;
-                  const outcome = isEmptyColumn ? "" : game.outcome;
-                  const round = isEmptyColumn ? "" : game.round;
-
-                  return outcome ? (
-                    <div className="betting-columns" key={columnIndex}>
-                      <span
-                        className={`my-2 square bg-${
-                          outcome === "meron"
-                            ? "danger"
-                            : outcome === "wala"
-                            ? "primary"
-                            : outcome === "draw"
-                            ? "success"
-                            : outcome === "cancel"
-                            ? "light text-dark"
-                            : "secondary"
-                        } rounded-circle p-1 text-center mx-2 betting-history-icon`}
-                      >
-                        {round}
-                      </span>
-                    </div>
-                  ) : (
-                    <div className="betting-columns" key={columnIndex}></div>
-                  );
-                })}
+                <span style={{ fontSize: "0.9rem" }}>
+                  {changed[x][i] && changed[x][i].roundNumber}
+                </span>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </MDBContainer>
-      </MDBContainer>
+      ))}
     </MDBContainer>
   );
 };

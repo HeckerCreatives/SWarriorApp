@@ -279,7 +279,7 @@ const SidePanelBets = () => {
                   >
                     <div className="spbets-btn-wala">
                       <MDBTypography tag="h6" className="m-0 my-1">
-                        {loading ? <MDBSpinner size="sm" /> : '"BETWALA"'}
+                        {loading ? <MDBSpinner size="sm" /> : '"BET WALA"'}
                       </MDBTypography>
                     </div>
                   </button>

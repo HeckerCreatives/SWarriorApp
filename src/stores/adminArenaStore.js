@@ -21,6 +21,7 @@ const adminArenaStore = (set, get) => ({
   success: {
     nextRound: false,
     setRound: false,
+    finish: false,
   },
   resetSuccess: () => {
     set(state => ({
@@ -28,6 +29,7 @@ const adminArenaStore = (set, get) => ({
         ...state.success,
         nextRound: false,
         setRound: false,
+        finish: false,
       },
     }));
   },
@@ -58,7 +60,8 @@ const adminArenaStore = (set, get) => ({
       .put(`/arenas/finish/round`, data, { params: { ...data } })
       .then(res => {
         if (res.data.success) {
-          set(() => ({
+          set(state => ({
+            success: { ...state.success, finish: true },
             currentRoundOutcome: res.data.currentRound.outcome,
             currentRound: res.data.currentRound,
           }));

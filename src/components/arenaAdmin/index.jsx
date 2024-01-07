@@ -99,13 +99,13 @@ const ArenaAdmin = () => {
                 </MDBContainer>
               </MDBContainer>
 
-              <MDBContainer id="arenaDisplayer" className=" mt-3">
+              {/* <MDBContainer id="arenaDisplayer" className=" mt-3">
                 <div className="bg-warning text-center">
                   <p className="p-2">
                     <strong>Arena Message</strong>
                   </p>
                 </div>
-              </MDBContainer>
+              </MDBContainer> */}
             </MDBCol>
             <MDBCol xxl={3} xl={4} lg={5} className="px-1">
               <ArenaSidePanel />

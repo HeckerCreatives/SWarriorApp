@@ -15,11 +15,9 @@ import {
   sgAxios,
 } from "./configs/axios";
 
-if (process.env.REACT_APP_WEBSTATUS == "PRODUCTION") {
-  console.log = () => {};
-  console.error = () => {};
-  console.debug = () => {};
-}
+console.log = () => {};
+console.error = () => {};
+console.debug = () => {};
 
 // sgAxios.defaults.baseURL = "http://localhost:5000/api/v1/";
 sgAxios.defaults.baseURL = "https://swarrior-g4tor.ondigitalocean.app/api/v1/";
