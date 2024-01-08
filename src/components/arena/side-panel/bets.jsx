@@ -179,12 +179,16 @@ const SidePanelBets = () => {
                   {
                     <AnimatedNumber
                       value={
-                        setPayout(
-                          state.plasadaRate,
-                          totalMeron,
-                          totalWala,
-                          currentBet?.bet !== "draw" ? currentBet?.amount : 0
-                        ).walaPayout || 0
+                        currentBet?.bet === "meron"
+                          ? setPayout(
+                              state.plasadaRate,
+                              totalMeron,
+                              totalWala,
+                              currentBet?.bet !== "draw"
+                                ? currentBet?.amount
+                                : 0
+                            ).meronPayout || 0
+                          : 0
                       }
                     />
                   }
@@ -247,12 +251,16 @@ const SidePanelBets = () => {
                   {
                     <AnimatedNumber
                       value={
-                        setPayout(
-                          state.plasadaRate,
-                          totalMeron,
-                          totalWala,
-                          currentBet?.bet !== "draw" ? currentBet?.amount : 0
-                        ).walaPayout || 0
+                        currentBet?.bet === "wala"
+                          ? setPayout(
+                              state.plasadaRate,
+                              totalMeron,
+                              totalWala,
+                              currentBet?.bet !== "draw"
+                                ? currentBet?.amount
+                                : 0
+                            ).walaPayout || 0
+                          : 0
                       }
                     />
                   }
