@@ -3,7 +3,7 @@ import { MDBContainer } from "mdb-react-ui-kit";
 import useRoundStore from "../../../stores/roundStore";
 
 const BettingHistory = () => {
-  const cols = Array.from(Array(48));
+  const [cols, setCols] = useState([]);
   const [rows, setRows] = useState([]);
 
   const rounds = useRoundStore(state => state.rounds);
@@ -38,7 +38,17 @@ const BettingHistory = () => {
   }, [rounds]);
 
   useEffect(() => {
-    setRows(Array.from(Array(changed.length)));
+    let maxLength = 0;
+    for (let i = 0; i < changed.length; i++) {
+      let current = changed[i].length;
+      if (current > maxLength) {
+        maxLength = current;
+      }
+    }
+    setRows(Array.from(Array(maxLength + 1)));
+    setCols(
+      Array.from(Array(changed.length + 1 < 48 ? 48 : changed.length + 1))
+    );
   }, [changed]);
 
   return (
@@ -67,14 +77,14 @@ const BettingHistory = () => {
               <div
                 className={`rounded-circle d-flex align-items-center justify-content-center
                 ${
-                  changed.length !== 0 && changed[x][i]
-                    ? changed[x][i].outcome === "meron"
+                  changed.length !== 0 && changed[i] && changed[i][x]
+                    ? changed[i][x].outcome === "meron"
                       ? "bg-danger"
-                      : changed[x][i].outcome === "wala"
+                      : changed[i][x].outcome === "wala"
                       ? "bg-primary"
-                      : changed[x][i].outcome === "draw"
+                      : changed[i][x].outcome === "draw"
                       ? "bg-success"
-                      : changed[x][i].outcome === "cancel" &&
+                      : changed[i][x].outcome === "cancel" &&
                         "bg-white text-dark"
                     : null
                 }
@@ -87,7 +97,7 @@ const BettingHistory = () => {
                 }}
               >
                 <span style={{ fontSize: "0.9rem" }}>
-                  {changed[x][i] && changed[x][i].roundNumber}
+                  {changed[i] && changed[i][x] && changed[i][x]?.roundNumber}
                 </span>
               </div>
             </div>
