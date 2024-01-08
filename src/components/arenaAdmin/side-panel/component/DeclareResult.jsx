@@ -85,7 +85,7 @@ const DeclareResult = () => {
                 (outcome !== "" && outcome !== "meron") ||
                 arena?.bettingStatus !== "close"
               }
-              className={`btn btn-success ${
+              className={`btn btn-danger ${
                 outcome === "meron" && "border border-3"
               }`}
             >
@@ -100,7 +100,7 @@ const DeclareResult = () => {
                 (outcome !== "" && outcome !== "wala") ||
                 arena?.bettingStatus !== "close"
               }
-              className={`btn btn-danger ${
+              className={`btn btn-primary ${
                 outcome === "wala" && "border border-3"
               }`}
             >
@@ -116,7 +116,7 @@ const DeclareResult = () => {
                   (outcome !== "" && outcome !== "draw") ||
                   arena?.bettingStatus !== "close"
                 }
-                className={`btn btn-primary ${
+                className={`btn btn-success ${
                   outcome === "draw" && "border border-3"
                 }`}
               >

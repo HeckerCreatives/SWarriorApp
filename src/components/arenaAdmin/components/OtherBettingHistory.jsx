@@ -96,9 +96,26 @@ const BettingHistory = () => {
                   width: "2.5rem",
                 }}
               >
-                <span style={{ fontSize: "0.9rem" }}>
-                  {changed[i] && changed[i][x] && changed[i][x]?.roundNumber}
-                </span>
+                {changed[i] && changed[i][x] && (
+                  <div
+                    className={`${
+                      changed.length !== 0 &&
+                      changed[i] &&
+                      changed[i][x] &&
+                      changed[i][x].outcome !== "cancel"
+                        ? "bg-white"
+                        : "bg-dark"
+                    } rounded-pill`}
+                    style={{
+                      minHeight: "1rem",
+                      minWidth: "1rem",
+                      height: "1rem",
+                      width: "1rem",
+                    }}
+                  />
+                )}
+
+                {/* {changed[i] && changed[i][x] && changed[i][x]?.roundNumber} */}
               </div>
             </div>
           ))}
