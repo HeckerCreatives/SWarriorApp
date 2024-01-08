@@ -176,22 +176,16 @@ const SidePanelBets = () => {
                   style={{ fontSize: "0.8rem" }}
                 >
                   <span>PAYOUT =&nbsp;</span>
-                  {
-                    <AnimatedNumber
-                      value={
-                        currentBet?.bet === "meron"
-                          ? setPayout(
-                              state.plasadaRate,
-                              totalMeron,
-                              totalWala,
-                              currentBet?.bet !== "draw"
-                                ? currentBet?.amount
-                                : 0
-                            ).meronPayout || 0
-                          : 0
-                      }
-                    />
-                  }
+                  {Number(
+                    currentBet?.bet === "meron"
+                      ? setPayout(
+                          state.plasadaRate,
+                          totalMeron,
+                          totalWala,
+                          currentBet?.bet !== "draw" ? currentBet?.amount : 0
+                        ).meronPayout || 0
+                      : 0
+                  ).toFixed(2)}
                 </MDBContainer>
                 <MDBContainer
                   fluid
@@ -248,22 +242,16 @@ const SidePanelBets = () => {
                   style={{ fontSize: "0.8rem" }}
                 >
                   <span>PAYOUT =&nbsp;</span>
-                  {
-                    <AnimatedNumber
-                      value={
-                        currentBet?.bet === "wala"
-                          ? setPayout(
-                              state.plasadaRate,
-                              totalMeron,
-                              totalWala,
-                              currentBet?.bet !== "draw"
-                                ? currentBet?.amount
-                                : 0
-                            ).walaPayout || 0
-                          : 0
-                      }
-                    />
-                  }
+                  {Number(
+                    currentBet?.bet === "wala"
+                      ? setPayout(
+                          state.plasadaRate,
+                          totalMeron,
+                          totalWala,
+                          currentBet?.bet !== "draw" ? currentBet?.amount : 0
+                        ).walaPayout || 0
+                      : 0
+                  ).toFixed(2)}
                 </MDBContainer>
                 <MDBContainer
                   fluid
