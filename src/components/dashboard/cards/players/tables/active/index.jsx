@@ -86,9 +86,6 @@ const PlayerActiveTable = () => {
                   STATUS
                 </th>
                 <th scope="col" className="text-truncate">
-                  LAST BET
-                </th>
-                <th scope="col" className="text-truncate">
                   ACTION
                 </th>
               </tr>

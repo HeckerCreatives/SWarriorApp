@@ -7,13 +7,13 @@ import useArenaStore from "../../../../../stores/arenaStore";
 const CommsByDateTable = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
-  const getArenas = useArenaStore(state => state.getArenas);
+  const getArenas = useArenaStore(state => state.getArenasForCommissions);
 
-  const arenas = useArenaStore(state => state.arena.arenas);
-  const totalPages = useArenaStore(state => state.arena.totalPages);
-  const nextPage = useArenaStore(state => state.arena.nextPage);
-  const prevPage = useArenaStore(state => state.arena.prevPage);
-  const loading = useArenaStore(state => state.loading.arenas);
+  const arenas = useArenaStore(state => state.commission.arenas);
+  const totalPages = useArenaStore(state => state.commission.totalPages);
+  const nextPage = useArenaStore(state => state.commission.nextPage);
+  const prevPage = useArenaStore(state => state.commission.prevPage);
+  const loading = useArenaStore(state => state.loading.commission);
   const success = useArenaStore(state => state.success.create);
   const delSuccess = useArenaStore(state => state.success.remove);
 

@@ -10,6 +10,12 @@ const arenaStore = (set, get) => ({
     nextPage: null,
     prevPage: null,
   },
+  commission: {
+    arenas: [],
+    totalPages: 0,
+    nextPage: null,
+    prevPage: null,
+  },
   closed: {
     arenas: [],
     totalPages: 0,
@@ -23,6 +29,7 @@ const arenaStore = (set, get) => ({
     update: false,
     remove: false,
     control: false,
+    commission: false,
   },
   success: {
     create: false,
@@ -225,6 +232,33 @@ const arenaStore = (set, get) => ({
       })
       .finally(() => {
         set(state => ({ loading: { ...state.loading, control: false } }));
+      });
+  },
+  getArenasForCommissions: (limit, page) => {
+    set(state => ({ loading: { ...state.loading, commission: true } }));
+    sgAxios
+      .get(`/arenas/${limit}/${page}/commissions`)
+      .then(res => {
+        if (res.data.success) {
+          set(state => ({
+            commission: {
+              ...state.commission,
+              arenas: res.data.arenas,
+              totalPages: res.data.totalPages,
+              nextPage: res.data.nextPage,
+              prevPage: res.data.prevPage,
+            },
+          }));
+          return;
+        }
+        errToast("Failed to fetch arenas");
+      })
+      .catch(error => {
+        const message = error.response?.data?.error?.message;
+        errToast(message || "Failed to fetch arenas");
+      })
+      .finally(() => {
+        set(state => ({ loading: { ...state.loading, commission: false } }));
       });
   },
 });

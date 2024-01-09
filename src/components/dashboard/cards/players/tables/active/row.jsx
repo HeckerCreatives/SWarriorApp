@@ -13,7 +13,6 @@ const PlayerActiveTableRow = ({ agent }) => {
       <td className="text-truncate">{agent.username}</td>
       <td className="text-truncate">{Number(agent.creditWallet).toFixed(2)}</td>
       <td className="text-truncate text-capitalize">{agent.status}</td>
-      <td className="text-truncate">---</td>
       <td className="text-truncate">
         <PlayerProfileModal agent={agent} />
         <PlayerDeactivate agent={agent} />
