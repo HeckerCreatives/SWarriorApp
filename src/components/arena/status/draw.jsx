@@ -7,7 +7,7 @@ const ArenaDrawAmount = ({ amount }) => {
       fluid
       className="w-100 px-0 sppayout-container d-flex align-items-center justify-content-end"
     >
-      <div className="px-0 w-75">
+      <div className="px-0" style={{ width: "55%" }}>
         <MDBTypography
           tag="h6"
           className="text-center text-success fw-bolder m-0 py-2"

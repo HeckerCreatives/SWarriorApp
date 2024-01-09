@@ -394,7 +394,7 @@ const SidePanelBets = () => {
                 </MDBTypography>
               </div>
             </button>
-            <div className="mx-0 ps-0 ">
+            <div className="mx-0 ps-0">
               <ArenaDrawAmount
                 amount={currentBet?.bet === "draw" ? currentBet?.amount : 0}
               />
