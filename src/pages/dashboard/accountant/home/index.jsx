@@ -6,6 +6,7 @@ import OtherStatusTable from "../../../../components/dashboard/cards/tables/othe
 import DashboardTopNavigation from "../../../../components/dashboard/topnav";
 import useDashboardStore from "../../../../stores/dashboardStore";
 import { useEffect } from "react";
+import WelcomeUser from "../../../../components/dashboard/WelcomeUser";
 
 const AccountantDashboard = () => {
   const getCompanyComms = useDashboardStore(state => state.getCompanyComms);
@@ -66,6 +67,7 @@ const AccountantDashboard = () => {
   return (
     <MDBContainer fluid className="px-0 dashboard-bg">
       <DashboardTopNavigation title="DASHBOARD" />
+      <WelcomeUser />
       <MDBContainer fluid className="px-0 su-first-row">
         <MDBContainer>
           <MDBRow className="mx-0">

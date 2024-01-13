@@ -8,6 +8,7 @@ import AgentReferralCardPlayer from "../../../../components/dashboard/cards/agen
 import DashboardTopNavigation from "../../../../components/dashboard/topnav";
 import CommissionsTableList from "../../../../components/dashboard/cards/agents/recieved-commission-table";
 import useUserStore from "../../../../stores/userStore";
+import WelcomeUser from "../../../../components/dashboard/WelcomeUser";
 
 const MasterDashboard = () => {
   const getOwnPoints = useUserStore(state => state.getCreditOwned);
@@ -28,6 +29,7 @@ const MasterDashboard = () => {
   return (
     <MDBContainer fluid className="px-0 dashboard-bg">
       <DashboardTopNavigation title="DASHBOARD" />
+      <WelcomeUser />
       <MDBContainer fluid className="mt-2">
         <AgentReferralCard to="GOLD" />
         <AgentReferralCardPlayer />

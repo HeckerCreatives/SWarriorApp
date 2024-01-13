@@ -10,6 +10,7 @@ import DashboardTopNavigation from "../../../../components/dashboard/topnav";
 import CommissionsTableList from "../../../../components/dashboard/cards/agents/recieved-commission-table";
 import useUserStore from "../../../../stores/userStore";
 import { useEffect } from "react";
+import WelcomeUser from "../../../../components/dashboard/WelcomeUser";
 
 const FinancerDashboard = () => {
   const getOwnPoints = useUserStore(state => state.getCreditOwned);
@@ -30,6 +31,7 @@ const FinancerDashboard = () => {
   return (
     <MDBContainer fluid className="px-0 dashboard-bg">
       <DashboardTopNavigation title="DASHBOARD" />
+      <WelcomeUser />
       <MDBContainer fluid className="mt-2">
         <AgentReferralCard to="SUB" />
         <AgentReferralCardPlayer />

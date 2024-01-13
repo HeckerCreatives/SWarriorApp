@@ -6,7 +6,11 @@ import AgentProfileModal from "./profile-modal";
 import AgentTransactionHistory from "./transaction-history-modal";
 import AgentChangePassword from "./changePassword";
 import AgentEditCommissionRate from "./editCommissionRate";
-import { handleCharLimit, handleDate } from "../../../../../utility/utils";
+import {
+  handleAmount,
+  handleCharLimit,
+  handleDate,
+} from "../../../../../utility/utils";
 import { userInfo } from "../../../../../utility/UserInfo";
 
 const AgentGoldListTableRow = ({ agent }) => {
@@ -16,8 +20,8 @@ const AgentGoldListTableRow = ({ agent }) => {
         <div className="afl-sid">{handleCharLimit(agent._id)}</div>
       </td>
       <td className="text-truncate">{agent.username}</td>
-      <td className="text-truncate">{agent.creditWallet}</td>
-      <td className="text-truncate">{agent.commsWallet}</td>
+      <td className="text-truncate">{handleAmount(agent.creditWallet)}</td>
+      <td className="text-truncate">{handleAmount(agent.commsWallet)}</td>
       <td className="text-truncate">
         {agent.status === "approved" ? (
           <div className="afl-status-active">

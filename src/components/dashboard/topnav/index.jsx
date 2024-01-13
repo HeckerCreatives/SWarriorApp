@@ -33,7 +33,7 @@ const DashboardTopNavigation = ({ title }) => {
           </div>
         </MDBCol>
       </MDBContainer>
-      <MDBContainer fluid className="px-0 topnav-title-container ps-4 my-2 p-2">
+      <MDBContainer fluid className="px-0 topnav-title-container ps-4 my-0 p-2">
         {title}
       </MDBContainer>
     </MDBContainer>

@@ -4,8 +4,9 @@ import { useLocation } from "react-router-dom";
 import useRoundStore from "../../../stores/roundStore";
 
 const BettingHistory = () => {
-  const cols = Array.from(Array(48));
-  const [rows, setRows] = useState([]);
+  const [cols, setCols] = useState([]);
+  const [rows, setRows] = useState(Array.from(Array(6)));
+  const [changed, setChanged] = useState([]);
 
   const { state } = useLocation();
   const getRounds = useRoundStore(state => state.getRoundsByArena);
@@ -16,16 +17,45 @@ const BettingHistory = () => {
   }, []);
 
   useEffect(() => {
-    let totalRow = Math.floor(rounds.length / cols.length);
-    if (rounds.length % cols.length > 0) totalRow++;
-    setRows(Array.from(Array(totalRow > 6 ? totalRow + 1 : 6)));
+    const updateResultArray = () => {
+      const newArray = [];
+      let current = [];
+
+      rounds.forEach(round => {
+        if (current.length !== rows.length) {
+          current.push(round);
+        } else {
+          newArray.push(current);
+          current = [round];
+        }
+      });
+
+      if (current.length > 0) {
+        newArray.push(current);
+      }
+      setChanged(newArray);
+    };
+    updateResultArray();
   }, [rounds]);
+
+  useEffect(() => {
+    let maxLength = 0;
+    for (let i = 0; i < changed.length; i++) {
+      let current = changed[i].length;
+      if (current > maxLength) {
+        maxLength = current;
+      }
+    }
+    setCols(
+      Array.from(Array(changed.length + 1 < 48 ? 48 : changed.length + 1))
+    );
+  }, [changed]);
 
   return (
     <MDBContainer
       fluid
       className="px-0"
-      style={{ overflow: "auto", maxHeight: "20rem" }}
+      style={{ overflow: "auto", maxHeight: "21.5rem" }}
     >
       {rows.map((row, x) => (
         <MDBContainer
@@ -46,17 +76,17 @@ const BettingHistory = () => {
             >
               <div
                 className={`rounded-circle d-flex align-items-center justify-content-center
-                
                 ${
-                  rounds.length - 1 >= cols.length * x + i &&
-                  rounds[cols.length * x + i]?.outcome === "meron"
-                    ? "bg-danger"
-                    : rounds[cols.length * x + i]?.outcome === "wala"
-                    ? "bg-primary"
-                    : rounds[cols.length * x + i]?.outcome === "draw"
-                    ? "bg-success"
-                    : rounds[cols.length * x + i]?.outcome === "cancel" &&
-                      "bg-white text-dark"
+                  changed.length !== 0 && changed[i] && changed[i][x]
+                    ? changed[i][x].outcome === "meron"
+                      ? "bg-danger"
+                      : changed[i][x].outcome === "wala"
+                      ? "bg-primary"
+                      : changed[i][x].outcome === "draw"
+                      ? "bg-success"
+                      : changed[i][x].outcome === "cancel" &&
+                        "bg-white text-dark"
+                    : null
                 }
                 `}
                 style={{
@@ -67,9 +97,7 @@ const BettingHistory = () => {
                 }}
               >
                 <span style={{ fontSize: "0.9rem" }}>
-                  {rounds.length - 1 >= cols.length * x + i
-                    ? rounds[cols.length * x + i]?.roundNumber
-                    : ""}
+                  {changed[i] && changed[i][x]?.roundNumber}
                 </span>
               </div>
             </div>

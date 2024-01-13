@@ -64,35 +64,52 @@ const SidePanelBets = () => {
   const [betAmount, setBetAmount] = useState("");
   const statuses = ["close", "standby"];
 
-  const isBetValid = () => {
-    if (arena.bettingStatus !== "open") {
-      errToast("Betting has not yet started.");
-      return false;
-    }
+  const isBetValid = bet => {
+    if (!currentBet || currentBet.bet === bet) {
+      if (arena.bettingStatus !== "open") {
+        errToast("Betting has not yet started.");
+        return false;
+      }
 
-    if (isNaN(betAmount)) {
-      errToast("Invalid bet");
-      return false;
-    }
+      if (isNaN(betAmount)) {
+        errToast("Invalid bet");
+        return false;
+      }
 
-    if (betAmount < 1) {
-      errToast("Bet amount must not be 0");
-      return false;
+      if (betAmount < 1) {
+        errToast("Bet amount must not be 0");
+        return false;
+      }
+
+      return true;
     }
 
     return true;
   };
 
   const handleWalaBet = () => {
+    let message = "";
+
+    if (!currentBet) {
+      message = "Are you sure you want to bet on WALA?";
+    }
+
+    if (currentBet && currentBet.bet === "wala") {
+      message = `Are you sure you want to add ${betAmount} on your WALA bet?`;
+    }
+
+    if (currentBet && currentBet.bet === "meron") {
+      message = "Are you sure you want to transfer your bet on WALA?";
+    }
+
     Swal.fire({
-      title: "Are you sure you want to bet on WALA?",
-      text: "( After confirmation you cannot change your bet. )",
+      title: message,
       showDenyButton: true,
       confirmButtonText: "Yes",
       denyButtonText: `No`,
     }).then(result => {
       if (result.isConfirmed) {
-        if (isBetValid()) {
+        if (isBetValid("wala")) {
           const betData = {
             arenaId: arena._id,
             amount: betAmount,
@@ -104,15 +121,28 @@ const SidePanelBets = () => {
   };
 
   const handleMeronBet = () => {
+    let message = "";
+
+    if (!currentBet) {
+      message = "Are you sure you want to bet on MERON?";
+    }
+
+    if (currentBet && currentBet.bet === "meron") {
+      message = `Are you sure you want to add ${betAmount} on your MERON bet?`;
+    }
+
+    if (currentBet && currentBet.bet === "wala") {
+      message = "Are you sure you want to transfer your bet on MERON?";
+    }
+
     Swal.fire({
-      title: "Are you sure you want to bet on MERON?",
-      text: "( After confirmation you cannot change your bet. )",
+      title: message,
       showDenyButton: true,
       confirmButtonText: "Yes",
       denyButtonText: `No`,
     }).then(result => {
       if (result.isConfirmed) {
-        if (isBetValid()) {
+        if (isBetValid("meron")) {
           const betData = {
             arenaId: arena._id,
             amount: betAmount,
@@ -124,9 +154,18 @@ const SidePanelBets = () => {
   };
 
   const handleDrawBet = () => {
+    let message = "";
+
+    if (!currentBet) {
+      message = "Are you sure you want to bet on DRAW?";
+    }
+
+    if (currentBet && currentBet.bet === "draw") {
+      message = `Are you sure you want to add ${betAmount} on your DRAW bet?`;
+    }
+
     Swal.fire({
-      title: "Are you sure you want to bet on DRAW?",
-      text: "( After confirmation you cannot change your bet. )",
+      title: message,
       showDenyButton: true,
       confirmButtonText: "Yes",
       denyButtonText: `No`,
@@ -177,14 +216,12 @@ const SidePanelBets = () => {
                 >
                   <span>PAYOUT =&nbsp;</span>
                   {Number(
-                    currentBet?.bet === "meron"
-                      ? setPayout(
-                          state.plasadaRate,
-                          totalMeron,
-                          totalWala,
-                          currentBet?.bet !== "draw" ? currentBet?.amount : 0
-                        ).meronPayout || 0
-                      : 0
+                    setPayout(
+                      state.plasadaRate,
+                      totalMeron,
+                      totalWala,
+                      currentBet?.bet !== "draw" ? currentBet?.amount : 0
+                    ).meronPayout || 0
                   ).toFixed(2)}
                 </MDBContainer>
                 <MDBContainer
@@ -202,7 +239,7 @@ const SidePanelBets = () => {
                     disabled={
                       loading ||
                       statuses.includes(arena?.bettingStatus) ||
-                      currentBet
+                      currentBet?.bet === "draw"
                     }
                     className="spbets-btn-container px-2 py-1"
                     role="button"
@@ -243,14 +280,12 @@ const SidePanelBets = () => {
                 >
                   <span>PAYOUT =&nbsp;</span>
                   {Number(
-                    currentBet?.bet === "wala"
-                      ? setPayout(
-                          state.plasadaRate,
-                          totalMeron,
-                          totalWala,
-                          currentBet?.bet !== "draw" ? currentBet?.amount : 0
-                        ).walaPayout || 0
-                      : 0
+                    setPayout(
+                      state.plasadaRate,
+                      totalMeron,
+                      totalWala,
+                      currentBet?.bet !== "draw" ? currentBet?.amount : 0
+                    ).walaPayout || 0
                   ).toFixed(2)}
                 </MDBContainer>
                 <MDBContainer
@@ -268,7 +303,7 @@ const SidePanelBets = () => {
                     disabled={
                       loading ||
                       statuses.includes(arena?.bettingStatus) ||
-                      currentBet
+                      currentBet?.bet === "draw"
                     }
                     className="spbets-btn-container px-2 py-1"
                     role="button"
@@ -306,9 +341,7 @@ const SidePanelBets = () => {
             placeholder="ENTER BET AMOUNT"
             type="number"
             min="0"
-            disabled={
-              loading || statuses.includes(arena?.bettingStatus) || currentBet
-            }
+            disabled={loading || statuses.includes(arena?.bettingStatus)}
             className="form-control spbets-input-text"
             onChange={e => setBetAmount(e.target.value)}
             value={betAmount}
@@ -320,54 +353,42 @@ const SidePanelBets = () => {
         >
           <MDBBtn
             onClick={() => setBetAmount(50)}
-            disabled={
-              loading || statuses.includes(arena?.bettingStatus) || currentBet
-            }
+            disabled={loading || statuses.includes(arena?.bettingStatus)}
             className="spbets-btn-bet mb-2"
           >
             50
           </MDBBtn>
           <MDBBtn
             onClick={() => setBetAmount(500)}
-            disabled={
-              loading || statuses.includes(arena?.bettingStatus) || currentBet
-            }
+            disabled={loading || statuses.includes(arena?.bettingStatus)}
             className="spbets-btn-bet mb-2"
           >
             500
           </MDBBtn>
           <MDBBtn
             onClick={() => setBetAmount(1000)}
-            disabled={
-              loading || statuses.includes(arena?.bettingStatus) || currentBet
-            }
+            disabled={loading || statuses.includes(arena?.bettingStatus)}
             className="spbets-btn-bet mb-2"
           >
             1k
           </MDBBtn>
           <MDBBtn
             onClick={() => setBetAmount(2000)}
-            disabled={
-              loading || statuses.includes(arena?.bettingStatus) || currentBet
-            }
+            disabled={loading || statuses.includes(arena?.bettingStatus)}
             className="spbets-btn-bet mb-2"
           >
             2k
           </MDBBtn>
           <MDBBtn
             onClick={() => setBetAmount(5000)}
-            disabled={
-              loading || statuses.includes(arena?.bettingStatus) || currentBet
-            }
+            disabled={loading || statuses.includes(arena?.bettingStatus)}
             className="spbets-btn-bet mb-2"
           >
             5k
           </MDBBtn>
           <MDBBtn
             onClick={() => setBetAmount(points)}
-            disabled={
-              loading || statuses.includes(arena?.bettingStatus) || currentBet
-            }
+            disabled={loading || statuses.includes(arena?.bettingStatus)}
             className="spbets-btn-bet mb-2"
           >
             MAX
@@ -382,7 +403,9 @@ const SidePanelBets = () => {
             <button
               onClick={handleDrawBet}
               disabled={
-                loading || statuses.includes(arena?.bettingStatus) || currentBet
+                loading ||
+                statuses.includes(arena?.bettingStatus) ||
+                (currentBet && currentBet?.bet !== "draw")
               }
               className="spbets-btn-container py-2"
               role="button"

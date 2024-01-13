@@ -12,6 +12,7 @@ import OtherStatusTable from "../../../../components/dashboard/cards/tables/othe
 import DashboardTopNavigation from "../../../../components/dashboard/topnav";
 import useUserStore from "../../../../stores/userStore";
 import useDashboardStore from "../../../../stores/dashboardStore";
+import WelcomeUser from "../../../../components/dashboard/WelcomeUser";
 
 const SuperAdminDashboard = () => {
   const getOwnPoints = useUserStore(state => state.getCreditOwned);
@@ -84,6 +85,7 @@ const SuperAdminDashboard = () => {
   return (
     <MDBContainer fluid className="px-0 dashboard-bg">
       <DashboardTopNavigation title="DASHBOARD" />
+      <WelcomeUser />
       <MDBContainer fluid className="px-0 su-first-row">
         <MDBContainer>
           <MDBRow className="mx-0">
