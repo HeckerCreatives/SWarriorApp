@@ -31,7 +31,7 @@ export const handleDate = date =>
 export const handleAmount = amount => Number(amount).toFixed(2);
 
 // export const IMAGE_ENDPOINT = "http://localhost:5000/";
-export const IMAGE_ENDPOINT = "https://swarrior-g4tor.ondigitalocean.app/";
+export const IMAGE_ENDPOINT = "https://swarriorapi.onrender.com/";
 
 // export const SOCKET_ENDPOINT = "http://localhost:5000/";
-export const SOCKET_ENDPOINT = "https://swarrior-g4tor.ondigitalocean.app/";
+export const SOCKET_ENDPOINT = "https://swarriorapi.onrender.com/";
